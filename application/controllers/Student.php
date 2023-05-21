@@ -167,6 +167,10 @@ class Student extends CI_Controller {
         $this->authenticate();
         $this->viewMessage($this->Student_model->mGetHigherEduDetail());
     }
+	 public function showMsg() {
+        $this->authenticate();
+        $this->viewMessage($this->Student_model->mshowMsg());
+    }
 
     public function delHigherEduDetail() {
         $this->authenticate();
@@ -200,9 +204,20 @@ class Student extends CI_Controller {
         $this->load->view('student/student_Dcument_Upload_view', $data);
     }
 
+	  public function notifyMsg() {
+        $this->authenticate();
+        $this->viewMessage($this->Student_model->mnotifyMsg());
+    }
+	
     public function uploadRelatedDocs() {
         $this->authenticate();
         $this->viewMessage($this->Student_model->mUploadRelatedDocs());
+    }
+	  public function uploadOrgDocs() {
+        $this->authenticate();
+        $this->viewMessage($this->Student_model->muploadStudentOrgDoc());
+		//redirect($_SERVER['HTTP_REFERER']);
+	
     }
 
     public function uploadedDocument() {

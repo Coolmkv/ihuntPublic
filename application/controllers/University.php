@@ -1,7 +1,6 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class University extends CI_Controller {
 
     public function __construct() {
@@ -828,15 +827,68 @@ class University extends CI_Controller {
         $this->authenticate();
         $this->load->view("university/enrollments_view");
     }
-
+	
+	public function transactions() {
+        $this->authenticate();
+        $this->load->view("university/transactions_view");
+    }
+	
+	
+ public function showMsg() {
+        $this->authenticate();
+        $this->viewMessage($this->University_model->mshowMsg());
+    }
+	
     public function getEnrollApplications() {
         $this->authenticate();
         $this->viewMessage($this->University_model->mGetEnrollApplications());
+    }
+	
+	 public function getorgtransactions() {
+        $this->authenticate();
+        $this->viewMessage($this->University_model->mGetTransactions());
+    }
+	
+	
+	
+	
+	// public function getStudentData() {
+			// $studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+            // if (empty($studentId)) {
+                // $this->viewMessage($this->University_model->notLoggedIn("nodata"));
+            // } else {
+                // $this->viewMessage($this->University_model->mGetStudentData($studentId));
+            // }
+    // }
+	
+	public function getEnrollData() {
+
+            $id = $_SESSION['loginId'];
+			
+			 
+            $type = FILTER_VAR(trim($this->input->post('type')), FILTER_SANITIZE_STRING);
+            $courseId = FILTER_VAR(trim($this->input->post('courseId')), FILTER_SANITIZE_STRING);
+            $orgCourseId = FILTER_VAR(trim($this->input->post('orgCourseId')), FILTER_SANITIZE_STRING);
+			$studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+			$_SESSION['studentId']=$studentId;
+			// echo $id. $type.$courseId.$orgCourseId;
+			
+			
+            if (empty($id) || empty($type) || !isset($studentId)) {
+                $this->viewMessage($this->University_model->notLoggedIn("nodata"));
+            } else {
+                $this->viewMessage($this->University_model->mGetEnrollData($id, $type,$studentId, $courseId, $orgCourseId));
+            }
+      
     }
 
     public function changeStatus() {
         $this->authenticate();
         $this->viewMessage($this->University_model->mChangeEnrollMentStatus());
+    }
+	  public function notifyMsg() {
+        $this->authenticate();
+        $this->viewMessage($this->University_model->mnotifyMsg());
     }
 
     //Enrollments end
@@ -988,4 +1040,55 @@ class University extends CI_Controller {
         $this->load->view("view_message", $data);
     }
 
+	public function addNewCourses() {
+    	if($this->authenticate()){
+    		$this->load->model("CourseMasterModel");
+			$organisation_courses =  $this->CourseMasterModel->getAllCourses();
+			$data = [];
+			if($organisation_courses->num_rows()>0){
+				$data = ["organisation_courses"=>$organisation_courses->result()];
+			} 
+			$this->load->view("university/addNewCourse_view",$data);
+		}else{
+    		redirect("");
+		}
+	}
+	public function addUpdateNewCourse(){
+		if($this->authenticate()){
+            $this->load->model("OrganisationCoursesModal");			
+			$message = $this->OrganisationCoursesModal->saveOrganisationsCourses();
+			$this->viewMessage(json_encode($message));
+		}else{
+			redirect("");
+		}
+	}
+
+    public function getAllCourseDetails(){
+        if($this->authenticate()){		
+            $this->load->model("OrganisationCoursesModal");	
+			$this->OrganisationCoursesModal->getOrganisationCourses();
+		}else{
+			redirect("");
+		}
+    }
+
+    public function editCourseMaster(){
+        if($this->authenticate()){
+            $this->load->model("OrganisationCoursesModal");			
+			$message = $this->OrganisationCoursesModal->updateCourse();
+			$this->viewMessage(json_encode($message));
+		}else{
+			$this->viewMessage(json_encode(unAuthenticMessage()));
+		}
+    }
+
+    public function deleteCourseMasterEntry(){
+        if($this->authenticate()){
+            $this->load->model("OrganisationCoursesModal");			
+			$message = $this->OrganisationCoursesModal->deleteCourse();
+			$this->viewMessage(json_encode($message));
+		}else{
+			$this->viewMessage(json_encode(unAuthenticMessage()));
+		}
+    }
 }

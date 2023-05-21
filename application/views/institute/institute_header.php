@@ -26,7 +26,7 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
         <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables/dataTables.bootstrap.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/skins/_all-skins.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/skins/skin-blue.min.css">
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="<?php echo base_url('js/html5shiv.min.js');?>"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/checkbox.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/fontawesome-iconpicker.css">
@@ -184,7 +184,7 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="add_course"><a href="<?php echo site_url('institute/addCourse'); ?>"><i class=" fa fa-cog"></i>Add | Show Courses</a></li>
+                                <li class="add_course"><a href="<?php echo site_url('institute/addUpdateCourse'); ?>"><i class=" fa fa-cog"></i>Add | Show Courses</a></li>
 
                             </ul>
                         </li>

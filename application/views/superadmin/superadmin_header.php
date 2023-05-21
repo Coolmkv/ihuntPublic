@@ -27,10 +27,171 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['user_type'])) {
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="<?php echo base_url('js/html5shiv.min.js');?>"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
         <![endif]-->
+		<style>
+				div#studentModal {
+    position: fixed;
+    
+    padding-top: 0px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+ background-color: rgba(0, 0, 0, 0.84); 
+}
+img#enqLogo {
+    max-width: 100%;
+}
+h4#en_collegename {
+    font-weight: bold;
+}
+.closediv {
+    text-align: right;
+}
+
+h4.enrollnowlabels {
+    background-color: #faa71a;
+    padding: 7px 0;
+    color: #fff;
+}
+.h4, h4 {
+    margin-top: 0px !important;
+	}
+.control-label {
+    font-weight: 600;
+    color: #212121;
+    font-size: 16px;
+    text-align: right;
+    padding-top: 9px;
+}
+.modal-body {
+    padding: 0 15px !important;
+}
+button#msgId {
+    margin-top: 20px;
+}
+	.incoming_msg_img {
+ display: inline-block;
+ width: 6%;
+}
+.input_msg_write {
+   margin: 20px 0;
+}
+.received_msg {
+ display: inline-block;
+ padding: 0 0 0 10px;
+ vertical-align: top;
+ width: 92%;
+}
+.received_withd_msg p {
+ background: #ebebeb none repeat scroll 0 0;
+ border-radius: 3px;
+ color: #646464;
+ font-size: 14px;
+ margin: 0;
+ padding: 5px 10px 5px 12px;
+ width: 100%;
+  word-wrap: break-word;
+}
+.time_date {
+ color: black;
+ display: block;
+ font-size: 12px;
+ margin: 8px 0 0;
+}
+.received_withd_msg { width: 57%;}
+.mesgs {
+ float: left;
+ padding: 30px 15px 0 25px;
+ width: 100%;
+}
+.msg_history {
+height: 400px;
+overflow-y: auto;
+border: 1px solid #ebebeb;
+padding: 10px;
+border-radius: 5px;
+box-shadow: inset 1px -1px 12px 0px #ebebeb;
+}
+
+.sent_msg p {
+ background: #05728f none repeat scroll 0 0;
+ border-radius: 3px;
+ font-size: 14px;
+ margin: 0; color:#fff;
+ padding: 5px 10px 5px 12px;
+ width:100%;
+ word-wrap: break-word;
+}
+.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.sent_msg {
+ float: right;
+ width: 46%;
+}
+.input_msg_write input {
+ background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+ border: 1px solid grey;
+ color: #4c4c4c;
+ font-size: 15px;
+ min-height: 48px;
+ width: 100%;
+ padding: 10px 20px;
+}
+input::placeholder{
+ padding:10px 20px;
+}
+.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+
+.msg_send_btn {
+ background: #05728f none repeat scroll 0 0;
+ border: medium none;
+ border-radius: 50%;
+ color: #fff;
+ cursor: pointer; 
+ font-size: 17px;
+ height: 50px;
+ position: absolute;
+left: 35%;
+   top: 28px;
+ width: 50px;
+}
+.messaging { padding: 0 0 50px 0;}
+.msg_history {
+ height: 400px;
+ overflow-y: auto;
+}
+textarea#stu_msgId {
+    width: 100%;
+}
+i.fa.fa-paper-plane-o{
+	font-size: 22px;
+}
+
+.modal-footer {
+   padding: 15px;
+   text-align: center;
+   border-top: 1px solid #e5e5e5;
+}
+.btn-default {
+   background-color: #f4f4f4;
+   color: #444;
+   border-color: #ddd;
+   margin: 10px 1px;
+}
+.sent_msg p a {
+    color: #f5aa22;
+}
+.sent_msg p a:hover {
+    color: #f5aa22a6;
+}
+</style>	
+		
+		
+		
     </head>
     <!--
     BODY TAG OPTIONS:
@@ -133,7 +294,8 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['user_type'])) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="universityCourse_link"><a href="<?php echo site_url('superadmin/univCoursesMaster'); ?>"><i class="fa fa-university"></i>University Course</a></li>
+								<li class="organizationCourse_link"><a href="<?php echo site_url('superadmin/organisationCoursesMaster'); ?>"><i class="fa fa-university"></i>All Organisations Course Master</a></li>
+								<li class="universityCourse_link"><a href="<?php echo site_url('superadmin/univCoursesMaster'); ?>"><i class="fa fa-university"></i>University Course</a></li>
                                 <li class="instituteCourse_link"><a href="<?php echo site_url('superadmin/InstCoursesMaster'); ?>"><i class="fa fa-code-fork"></i>Institute Course</a></li>
                                 <li class="timeduration_link"><a href="<?php echo site_url('superadmin/TimedurationMaster'); ?>"><i class="fa fa-clock-o"></i>Time Duration</a></li>
                                 <li class="schoolClassType_link"><a href="<?php echo site_url('superadmin/schoolClassMaster'); ?>"><i class="fa fa-shield"></i>School Class</a></li>
@@ -148,6 +310,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['user_type'])) {
                                 <li class="examModeMaster_link"><a href="<?php echo site_url('superadmin/examModeMaster'); ?>"><i class="fa fa-cogs"></i>Exam Mode</a></li>
                                 <li class="feeCycle_link"><a href="<?php echo site_url('superadmin/feeCycleMaster'); ?>"><i class="fa fa-check-square-o"></i>Fee Cycle</a></li>
                                 <li class="subject_link"><a href="<?php echo site_url('superadmin/subjectMaster'); ?>"><i class="fa fa-book"></i>Subject Master</a></li>
+                                <li class="courser_masters"><a href="<?php echo site_url('superadmin/courseMasters'); ?>"><i class="fa fa-book"></i>Course Masters</a></li>
                             </ul>
                         </li>
                         <!-- created by shweta-->
@@ -394,6 +557,28 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['user_type'])) {
                                 <li class="nlpb_Show"><a href="<?php echo site_url('superadmin/newsletterplanbuy'); ?>"><i class="fa fa-dollar"></i>Show News Letter Plan Buy</a></li>
                             </ul>
                         </li>
+						<li class="newsltr_plan_Link treeview">
+                            <a href="">
+                                <i class="fa fa-file-text-o"></i> <span>Enrollments</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="newsltr_plan_AddShow"><a href="<?php echo site_url('superadmin/enrollments'); ?>"><i class="fa fa-arrow-circle-right"></i>View Enrollments</a></li>
+                            </ul>
+                        </li>
+						<li class="newsltr_plan_Link treeview">
+                            <a href="">
+                                <i class="fa fa-file-text-o"></i> <span>Transactions</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="newsltr_plan_AddShow"><a href="<?php echo site_url('superadmin/transactions'); ?>"><i class="fa fa-arrow-circle-right"></i>View Transactions</a></li>
+                            </ul>
+                        </li>
                         <li class="testmo treeview">
                             <a href="">
                                 <i class="fa fa-quote-left"></i> <span>Testimonials</span>
@@ -469,6 +654,52 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['user_type'])) {
                             <ul class="treeview-menu">
                                 <li class="helpmenulink"><a href="<?php echo site_url('superadmin/helpMenu'); ?>"><i class="fa fa-info-circle"></i>Add|Show Help Menu</a></li>
                             </ul>
+                        </li>
+									<li class="newsltr_plan_Link treeview">
+                            <a href="">
+                                <i class="fa fa-file-text-o"></i> <span>Message Status</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="newsltr_plan_AddShow"><a href="<?php echo site_url('superadmin/messageStatus'); ?>"><i class="fa fa-arrow-circle-right"></i>View Message Status</a></li>
+                            </ul>
+                        </li>
+						         <li class="orgByB treeview">
+                            <a href="">
+                                <i class="fa fa-file-text-o"></i> <span>Footer Pages</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                               
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/genesis'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Genesis </a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/pressRelease'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Press Release</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/ihuntBestCares'); ?>"><i class="fa fa-file-text-o"></i>Add | Show ihunt Best Cares</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/giftSmile'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Gift Smile</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/services'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Services</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/ihuntBestStories'); ?>"><i class="fa fa-file-text-o"></i>Add | Show ihunt Best Stories</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/support'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Support</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/paymentsSaved'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Payments Saved</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/cardsShipping'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Cards Shipping</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/cancelAndReturn'); ?>"><i class="fa fa-file-text-o"></i>Add | Show cancelation And Return</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/reportInfringement'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Report Infringement</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/writeToUs'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Write To Us</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/showBrandEmpowerment'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Brand Empowerment</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/onlineShopping'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Online Shopping</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/affiliateProgram'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Affiliate Program</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/giftCardOffer'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Gift Card and Offer</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/firstSubscription'); ?>"><i class="fa fa-file-text-o"></i>Add | Show First Subscription</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/siteMap'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Site Map</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/returnPolicy'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Return Policy</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/termsOfUse'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Terms Of Use</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/securityPolicy'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Security Policy</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/refundPolicy'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Refund Policy</a></li>
+								<li class="bubtext"><a href="<?php echo site_url('superadmin/footerContent'); ?>"><i class="fa fa-file-text-o"></i>Add | Show Footer Content</a></li>
+                            </ul>
+
                         </li>
 
                         <!-- end by shweta-->

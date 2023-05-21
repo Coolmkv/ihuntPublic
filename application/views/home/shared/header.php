@@ -223,13 +223,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <div class="col-md-12 col-sm-12" style="text-align: -webkit-center;text-align: -moz-center;padding: 20px;">
                                             <div id="my-signin2"></div>
                                         </div>
-                                        <div class="col-md-12 col-sm-12">
+                <div class="col-md-12 col-sm-12">
                                             <fb:login-button scope="public_profile,email,user_gender,user_location" onlogin="checkLoginState();">
                                             </fb:login-button>
                                             <div id="status">
                                             </div>
                                         </div>
-                                        <div id="fb-root"></div>
+                                      <div id="fb-root"></div>
                                         <script async defer src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=294729754539736&autoLogAppEvents=1"></script>
 
 
@@ -313,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="container">
             <div class="search-box">
                 <div class="col-md-3">
-                    <div class="logo"><a href="<?php echo site_url("home/index"); ?>"><img src="<?php echo base_url(); ?>images/logo.png"/></a></div>
+                    <div class="logo"><a href="<?php echo site_url(); ?>"><img src="<?php echo base_url(); ?>images/logo.png"/></a></div>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-6 nopadding" style="padding: 5px;">
@@ -362,11 +362,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="col-md-1 closediv"><span id="closeenrollModal"><i class="fa fa-times fa-1x" id="closesign" ></i></span></div>
                                             </div>
                                             <div class="col-lg-12 nopadding">
-                                                <?php echo form_open('home/enrollNow', ['id' => 'enrollNowForm', 'class' => 'form-horizontal']); ?>
+                                                       <?php echo form_open('home/enrollNow', ['id' => 'enrollNowForm', 'class' => 'form-horizontal']); ?>
                                                 <fieldset>
+												 <input type="hidden" name="lgId" id="lgId" class="hidden" value="">
                                                     <input type="hidden" name="orgCourseId" id="orgCourseId" class="hidden">
                                                     <input type="hidden" name="courseId" id="enrcourseId" class="hidden">
                                                     <input type="hidden" name="orgType" id="orgTypeId" class="hidden">
+													<!--<input type="hidden" value="<?php //echo $_SESSION['chk_enroll']; ?>" name="chk_enroll" id="chk_enroll" />-->
                                                     <div class="col-lg-12 text-center nopadding">
                                                         <h4 class="enrollnowlabels" style=" margin-bottom:10px;">Application Form</h4>
                                                     </div>

@@ -2,8 +2,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<!--<script src="<?php // echo base_url('js/jquery.min.js');                                                                                                                                                                                                                                                                                                                                   ?>" type="text/javascript"></script>
-<script src="<?php // echo base_url();                                                                                                                                                                                                                                                                                                                                   ?>plugins/jQuery/jquery-3.2.1.min.js"></script>-->
+<!--<script src="<?php // echo base_url('js/jquery.min.js');                                                                                                                                                                                                                                                                                                                                   
+                    ?>" type="text/javascript"></script>
+<script src="<?php // echo base_url();                                                                                                                                                                                                                                                                                                                                   
+                ?>plugins/jQuery/jquery-3.2.1.min.js"></script>-->
 
 <script src="<?php echo base_url('js/amazon_scroller.js'); ?>" type="text/javascript"></script>
 <!--
@@ -21,12 +23,12 @@
 <script src="<?php echo base_url(); ?>js/custom.js"></script>
 
 <script>
-<?php include 'js/location.js'; ?>
+    <?php include 'js/location.js'; ?>
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACimPVNI1GUVZIfy5HA342kjuq7grLzS0&libraries=places&callback=initAutocomplete"
-async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACimPVNI1GUVZIfy5HA342kjuq7grLzS0&libraries=places&callback=initAutocomplete" async defer></script>
 <script>
     document.title = 'iHuntBest | Home Page';
+
     function imgError(ele) {
         ele.onerror = "";
         console.log(ele);
@@ -36,20 +38,20 @@ async defer></script>
 
 
     }
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#slider").slider({
             min: 1000,
             max: 100000,
             step: 1,
             values: [10, 900],
-            slide: function (event, ui) {
+            slide: function(event, ui) {
                 for (var i = 0; i < ui.values.length; ++i) {
                     $("input.sliderValue[data-index=" + i + "]").val(ui.values[i]);
                 }
             }
         });
 
-        $("input.sliderValue").change(function () {
+        $("input.sliderValue").change(function() {
             var $this = $(this);
             $("#slider").slider("values", $this.data("index"), $this.val());
         });
@@ -58,14 +60,14 @@ async defer></script>
             max: 100000,
             step: 1,
             values: [10, 900],
-            slide: function (event, ui) {
+            slide: function(event, ui) {
                 for (var i = 0; i < ui.values.length; ++i) {
                     $("input.sliderValueCollege[data-index=" + i + "]").val(ui.values[i]);
                 }
             }
         });
 
-        $("input.sliderValueCollege").change(function () {
+        $("input.sliderValueCollege").change(function() {
             var $this = $(this);
             $("#sliderCollege").slider("values", $this.data("index"), $this.val());
         });
@@ -74,14 +76,14 @@ async defer></script>
             max: 100000,
             step: 1,
             values: [10, 900],
-            slide: function (event, ui) {
+            slide: function(event, ui) {
                 for (var i = 0; i < ui.values.length; ++i) {
                     $("input.sliderValueInstitute[data-index=" + i + "]").val(ui.values[i]);
                 }
             }
         });
 
-        $("input.sliderValueInstitute").change(function () {
+        $("input.sliderValueInstitute").change(function() {
             var $this = $(this);
             $("#sliderInstitute").slider("values", $this.data("index"), $this.val());
         });
@@ -90,14 +92,14 @@ async defer></script>
             max: 100000,
             step: 1,
             values: [10, 900],
-            slide: function (event, ui) {
+            slide: function(event, ui) {
                 for (var i = 0; i < ui.values.length; ++i) {
                     $("input.sliderValueSchool[data-index=" + i + "]").val(ui.values[i]);
                 }
             }
         });
 
-        $("input.sliderValueSchool").change(function () {
+        $("input.sliderValueSchool").change(function() {
             var $this = $(this);
             $("#sliderSchool").slider("values", $this.data("index"), $this.val());
         });
@@ -107,7 +109,7 @@ async defer></script>
 <!------------------adds--------------------------->
 <div class="container add-to">
     <div class="col-md-12">
-        <div class="addimage"><img src="<?php echo base_url(); ?>images/add.png"/></div>
+        <div class="addimage"><img src="<?php echo base_url(); ?>images/add.png" /></div>
     </div>
 </div>
 
@@ -122,7 +124,7 @@ async defer></script>
     <div class="col-md-12">
         <div class="heading">
             <h2>EXPLORE ALMOST EVERYTHING</h2>
-            <span class="bott-img"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/head.png"/></span>
+            <span class="bott-img"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/head.png" /></span>
             <p>iHuntBest.com is an extensive search engine for the students, parents,<br>
                 and education industry players who are seeking information</p>
         </div>
@@ -130,7 +132,7 @@ async defer></script>
     <div class="row">
         <div class="col-md-3 col-sm-3 hover-img-box">
             <div class="image-box">
-                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/1-icon.png"/></span>
+                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/1-icon.png" /></span>
                 <div class="text-box">
                     <a href="#">FIND BEST COLLEGE</a>
                     <p>Learn about the best of bests in the country.</p>
@@ -139,7 +141,7 @@ async defer></script>
         </div>
         <div class="col-md-3 col-sm-3 hover-img-box">
             <div class="image-box">
-                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/2-icon.png"/></span>
+                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/2-icon.png" /></span>
                 <div class="text-box">
                     <a href="#">EXPLORE EXAMS</a>
                     <p>All information about the exams that will get you into your dream college.</p>
@@ -148,7 +150,7 @@ async defer></script>
         </div>
         <div class="col-md-3 col-sm-3 hover-img-box">
             <div class="image-box">
-                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/3-icon.png"/></span>
+                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/3-icon.png" /></span>
                 <div class="text-box text-box-to">
                     <a href="#">GET ADMISSION</a>
                     <p>Find information about the final step to colleges and courses.</p>
@@ -157,7 +159,7 @@ async defer></script>
         </div>
         <div class="col-md-3 col-sm-3 hover-img-box">
             <div class="image-box">
-                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/4-icon.png"/></span>
+                <span class="image-box-to"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/4-icon.png" /></span>
                 <div class="text-box">
                     <a href="#">TOP COURSES</a>
                     <p>Learn about various mix of courses offered across the country.</p>
@@ -190,18 +192,18 @@ async defer></script>
                                 <h4>Filter Universities</h4>
                                 <p class="label-to">Course Name</p>
                                 <div class="select-to3 autocomplete" id="orgaNames">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="state" name="univCourseName" id="univCourseName" >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="state" name="univCourseName" id="univCourseName">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <p class="label-to">Fee</p>
                                 <div class="select-to3">
                                     <div class="col-lg-6">
-                                        <input type="text" id="ufeemin" class="sliderValue" data-index="0" value=""   />
+                                        <input type="text" id="ufeemin" class="sliderValue" data-index="0" value="" />
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="ufeemax" class="sliderValue" data-index="1" value=""  />
+                                        <input type="text" id="ufeemax" class="sliderValue" data-index="1" value="" />
                                     </div>
                                     <div class="col-lg-12" style="padding: 10px;">
                                         <div id="slider"></div>
@@ -211,14 +213,14 @@ async defer></script>
                                 <div class="input-group" id="UnivLocationDiv">
                                     <input type="text" class="form-control locationfind" id="iUnivLocationDiv" divid="UnivLocationDiv" orgType="University">
                                     <div class="input-group-btn">
-                                        <button class="btn bg-yellow-gradient" ><i class="fa fa-refresh"></i></button>
+                                        <button class="btn bg-yellow-gradient"><i class="fa fa-refresh"></i></button>
                                     </div>
 
                                 </div>
                                 <p class="label-to">Rating</p>
                                 <div class="select-to4">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="rating" id="ratingsUniv"  >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="rating" id="ratingsUniv">
                                         <option value="">Select Ratings</option>
                                         <option value="5">Stars 5</option>
                                         <option value="4">Stars 4</option>
@@ -234,12 +236,14 @@ async defer></script>
                                     </div>
                                 </div>
                                 <!--                <a class="sub" href="javascript:">Submit</a><a href="#" class="sub-to">RESET</a>-->
-                                <span class="all"><h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a></span>
+                                <span class="all">
+                                    <h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a>
+                                </span>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9 col-sm-12" >
+                <div class="col-md-9 col-sm-12">
                     <div class="box-sadow">
                         <div class="col-md-12 latest-to">
                             <div class="latest">
@@ -248,18 +252,19 @@ async defer></script>
                             </div>
                         </div>
                         <div class="col-md-12 to-slide" id="universitySlides">
-                            <div id="mixedSlider1" >
+                            <div id="mixedSlider1">
                                 <div id="table" class="MS-content">
                                     <?php
                                     if (isset($universityRes)) {
                                         foreach ($universityRes as $od) {
+
                                             if ($od->availableSeats == "") {
                                                 $availabesheets = 0;
                                             } else {
                                                 $availabesheets = $od->availableSeats;
                                             }
                                             $avg = $od->ratings;
-                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'University\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'University\',' . $od->courseid . ',' . $od->OrgcourseId . ')' );
+                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'University\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'University\',' . $od->courseid . ',' . $od->OrgcourseId . ')');
                                             $btnName = ($od->orgButtonType === "Enquiry" ? 'Enquire Now' : 'Enroll Now');
                                             $orgName = preg_replace("/\s+/", "-", $od->orgName);
                                             $loginId = base64_encode($od->loginId);
@@ -281,14 +286,14 @@ async defer></script>
                                         </div>
                                             <p><strong>' . $od->orgName . '</strong></p>
                                             <span class="name"><p><strong>Course Name </strong>: ' . $od->courseName . ' </p></span>
-                                            <span class="name"><p>Eligibility/ Cutoff: optional , depends on college to do the validation</p></span>
+                                            <span class="name"><p>Eligibility/ Cutoff: ' . (empty($od->course_qualifications) ? "optional , depends on college to do the validation" : $od->course_qualifications) . '</p></span>
                                             <span class="name"><p><strong>Fee</strong> : ' . $od->courseFee . ' </p></span>
                                             <span class="name"><p><strong>Ratings</strong> : ' . $ratings . ' </p></span>
 
                                         <div class=" clearfix"></div>
                                        <div class="col-lg-12">
                                             <div class="col-lg-6 text-center  ">
-                                                <a href="' . site_url('OrganizationDetails/' . $od->loginId . '_' . $orgName) . '" class="to">View Details</a>
+                                                <a href="' . site_url('OrganizationDetails/' . $od->loginId . '_' . $orgName . "_" . $od->OrgcourseId) . '" class="to">View Details</a>
                                             </div>
                                             <div class="col-lg-6 text-center " style="padding:0px 10px;">
                                                 <a href="javascript:" onClick="' . $btntype . '"  class="to">' . $btnName . '</a>
@@ -304,8 +309,8 @@ async defer></script>
                                                                                 </div>-->
                                 </div>
                                 <div class="MS-controls">
-                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png"/></button>
-                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png"/></button>
+                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png" /></button>
+                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png" /></button>
                                 </div>
                             </div>
                         </div>
@@ -320,18 +325,18 @@ async defer></script>
                                 <h4>Filter College</h4>
                                 <p class="label-to">Course Name</p>
                                 <div class="select-to3 autocomplete" id="orgaNames">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="state" name="collegeCourseName" id="collegeCourseName" >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="state" name="collegeCourseName" id="collegeCourseName">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <p class="label-to">Fee</p>
                                 <div class="select-to3">
                                     <div class="col-lg-6">
-                                        <input type="text" class="sliderValueCollege" id="cfeemin" data-index="0" value=""   />
+                                        <input type="text" class="sliderValueCollege" id="cfeemin" data-index="0" value="" />
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" class="sliderValueCollege" id="cfeemax" data-index="1" value=""  />
+                                        <input type="text" class="sliderValueCollege" id="cfeemax" data-index="1" value="" />
                                     </div>
                                     <div class="col-lg-12" style="padding: 10px;">
                                         <div id="sliderCollege"></div>
@@ -341,14 +346,14 @@ async defer></script>
                                 <div class="input-group" id="CollLocationDiv">
                                     <input type="text" class="form-control locationfind" divid="CollLocationDiv" id="iCollLocationDiv" orgType="College">
                                     <div class="input-group-btn">
-                                        <button class="btn bg-yellow-gradient" ><i class="fa fa-refresh"></i></button>
+                                        <button class="btn bg-yellow-gradient"><i class="fa fa-refresh"></i></button>
                                     </div>
 
                                 </div>
                                 <p class="label-to">Rating</p>
                                 <div class="select-to4">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="ratingColl" id="ratingsColl"  >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="ratingColl" id="ratingsColl">
                                         <option value="">Select Ratings</option>
                                         <option value="5">Stars 5</option>
                                         <option value="4">Stars 4</option>
@@ -364,7 +369,9 @@ async defer></script>
                                     </div>
                                 </div>
                                 <!--                <a class="sub" href="javascript:">Submit</a><a href="#" class="sub-to">RESET</a>-->
-                                <span class="all"><h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a></span>
+                                <span class="all">
+                                    <h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a>
+                                </span>
                             </form>
                         </div>
                     </div>
@@ -378,7 +385,7 @@ async defer></script>
                         </div>
                         <div class="col-md-12 to-slide" id="collegeSlides">
                             <div id="mixedSlider11">
-                                <div id="table" class="MS-content"  >
+                                <div id="table" class="MS-content">
                                     <?php
                                     if (isset($collegesRes)) {
                                         foreach ($collegesRes as $od) {
@@ -388,7 +395,7 @@ async defer></script>
                                                 $availabesheets = $od->availableSeats;
                                             }
                                             $avg = $od->ratings;
-                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'College\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'College\',' . $od->courseid . ',' . $od->OrgcourseId . ')' );
+                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'College\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'College\',' . $od->courseid . ',' . $od->OrgcourseId . ')');
                                             $btnName = ($od->orgButtonType === "Enquiry" ? 'Enquire Now' : 'Enroll Now');
 
                                             $orgName = preg_replace("/\s+/", "-", $od->orgName);
@@ -434,8 +441,8 @@ async defer></script>
                                                                             </div>-->
                                 </div>
                                 <div class="MS-controls">
-                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png"/></button>
-                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png"/></button>
+                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png" /></button>
+                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png" /></button>
                                 </div>
                             </div>
                         </div>
@@ -450,18 +457,18 @@ async defer></script>
                                 <h4>Filter Institute</h4>
                                 <p class="label-to">Course Name</p>
                                 <div class="select-to3 autocomplete" id="orgaNames">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="state" name="instituteCourseName" id="instituteCourseName" >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="state" name="instituteCourseName" id="instituteCourseName">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <p class="label-to">Fee</p>
                                 <div class="select-to3">
                                     <div class="col-lg-6">
-                                        <input type="text" class="sliderValueInstitute" id="ifeemin" data-index="0" value=""  />
+                                        <input type="text" class="sliderValueInstitute" id="ifeemin" data-index="0" value="" />
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" class="sliderValueInstitute" id="ifeemax" data-index="1" value=""  />
+                                        <input type="text" class="sliderValueInstitute" id="ifeemax" data-index="1" value="" />
                                     </div>
                                     <div class="col-lg-12" style="padding: 10px;">
                                         <div id="sliderInstitute"></div>
@@ -469,16 +476,16 @@ async defer></script>
                                 </div>
                                 <p class="label-to">Location</p>
                                 <div class="input-group" id="InsLocationDiv">
-                                    <input type="text" class="form-control locationfind" id="iInsLocationDiv"  divid="InsLocationDiv" orgType="Institute">
+                                    <input type="text" class="form-control locationfind" id="iInsLocationDiv" divid="InsLocationDiv" orgType="Institute">
                                     <div class="input-group-btn">
-                                        <button class="btn bg-yellow-gradient" ><i class="fa fa-refresh"></i></button>
+                                        <button class="btn bg-yellow-gradient"><i class="fa fa-refresh"></i></button>
                                     </div>
 
                                 </div>
                                 <p class="label-to">Rating</p>
                                 <div class="select-to4">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="ratingInst" id="ratingsInst"  >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="ratingInst" id="ratingsInst">
                                         <option value="">Select Ratings</option>
                                         <option value="5">Stars 5</option>
                                         <option value="4">Stars 4</option>
@@ -495,7 +502,9 @@ async defer></script>
                                     </div>
                                 </div>
                                 <!--                <a class="sub" href="javascript:">Submit</a><a href="#" class="sub-to">RESET</a>-->
-                                <span class="all"><h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a></span>
+                                <span class="all">
+                                    <h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a>
+                                </span>
                             </div>
                         </div>
                     </form>
@@ -511,7 +520,7 @@ async defer></script>
                         </div>
                         <div class="col-md-12 to-slide" id="instituteSlides">
                             <div id="mixedSlider111">
-                                <div id="table" class="MS-content"  >
+                                <div id="table" class="MS-content">
                                     <?php
                                     if (isset($instituteRes)) {
                                         foreach ($instituteRes as $od) {
@@ -521,7 +530,7 @@ async defer></script>
                                                 $availabesheets = $od->availableSeats;
                                             }
                                             $avg = $od->ratings;
-                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'Institute\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'Institute\',' . $od->courseid . ',' . $od->OrgcourseId . ')' );
+                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'Institute\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'Institute\',' . $od->courseid . ',' . $od->OrgcourseId . ')');
                                             $btnName = ($od->orgButtonType === "Enquiry" ? 'Enquire Now' : 'Enroll Now');
 
                                             $orgName = preg_replace("/\s+/", "-", $od->orgName);
@@ -568,8 +577,8 @@ async defer></script>
                                                                                 </div>-->
                                 </div>
                                 <div class="MS-controls">
-                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png"/></button>
-                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png"/></button>
+                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png" /></button>
+                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png" /></button>
                                 </div>
                             </div>
                         </div>
@@ -584,8 +593,8 @@ async defer></script>
                                 <h4>Filter School</h4>
                                 <p class="label-to">Course Name</p>
                                 <div class="select-to3 autocomplete" id="orgaNames">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="state" name="schoolCourseName" id="schoolCourseName" >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="state" name="schoolCourseName" id="schoolCourseName">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -603,16 +612,16 @@ async defer></script>
                                 </div>
                                 <p class="label-to">Location</p>
                                 <div class="input-group" id="SchLocationDiv">
-                                    <input type="text" class="form-control locationfind" id="iSchLocationDiv"  divid="SchLocationDiv" orgType="School">
+                                    <input type="text" class="form-control locationfind" id="iSchLocationDiv" divid="SchLocationDiv" orgType="School">
                                     <div class="input-group-btn">
-                                        <button class="btn bg-yellow-gradient" ><i class="fa fa-refresh"></i></button>
+                                        <button class="btn bg-yellow-gradient"><i class="fa fa-refresh"></i></button>
                                     </div>
 
                                 </div>
                                 <p class="label-to">Rating</p>
                                 <div class="select-to4">
-                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>"/>
-                                    <select name="ratingScho" id="ratingsScho"  >
+                                    <img class="to-1" src="<?php echo base_url('images/Arrow-Up1.png'); ?>" />
+                                    <select name="ratingScho" id="ratingsScho">
                                         <option value="">Select Ratings</option>
                                         <option value="5">Stars 5</option>
                                         <option value="4">Stars 4</option>
@@ -628,7 +637,9 @@ async defer></script>
                                     </div>
                                 </div>
                                 <!--                <a class="sub" href="javascript:">Submit</a><a href="#" class="sub-to">RESET</a>-->
-                                <span class="all"><h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a></span>
+                                <span class="all">
+                                    <h2>ALL Visitors</h2><a href="#" class="sub-to allVisitors" style="width:auto;    margin-right: 10px;">50000</a>
+                                </span>
                             </form>
                         </div>
                     </div>
@@ -643,7 +654,7 @@ async defer></script>
                         </div>
                         <div class="col-md-12 to-slide" id="schoolSlides">
                             <div id="mixedSlider1111">
-                                <div id="table" class="MS-content" >
+                                <div id="table" class="MS-content">
                                     <?php
                                     if (isset($schoolRes)) {
                                         foreach ($schoolRes as $od) {
@@ -653,7 +664,7 @@ async defer></script>
                                                 $availabesheets = $od->availableSeats;
                                             }
                                             $avg = $od->ratings;
-                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'School\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'School\',' . $od->courseid . ',' . $od->OrgcourseId . ')' );
+                                            $btntype = ($od->orgButtonType === "Enquiry" ? 'enquiryNow(\'' . base64_encode($od->loginId) . '\',\'School\',' . $od->courseid . ',' . $od->OrgcourseId . ')' : 'enrollnow(\'' . base64_encode($od->loginId) . '\',\'School\',' . $od->courseid . ',' . $od->OrgcourseId . ')');
                                             $btnName = ($od->orgButtonType === "Enquiry" ? 'Enquire Now' : 'Enroll Now');
 
                                             $orgName = preg_replace("/\s+/", "-", $od->orgName);
@@ -699,8 +710,8 @@ async defer></script>
                                                                                 </div>-->
                                 </div>
                                 <div class="MS-controls">
-                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png"/></button>
-                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png"/></button>
+                                    <button class="MS-left"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/l-aerrow.png" /></button>
+                                    <button class="MS-right"><img onerror="imgError(this);" src="<?php echo base_url(); ?>images/r-aerrow.png" /></button>
                                 </div>
                             </div>
                         </div>
@@ -723,10 +734,9 @@ async defer></script>
 
 </div>
 <script>
+    $(function() {
 
-    $(function () {
-
-        $('#pop-btn').on('click', function () {
+        $('#pop-btn').on('click', function() {
             $('.popup').css({
                 'transform': 'translateY(0)',
                 'z-index': '98'
@@ -742,7 +752,7 @@ async defer></script>
                 'z-index': '-1'
             });
 
-            $('.popup > .close').on('click', function () {
+            $('.popup > .close').on('click', function() {
                 $(this).parent().css({
                     'transform': 'translateY(-300%)'
                 });
@@ -754,10 +764,9 @@ async defer></script>
             });
         });
     });
-
 </script>
 <script>
-    $(".more").click(function () {
+    $(".more").click(function() {
         var id = $(this).next('.ProdId').html();
         $("#container").append("<div class='box'> " + id + "<a href='#'>x</a></div>");
         var count = $(".box").length;
@@ -765,7 +774,7 @@ async defer></script>
         $("#container").removeClass("hidden");
     });
 
-    $(".box a").live("click", function () {
+    $(".box a").live("click", function() {
         $(this).parent().remove();
         var count = $(".box").length;
         $(".to-p").text("There are " + count + " boxes.");
@@ -774,10 +783,10 @@ async defer></script>
 <!--------------------------footer----------------------->
 <script>
     var $rows = $('#table .item');
-    $('#search').keyup(function () {
+    $('#search').keyup(function() {
         var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
 
-        $rows.show().filter(function () {
+        $rows.show().filter(function() {
             var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
             return !~text.indexOf(val);
         }).hide();
@@ -833,19 +842,28 @@ async defer></script>
         var ratings = $("#" + ratingId).val();
         $.ajax({
             url: '<?php echo site_url('Home/filterOrganisationsHome'); ?>',
-            data: {ratings: ratings, courseIds: courseIds, orgType: orgType, feeminValue: feeminValue, feemaxValue: feemaxValue, loginIds: loginIds},
+            data: {
+                ratings: ratings,
+                courseIds: courseIds,
+                orgType: orgType,
+                feeminValue: feeminValue,
+                feemaxValue: feemaxValue,
+                loginIds: loginIds
+            },
             type: "POST",
-            success: function (response) {
+            success: function(response) {
                 if (response) {
                     $("#" + divId).html(response);
                 }
             },
-            error: function (jqXHR, exception) {
+            error: function(jqXHR, exception) {
                 $.alert({
-                    title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                    title: 'Error!',
+                    content: jqXHR["status"] + " " + exception,
+                    type: 'red',
                     typeAnimated: true,
                     buttons: {
-                        Ok: function () {
+                        Ok: function() {
                             window.location.href = '<?php echo site_url(); ?>';
                         }
                     }
@@ -853,6 +871,7 @@ async defer></script>
             }
         });
     }
+
     function selElementL(focussed, divId) {
         $("#i" + divId).val($("#searchterm" + focussed).text());
         $("#i" + divId).attr('loginIds', $("#searchterm" + focussed).attr('loginids'));
@@ -862,62 +881,75 @@ async defer></script>
         duration: 750,
         interval: 2000
     });
-
+    $('#mixedSlider1').multislider('pause');
 
     $('#mixedSlider11').multislider({
         duration: 750,
         interval: 2200
     });
+    $('#mixedSlider11').multislider('pause');
 
 
     $('#mixedSlider111').multislider({
         duration: 750,
         interval: 2500
     });
+    $('#mixedSlider111').multislider('pause');
 
 
     $('#mixedSlider1111').multislider({
         duration: 750,
         interval: 3000
     });
+    $('#mixedSlider1111').multislider('pause');
     var currentFocusL = -1;
-    $(document).ready(function () {
+    $(document).ready(function() {
         var verificationCode = '<?php echo $this->input->get('verificationCode'); ?>';
         var id = '<?php echo $this->input->get('id'); ?>';
         if (verificationCode !== "" && id !== "") {
             $.ajax({
                 url: '<?php echo site_url('Home/verifyEmail'); ?>',
-                data: {verificationCode: verificationCode, id: id},
+                data: {
+                    verificationCode: verificationCode,
+                    id: id
+                },
                 type: "POST",
-                success: function (response) {
+                success: function(response) {
                     var json = $.parseJSON(response);
                     if (json.status === 'success') {
-                        $.alert({title: 'Success!', content: json.msg, type: 'blue',
+                        $.alert({
+                            title: 'Success!',
+                            content: json.msg,
+                            type: 'blue',
                             typeAnimated: true,
                             buttons: {
-                                Ok: function () {
+                                Ok: function() {
                                     window.location.href = '<?php echo site_url('home/index'); ?>';
                                 }
                             }
                         });
                     } else {
                         $.alert({
-                            title: 'Error!', content: json.msg, type: 'red',
+                            title: 'Error!',
+                            content: json.msg,
+                            type: 'red',
                             typeAnimated: true,
                             buttons: {
-                                Ok: function () {
+                                Ok: function() {
                                     window.location.href = '<?php echo site_url('home/index'); ?>';
                                 }
                             }
                         });
                     }
                 },
-                error: function (jqXHR, exception) {
+                error: function(jqXHR, exception) {
                     $.alert({
-                        title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                        title: 'Error!',
+                        content: jqXHR["status"] + " " + exception,
+                        type: 'red',
                         typeAnimated: true,
                         buttons: {
-                            Ok: function () {
+                            Ok: function() {
                                 window.location.href = '<?php echo site_url('home/index'); ?>';
                             }
                         }
@@ -930,37 +962,47 @@ async defer></script>
         if (studentVerification !== "" && studentid !== "") {
             $.ajax({
                 url: '<?php echo site_url('Home/verifyStudentEmail'); ?>',
-                data: {studentVerification: studentVerification, studentid: studentid},
+                data: {
+                    studentVerification: studentVerification,
+                    studentid: studentid
+                },
                 type: "POST",
-                success: function (response) {
+                success: function(response) {
                     var json = $.parseJSON(response);
                     if (json.status === 'success') {
-                        $.alert({title: 'Success!', content: json.msg, type: 'blue',
+                        $.alert({
+                            title: 'Success!',
+                            content: json.msg,
+                            type: 'blue',
                             typeAnimated: true,
                             buttons: {
-                                Ok: function () {
+                                Ok: function() {
                                     window.location.href = '<?php echo site_url('home/index'); ?>';
                                 }
                             }
                         });
                     } else {
                         $.alert({
-                            title: 'Error!', content: json.msg, type: 'red',
+                            title: 'Error!',
+                            content: json.msg,
+                            type: 'red',
                             typeAnimated: true,
                             buttons: {
-                                Ok: function () {
+                                Ok: function() {
                                     window.location.reload('home/index');
                                 }
                             }
                         });
                     }
                 },
-                error: function (jqXHR, exception) {
+                error: function(jqXHR, exception) {
                     $.alert({
-                        title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                        title: 'Error!',
+                        content: jqXHR["status"] + " " + exception,
+                        type: 'red',
                         typeAnimated: true,
                         buttons: {
-                            Ok: function () {
+                            Ok: function() {
                                 window.location.href = '<?php echo site_url('home/index'); ?>';
                             }
                         }
@@ -974,7 +1016,7 @@ async defer></script>
         getCourseName("Institute", "instituteCourseName");
         getCourseName("School", "schoolCourseName");
         allVisitorsCount();
-        $(".locationfind").keyup(function (e) {
+        $(".locationfind").keyup(function(e) {
             var divid = $(this).attr("divid");
             if ($('#searchboxautocomplete-list').length) {
                 if (e.keyCode === 40) {
@@ -1003,8 +1045,11 @@ async defer></script>
                 $.ajax({
                     url: "<?php echo site_url("home/locationSearch"); ?>",
                     type: 'POST',
-                    data: {keySearch: keySearch, orgType: orgType},
-                    success: function (response) {
+                    data: {
+                        keySearch: keySearch,
+                        orgType: orgType
+                    },
+                    success: function(response) {
                         if (response !== '') {
                             var responsearr = $.parseJSON(response);
                             var dropdowndata = '';
@@ -1018,12 +1063,14 @@ async defer></script>
                         $("#searchboxautocomplete-list").html("");
                         $("#" + divid).append(divdata);
                     },
-                    error: function (jqXHR, exception) {
+                    error: function(jqXHR, exception) {
                         $.alert({
-                            title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                            title: 'Error!',
+                            content: jqXHR["status"] + " " + exception,
+                            type: 'red',
                             typeAnimated: true,
                             buttons: {
-                                Ok: function () {
+                                Ok: function() {
                                     //window.location.reload();
                                 }
                             }
@@ -1035,61 +1082,73 @@ async defer></script>
             }
         });
     });
+
     function getCourseName(orgType, locationset) {
         $.ajax({
             url: '<?php echo site_url('Home/getCourseName'); ?>',
-            data: {orgType: orgType},
+            data: {
+                orgType: orgType
+            },
             type: "POST",
-            success: function (response) {
+            success: function(response) {
                 var json = $.parseJSON(response);
                 var option = '<option value="">Select</option>';
                 if (json) {
                     for (var i = 0; i < json.length; i++) {
-                        option = option + '<option value="' + json[i].loginIds + '">' + json[i].courseName + '</option>';
+                        option = option + '<option value="' + json[i].id + '">' + json[i].course_name + '</option>';
                     }
                     $("#" + locationset).html(option);
                 } else {
                     $.alert({
-                        title: 'Error!', content: json.msg, type: 'red',
+                        title: 'Error!',
+                        content: json.msg,
+                        type: 'red',
                         typeAnimated: true,
                         buttons: {
-                            Ok: function () {
-                                window.location.href = '<?php echo site_url(); ?>';
+                            Ok: function() {
+                                 
                             }
                         }
                     });
                 }
             },
-            error: function (jqXHR, exception) {
+            error: function(jqXHR, exception) {
                 $.alert({
-                    title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                    title: 'Error!',
+                    content: jqXHR["status"] + " " + exception,
+                    type: 'red',
                     typeAnimated: true,
                     buttons: {
-                        Ok: function () {
-                            window.location.href = '<?php echo site_url(); ?>';
+                        Ok: function() {
+                            
                         }
                     }
                 });
             }
         });
     }
+
     function allVisitorsCount() {
         $.ajax({
             url: '<?php echo site_url('Home/getVisitors'); ?>',
-            data: {totalview: "total"},
+            data: {
+                totalview: "total"
+            },
             type: "POST",
-            success: function (response) {
+            success: function(response) {
                 if (response) {
                     var json = $.parseJSON(response);
                     $(".allVisitors").html(json.visitors);
                 }
             },
-            error: function (jqXHR, exception) {
+            error: function(jqXHR, exception) {
                 $.alert({
-                    title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                    title: 'Error!',
+                    content: jqXHR["status"] + " " + exception,
+                    type: 'red',
                     typeAnimated: true,
                     buttons: {
-                        Ok: function () {
+                        Ok: function() {
                             window.location.href = '<?php echo site_url(); ?>';
                         }
                     }
@@ -1098,10 +1157,8 @@ async defer></script>
         });
         //
     }
-
 </script>
 
 
 <?php
 include_once 'shared/footer.php';
-

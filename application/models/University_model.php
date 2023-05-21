@@ -13,8 +13,7 @@ class University_model extends CI_Model {
         $id = $_SESSION['loginId'];
         $details = $this->db->query("SELECT(SELECT COUNT(*) FROM department WHERE loginId=$id AND isactive=1) totaldepartments,
                                                 (SELECT COUNT(*) FROM pages WHERE loginId=$id AND isactive=1) totalpages,
-                                                (SELECT COUNT(*) FROM organization_courses as oc    INNER JOIN course_type as ct ON ct.ctId=oc.courseTypeId    INNER JOIN course_details as cd ON cd.cId=oc.courseId
-                                                INNER JOIN time_duration as td ON td.tdId=oc.courseDurationId  INNER JOIN department as dt ON dt.departmentId=oc.departmentId WHERE oc.isactive=1 and oc.loginId =$id) totalcourses,
+                                                (SELECT COUNT(*) FROM organisation_courses WHERE login_id=$id AND is_active=1) as  totalcourses,
                                                 (SELECT COUNT(*)  FROM organization_streams as os     INNER JOIN organization_courses as oc ON oc.orgCourseId=os.orgCourseId    INNER JOIN course_type as ct ON ct.ctId=oc.courseTypeId
                                                 INNER JOIN course_details as cd ON cd.cId=oc.courseId    INNER JOIN time_duration as td ON td.tdId=oc.courseDurationId
                                                 INNER JOIN stream_details as sd ON sd.streamId=os.streamId  WHERE os.isactive=1 and os.loginId=$id) totalstreams,
@@ -2699,6 +2698,13 @@ class University_model extends CI_Model {
                     INNER JOIN login_details ld ON ld.id=oc.loginId
                     WHERE  tce.isactive=1 AND os.loginId=" . $_SESSION['loginId'] . " $condions");
     }
+	
+		public function notLoggedIn($response)
+	    {
+		    $response;
+		    return json_encode($response);
+	    }
+
 
     //Enquiry End
     //Enrollments Start
@@ -2713,7 +2719,7 @@ class University_model extends CI_Model {
         if (!empty($posts)) {
             $i = ($this->input->post('start') == 0 ? 1 : $this->input->post('start'));
             foreach ($posts as $dt) { //.' ('.$dt->courseType.') '.$dt->departmentName
-                $data[] = ["enrollmentId" => $i++, "CourseDetails" => $dt->courseName, "CourseDuration" => $dt->timeDuration . ' ' . $dt->courseDurationType,
+                $data[] = ["enrollmentId" => $i++,"StudentDetails" => ' <button type="button" class="btn btn-info  stu_info" onclick="studentInfo('."'".$dt->roleName."'".','.$dt->courseId.','.$dt->orgCourseId.','.$dt->studentId.','.$dt->enrollmentId.')" value="'.$dt->enrollmentId.'">'.$dt->studentName.'</button><br><br><button type="button" class="btn btn-info  see_msg" onclick="showMsg('.$dt->enrollmentId.','.$dt->studentId.','."'".$dt->studentName."'".')" data-toggle="modal" data-target="#myModal">See Message</button>', "CourseDetails" => $dt->courseName, "CourseDuration" => $dt->timeDuration . ' ' . $dt->courseDurationType,
                     "FeeDetails" => 'Reg Fee : ' . $dt->registrationFee . '<br> Course Fee : ' . $dt->courseFee, "ImportantDates" => 'Application Opening : ' . ($dt->openingDate ? $dt->openingDate : "NA") . '
                     <br>Application Closing : ' . ($dt->closingDate ? $dt->closingDate : "NA") . '<br>Exam Date: ' . ($dt->examDate ? $dt->examDate : "NA"),
                     "ApplicationDate" => $dt->applicationDate, "ApplicationStatus" => $dt->status, "Action" => '<select class="statuschange" erId="' . $dt->enrollmentId . '">
@@ -2724,30 +2730,131 @@ class University_model extends CI_Model {
 
         return json_encode($json_data);
     }
-
+	
+	public function mshowMsg(){
+	    $eId=$this->input->post('eId');
+		$chData = ['enrollmentId' => $eId];
+        $chkData = $this->db->where($chData)->order_by('createdDate','DESC')->get("tbl_notifications_msg");	
+		$msg = ($chkData->num_rows() > 0 ? $chkData->result() : null);
+		return json_encode($msg);
+		
+}
+	
+		public function mGetStudentData($studentid)
+	    {
+			$getStudentData = $this->mviewEnrollStudentData($studentid);
+			$sData = ($getStudentData->num_rows() > 0 ? $getStudentData->row() : "");
+			$response = ["studentDetails" => $sData];
+			return json_encode(array_merge($response));
+		}
+	
+		public function mviewEnrollStudentData($studentid)
+	    {
+			$qry = $this->db->query("SELECT std.studentId,std.fatherName,std.studentImage,std.placeofBirth,std.religion,std.studentMobile,std.gender,
+										DATE_FORMAT(std.dob,'%d-%m-%Y') as dobc,std.dob,std.studentName,ctry.name,ctry.countryId,sl.email
+										FROM student_details std
+										LEFT JOIN student_login sl ON sl.studentId=std.studentId
+										LEFT JOIN countries ctry ON ctry.countryId=std.countryId
+										WHERE std.studentId=$studentid");
+			$this->db->close();
+			return $qry;
+	    }
+	
     public function mgetAllEnrollments($condition) {
-        $columns = array(0 => 'te.enrollmentId', 1 => 'ic.title', 2 => 'td.title', 3 => 'icd.courseFee', 4 => 'icd.applyFrom', 5 => 'te.status');
+        $columns = array(0 => 'te.enrollmentId', 1 => 'sd.studentName', 2 => 'cd.title', 3 => 'td.title', 4 => 'os.courseFee', 5 => 'icd.applyFrom', 6 => 'te.createdAt', 7 => 'te.status');
         $limit = $this->input->post('length');
         $start = $this->input->post('start');
         $order = $columns[$this->input->post('order')[0]['column']];
         $dir = $this->input->post('order')[0]['dir'];
         $search = $this->input->post('search')['value'];
         $likearr = " AND (te.enrollmentId like %$search% OR cd.title LIKE %$search% OR td.title LIKE %$search% OR oc.courseFee LIKE %$search%
-                    OR oc.openingDate LIKE %$search% OR te.status LIKE %$search% OR te.closingDate LIKE %$search% OR oc.courseDurationType LIKE %$search% )";
+                    OR oc.openingDate LIKE %$search% OR te.status LIKE %$search% OR std.studentName LIKE %$search% OR  te.closingDate LIKE %$search% OR oc.courseDurationType LIKE %$search% )";
         $condions = ($condition == "nosearch" ? "Order by $order $dir  LIMIT  $start,$limit" : ($condition == "total" ? "" :
                 ($condition == "search" ? " $likearr Order by $order $dir  LIMIT $start,$limit" : ($condition == "searchtotal" ? " $likearr Order by $order $dir " : ""))));
-
-        return $this->db->query("SELECT te.enrollmentId,te.status,oc.courseDurationType,DATE_FORMAT(oc.openingDate ,'%d-%b-%Y') openingDate,
-                                        DATE_FORMAT(oc.closingDate ,'%d-%b-%Y') closingDate,  DATE_FORMAT(oc.examDate ,'%d-%b-%Y') examDate,oc.courseFee,
-                                        oc.registrationFee,dep.title departmentName, ct.courseType,CONCAT(cd.title,' (',sd.title,')') courseName,td.title timeDuration,
+       $loginId=$_SESSION['loginId'];
+        return $this->db->query("SELECT te.enrollmentId,te.status,te.studentId,std.studentName,oc.courseDurationType,os.orgCourseId,oc.courseId,ld.roleName,DATE_FORMAT(oc.openingDate ,'%d-%b-%Y') openingDate,
+                                        DATE_FORMAT(oc.closingDate ,'%d-%b-%Y') closingDate,  DATE_FORMAT(oc.examDate ,'%d-%b-%Y') examDate,os.courseFee,
+                                        os.registrationFee,dep.title departmentName, ct.courseType,CONCAT(cd.title,' (',sd.title,')') courseName,td.title timeDuration,
                                         DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName FROM tbl_enroll te
-                                        INNER JOIN organization_streams os ON os.orgStreamId=te.orgStreamId INNER JOIN organization_courses oc ON oc.orgCourseId=os.orgCourseId
-                                        LEFT JOIN department dep ON dep.departmentId=oc.departmentId  INNER JOIN course_type ct ON ct.ctId = oc.courseTypeId
-                                        INNER JOIN course_details cd ON cd.cId=oc.courseId  INNER JOIN time_duration td ON td.tdId=oc.courseDurationId
+                                        INNER JOIN student_details std ON std.studentId=te.studentId
+										INNER JOIN organization_streams os ON os.orgStreamId=te.orgStreamId INNER JOIN organization_courses oc ON oc.orgCourseId=os.orgCourseId
+                                        LEFT JOIN department dep ON dep.departmentId=oc.departmentId 
+										INNER JOIN course_type ct ON ct.ctId = oc.courseTypeId
+										INNER JOIN course_details cd ON cd.cId=oc.courseId  INNER JOIN time_duration td ON td.tdId=oc.courseDurationId 
                                         INNER JOIN stream_details sd ON sd.streamId=os.streamId  INNER JOIN login_details ld ON ld.id=oc.loginId
                                         INNER JOIN organization_details od ON ld.id=od.loginId
                                         WHERE  te.isactive=1 AND os.loginId=" . $_SESSION['loginId'] . " $condions");
     }
+	public function mGetEnrollData($loginid, $type, $studentid, $courseId, $orgCourseId)
+	{
+		$this->load->model('Home_model');
+		$getStudentData = $this->Home_model->mgetEnrollStudentData($studentid);
+		$sData = ($getStudentData->num_rows() > 0 ? $getStudentData->row() : "");
+		$getOrgData = $this->Home_model->mgetEnrollOrgData($loginid, $type);
+		$orgData = ($getOrgData->num_rows() > 0 ? $getOrgData->result() : "");
+		$chkEli = $this->Home_model->OrgMinQualification($orgCourseId);
+		$courseDetails = $this->Home_model->getCourseInfo($orgCourseId, $courseId, $type, $loginid);
+		  $cData = ["studentId" => $studentid];
+		  //print_r($cData);
+        $docData = $this->db->query("SELECT * FROM tbl_student_file_upload WHERE studentId=$studentid AND isactive=1")->result() ;
+		 
+		$response = ["studentDetails" => $sData, "orgDetails" => $orgData, "reqEligibility" => $chkEli,"docDetails" => $docData];
+		
+
+		return json_encode(array_merge($response, $courseDetails));
+	}
+	
+	
+	public function mGetTransactions() {
+        $totalDataqry = $this->mgetorgtransactions('total');
+        $totalData = ($totalDataqry->num_rows() > 0 ? $totalDataqry->num_rows() : 0);
+        $query = (empty($this->input->post('search')['value']) ? $this->mgetorgtransactions('nosearch') : $this->mgetorgtransactions('search'));
+        $posts = ($query->num_rows() > 0 ? $query->result() : null);
+        $totalFiltered = (empty($this->input->post('search')['value']) ? $totalData : $this->mgetorgtransactions('searchtotal')->num_rows());
+
+        $data = array();
+        if (!empty($posts)) {
+            $i = ($this->input->post('start') == 0 ? 1 : $this->input->post('start'));
+            foreach ($posts as $dt) { //.' ('.$dt->courseType.') '.$dt->departmentName
+                $data[] = ["sno" => $i++,"PaymentId" => $dt->payment_id ,"EnrollmentId" => $dt->enrollment_id ,"StudentName" => $dt->student_name,
+                    "Amount" => $dt->amount , "Date" => $dt->createdate];
+            }
+        }
+        $json_data = array("draw" => intval($this->input->post('draw')), "recordsTotal" => intval($totalData), "recordsFiltered" => intval($totalFiltered), "data" => $data);
+
+        return json_encode($json_data);
+    }
+	
+	
+	
+	
+	
+	
+	public function mgetorgtransactions($condition)
+	{
+		$columns = array(0 => 'torg.id', 1 => 'torg.payment_id', 2 => 'torg.enrollment_id', 3 => 'torg.student_name', 4 => 'torg.amount',5 => 'torg.createdate');
+        $limit = $this->input->post('length');
+        $start = $this->input->post('start');
+        $order = $columns[$this->input->post('order')[0]['column']];
+        $dir = $this->input->post('order')[0]['dir'];
+        $search = $this->input->post('search')['value'];
+        $likearr = " AND (torg.id like %$search% OR torg.payment_id LIKE %$search% OR torg.enrollment_id LIKE %$search% OR torg.student_name LIKE %$search%
+                    OR torg.amount LIKE %$search% OR torg.createdate)";
+        $condions = ($condition == "nosearch" ? "Order by $order $dir  LIMIT  $start,$limit" : ($condition == "total" ? "" :
+                ($condition == "search" ? " $likearr Order by $order $dir  LIMIT $start,$limit" : ($condition == "searchtotal" ? " $likearr Order by $order $dir " : ""))));
+       //$loginId=$_SESSION['loginId'];
+        return $this->db->query("SELECT torg.payment_id,torg.enrollment_id,torg.student_name,torg.amount ,DATE_FORMAT(torg.createdate ,'%d-%b-%Y') createdate FROM tbl_org_transactions torg
+                                        WHERE org_id=" . $_SESSION['loginId'] . " $condions");
+		/* $transactions = $this->db->where(["org_id" => $_SESSION['loginId']])->get("tbl_org_transactions");
+		return $transactions; */
+		//$transactions = $this->db->query("SELECT * FROM tbl_org_transactions WHERE org_id=".$_SESSION['loginId'])->result() ;
+	}
+	
+	public function getdocs($studentid){
+		$chk = $this->db->where(["studentId" => $studentId, "isactive" => 1])->get("tbl_student_file_upload");
+		return $chk;
+	}
+	
 
     public function mChangeEnrollMentStatus() {
         $enrollmentId = FILTER_VAR(trim($this->input->post('enrollmentId')), FILTER_SANITIZE_STRING);
@@ -2760,16 +2867,36 @@ class University_model extends CI_Model {
         if ($chks->num_rows() > 0) {
             return '{"status":"error", "msg":"Duplicate Status"}';
         }
-        $chk = $this->db->query("SELECT * FROM tbl_enroll te INNER JOIN organization_courses oc ON oc.orgCourseId=te.orgCourseId  AND oc.isactive=1
-            WHERE oc.loginId=" . $_SESSION['loginId'] . " AND te.enrollmentId=$enrollmentId AND te.isactive=1");
+        /* $chk = $this->db->query("SELECT * FROM tbl_enroll te INNER JOIN organization_courses oc ON oc.orgCourseId=te.orgCourseId  AND oc.isactive=1
+            WHERE oc.loginId=" . $_SESSION['loginId'] . " AND te.enrollmentId=$enrollmentId AND te.isactive=1"); */
+			$chk = $this->db->query("SELECT * FROM tbl_enroll where enrollmentId=$enrollmentId AND isactive=1");
         if ($chk->num_rows() > 0) {
             $uData = ["updatedAt" => $this->datetimenow(), "status" => $status];
             $resp = $this->db->where("enrollmentId", $enrollmentId)->update("tbl_enroll", $uData);
             ($resp ? $this->addActivityLog($_SESSION['loginId'], "Enrollment Status Changed by " . $_SESSION['orgName'] . "", "tbl_enroll", "0") : "");
-            $response = ($resp ? $this->sendEnrollEmail($enrollmentId, $status, $message, $chk) : "");
-            return ($resp ? '{"status":"success", "msg":"Status changed successfully! ' . $response . '"}' : '{"status":"error", "msg":"Some error occured."}');
+            //$response = ($resp ? $this->sendEnrollEmail($enrollmentId, $status, $message, $chk) : "");
+            return ($resp ? '{"status":"success", "msg":"Status changed successfully! "}' : '{"status":"error", "msg":"Some error occured."}');
         }
     }
+	 public function mnotifyMsg() {
+		 
+		$enrollmentId = FILTER_VAR(trim($this->input->post('enrollmentId')), FILTER_SANITIZE_STRING);
+        $orgId = FILTER_VAR(trim($this->input->post('orgId')), FILTER_SANITIZE_STRING);
+        $studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+        $msg = FILTER_VAR(trim($this->input->post('msg')), FILTER_SANITIZE_STRING);
+		$msgFrom = FILTER_VAR(trim($this->input->post('msgFrom')), FILTER_SANITIZE_STRING);
+        $msgTo = FILTER_VAR(trim($this->input->post('msgTo')), FILTER_SANITIZE_STRING);
+		
+		if (empty($enrollmentId) || empty($orgId) || empty($studentId) || empty($msg)|| empty($msgFrom)|| empty($msgTo)) {
+            return '{"status":"error", "msg":"Required details are empty!"}';
+        }
+		$iData = ["orgId" => $orgId, "enrollmentId" => $enrollmentId, "studentId" => $studentId, "msg" => $msg,"msgFrom" => $msgFrom,"msgTo" => $msgTo];
+            $res = $this->db->insert("tbl_notifications_msg", $iData);
+            
+            return($res ? '{"status":"success", "msg":"Saved Successfully"}' : '{"status":"error", "msg":"Error in server, please contact admin!"}');
+	
+		 
+	 }
 
     public function sendEnrollEmail($enrollmentId, $status, $message, $chk) {
         $rowData = ($chk->num_rows() > 0 ? $chk->row() : "");

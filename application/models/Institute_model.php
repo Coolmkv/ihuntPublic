@@ -12,7 +12,7 @@ class Institute_model extends CI_Model {
     public function mgetDashboardDetails() {
         return $this->db->query("SELECT (SELECT COUNT(*)  FROM faculty_details WHERE loginId=" . $_SESSION['loginId'] . " and isactive=1) AS totalemployees,
                                     (SELECT COUNT(*) FROM pages WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalpages,
-                                    (SELECT COUNT(*) FROM institute_course_details WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as courses,
+                                    (SELECT COUNT(*) FROM organisation_courses WHERE login_id=" . $_SESSION['loginId'] . " AND is_active=1) as courses,
                                     (SELECT COUNT(*) FROM minimum_qualification WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totaleligibility,
                                     (SELECT COUNT(*) FROM brouchers WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalbrochures,
                                     (SELECT COUNT(*) FROM placement WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalplacements,
@@ -1035,7 +1035,8 @@ class Institute_model extends CI_Model {
         if (!isset($_SESSION['loginId'])) {
             return '{"status":"error", "msg":"Unauthorised access!"}';
         }
-        $qry = $this->db->query("SELECT * FROM course_type where isactive=1 order by courseType ASC");
+        //$qry = $this->db->query("SELECT * FROM course_type where isactive=1 order by courseType ASC");
+        $qry = $this->db->query("SELECT * FROM institute_course where isactive=1 order by title ASC");
         if ($qry->num_rows() > 0) {
             $response = $qry->result();
         } else {

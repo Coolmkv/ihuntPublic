@@ -214,7 +214,11 @@ if (isset($_SESSION['userType'])) {
 
                             <div class="row">
                                 <div class="col-xs-6" >
-                                    <button type="button" class="btn btn-primary btn-block btn-flat" data-toggle="modal" data-target="#myModalask">Forget Password</button>
+                                    <button type="button" class="btn btn-primary btn-block btn-flat" >
+										<a href="<?php echo site_url('forgotpassword?type=org'); ?>">
+											Forget Password
+										</a>
+									</button>
                                 </div>
                                 <div class="col-xs-6">
                                     <button type="submit"  style="background-color: #faa71a" class="btn  btn-block btn-flat" name="loginadmin" id="login" >Sign in</button>
@@ -230,28 +234,7 @@ if (isset($_SESSION['userType'])) {
             </div>
         </div>
         <!--------------------------------pop up------------------------------>
-        <div class="modal fade" id="myModalask" role="dialog" style="z-index:9999;">
-            <div class="modal-dialog">
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Forget Password</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <form action="services/forget-password.php" id="forget_form" name="forget_form" method='post'>
-                            <label><b>Email</b></label>
-                            <input type="email" placeholder="Please Enter Your Registered Email Address" name="email" id="email" required>
-                            <p id="message"></p>
-                            <button type="submit"class="btn btn-primary" id="forget" name='forget'>S E N D</button>
-                        </form>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
         <script src="<?php echo base_url(); ?>plugins/jQuery/jquery-3.2.1.min.js"></script>
         <script src="<?php echo base_url(); ?>plugins/jQuery/jquery.form.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>

@@ -37,6 +37,7 @@
                                             <th>Web site Link</th>
                                             <th>Enquiry/Enroll</th>
                                             <th>Send Message</th>
+											<th>Change Order</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -220,7 +221,8 @@
                         json[i].orgAddress,
                         weblink,
                         enqenroll,
-                        '<button type="button" onClick="sendNotificationMessage(\'' + json[i].orgIdc + '\'); " class="btn btn-xs btn-primary">Send Message</button>'
+                        '<button type="button" onClick="sendNotificationMessage(\'' + json[i].orgIdc + '\'); " class="btn btn-xs btn-primary">Send Message</button>',
+						'<button type="button" onClick="changeOrder(\'' + json[i].orgIdc + '\'); " class="btn btn-xs btn-info">Change Order</button>'
                     ]);
                 }
             },
@@ -243,6 +245,10 @@
         $("#sendMessage").modal("show");
         $("#org_Id").val(orgId);
     }
+    function changeOrder(orgId){
+        $("#changeOrder").modal("show");
+        $("#organization_Id").val(orgId);
+	}
 </script>
 
 <script type="text/javascript">
@@ -250,6 +256,52 @@
     $(".univControls_link").addClass("active");
     document.title = "iHuntBest | University Controls";
 </script>
+
+<div class="modal fade" id="changeOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header modal-header-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3><i class="fa fa-envelope-o"></i> Change Order</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+
+						<?php echo form_open('superadmin/changeOrganizationOrder', ["name" => "changeOrdersubmit_form", "id" => "changeOrdersubmit_form"]); ?>
+						<fieldset>
+							<!-- Text input-->
+							<div class="col-md-12 form-group">
+								<label class="control-label">Current Position </label>
+								<input type="text" disabled
+									   placeholder="Reference" id="current_position_id" name="current_position_id" data-validation="required" class="form-control">
+							</div>
+							<div class="col-md-12 form-group">
+								<label class="control-label">Set Position </label>
+								<input type="number" min="1"
+									   placeholder="Set Position" id="set_position_id" name="set_position_id" data-validation="required" class="form-control">
+
+							</div>
+
+							<input type="hidden" class="hidden" name="orgId" id="organization_Id" value="">
+							<div class="col-md-6 form-group user-form-group">
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary" id="changeOrder">
+										Change
+									</button>
+								</div>
+							</div>
+						</fieldset>
+						<?php echo form_close(); ?>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
 <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

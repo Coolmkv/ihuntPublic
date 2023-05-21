@@ -12,6 +12,11 @@ class Home extends CI_Controller {
         }
         $this->load->library('image_lib');
         $this->load->model("Home_model");
+        $this->load->model("College_model");
+        $this->load->model("University_model");
+        $this->load->model("Student_model");
+        $this->load->model("Institute_model");
+		
         $this->encryption->initialize(
                 array(
                     'cipher' => 'aes-256',
@@ -32,6 +37,7 @@ class Home extends CI_Controller {
         $getCollegesRes = $this->Home_model->mgetOrganizationDetails('College', "");
         ($getCollegesRes ? $data['collegesRes'] = $getCollegesRes : $data["error"] = "");
         $universityRes = $this->Home_model->mgetOrganizationDetails('University', "");
+
         ($universityRes ? $data['universityRes'] = $universityRes : $data["error"] = "");
         $SchoolRes = $this->Home_model->mgetOrganizationDetails('School', "");
         ($SchoolRes ? $data['schoolRes'] = $SchoolRes : $data["error"] = "");
@@ -126,30 +132,36 @@ class Home extends CI_Controller {
     //organization details start
     public function orgDetails() {
         $orgIda = explode("_", $this->uri->segment(2));
-        if (count($orgIda) == "2") {
+        if (count($orgIda) >= "2") {
             $orgId = $orgIda[0];
             $orgName = $orgIda[1];
+            if(isset($orgIda[2])){
+            	$OrgCourseId = $orgIda[2];
+			}else{
+				$OrgCourseId = "";
+			}
+			$data = [];
+			$getOrgDetails = $this->Home_model->mGetorgDetails($orgId, $orgName);
+			($getOrgDetails ? $data['orgDetails'] = $getOrgDetails : redirect('Home/index'));
+
+			$getPreferredCourse = $this->Home_model->mGetPrefferedCourse($orgId);
+			($getPreferredCourse ? $data['orgPreferredCourse'] = $getPreferredCourse : "");
+			$getOrgSlides = $this->Home_model->mGetorgSliderImages($orgId);
+			($getOrgSlides ? $data['orgSlides'] = $getOrgSlides : "");
+
+			$schoolCourseDetails = $this->Home_model->mGetEventsData($orgId);
+			($schoolCourseDetails ? $data['schoolCourses'] = $schoolCourseDetails : "");
+
+			$approvalDocuments = $this->Home_model->mGetApprovalDocs($orgId);
+			($approvalDocuments ? $data['approvalDocs'] = $approvalDocuments : "");
+
+			$orgPages = $this->Home_model->mGetPageNames($orgId);
+			($orgPages ? $data['pageNames'] = $orgPages : "");
+			$this->load->view("home/organization_details_view", array_merge($this->getTabsData($orgId,$OrgCourseId), $data, $this->getGoogleMap($getOrgDetails)));
         } else {
             redirect('Home/index');
         }
-        $getOrgDetails = $this->Home_model->mGetorgDetails($orgId, $orgName);
-        ($getOrgDetails ? $data['orgDetails'] = $getOrgDetails : redirect('Home/index'));
 
-        $getPrefferedCourse = $this->Home_model->mGetPrefferedCourse($orgId);
-        ($getPrefferedCourse ? $data['orgPreferredCourse'] = $getPrefferedCourse : "");
-        $getOrgSlides = $this->Home_model->mGetorgSliderImages($orgId);
-        ($getOrgSlides ? $data['orgSlides'] = $getOrgSlides : "");
-
-        $schoolCourseDetails = $this->Home_model->mGetEventsData($orgId);
-        ($schoolCourseDetails ? $data['schoolCourses'] = $schoolCourseDetails : "");
-
-        $approvalDocuments = $this->Home_model->mGetApprovalDocs($orgId);
-        ($approvalDocuments ? $data['approvalDocs'] = $approvalDocuments : "");
-
-        $orgPages = $this->Home_model->mGetPageNames($orgId);
-        ($orgPages ? $data['pageNames'] = $orgPages : "");
-
-        $this->load->view("home/organization_details_view", array_merge($this->getTabsData($orgId), $data, $this->getGoogleMap($getOrgDetails)));
     }
 
     private function getGoogleMap($getOrgDetails) {
@@ -173,34 +185,39 @@ class Home extends CI_Controller {
         return $data;
     }
 
-    private function getTabsData($orgId) {
-        $reqfacailities = $this->Home_model->mGetReqFacility($orgId);
-        ($reqfacailities ? $data['reqFacility'] = $reqfacailities : "");
+    private function getTabsData($loginId,$OrgCourseId) {
+        $reqFacilities = $this->Home_model->mGetReqFacility($loginId);
+        ($reqFacilities ? $data['reqFacility'] = $reqFacilities : "");
 
-        $getSeats = $this->Home_model->mGetOrgSeatsDetails($orgId);
+        $getSeats = $this->Home_model->mGetOrgSeatsDetails($loginId);
         ($getSeats ? $data['orgSeats'] = $getSeats : "");
 
-        $getCoursed = $this->Home_model->mGetOrgCourseDetails($orgId);
+        $getCoursed = $this->Home_model->mGetOrgCourseDetails($loginId);
         ($getCoursed ? $data['orgCourseDetails'] = $getCoursed : "");
 
         $getCourseType = $this->Home_model->mGetOrgCourseType();
         ($getCourseType ? $data['orgCourseType'] = $getCourseType : "");
 
-        $getGallery = $this->Home_model->mGetOrgGallery($orgId);
+        $getGallery = $this->Home_model->mGetOrgGallery($loginId);
         ($getGallery ? $data['orgGallery'] = $getGallery : "");
 
-        $getOrgCourses = $this->Home_model->mGetOrgCourses($orgId, "");
-        ($getOrgCourses ? $data['orgCourses'] = $getOrgCourses : "");
+        $getOrgCourses = $this->Home_model->mGetOrgCourses($loginId, "");
 
-        $getPlacementdata = $this->Home_model->mGetPlacementData($orgId);
+        ($getOrgCourses ? $data['orgCourses'] = $getOrgCourses : "");
+		if($OrgCourseId){
+			$getCourseDetails = $this->Home_model->mGetOrgCourses($loginId,"",$OrgCourseId);
+			 
+			($getCourseDetails ? $data['orgSelectedCourseDetails'] = $getCourseDetails : "");
+		}
+        $getPlacementdata = $this->Home_model->mGetPlacementData($loginId);
         ($getPlacementdata ? $data['orgPlacement'] = $getPlacementdata : "");
 
-        $facultydetails = $this->Home_model->mGetFacultyData($orgId);
+        $facultydetails = $this->Home_model->mGetFacultyData($loginId);
         ($facultydetails ? $data['orgfaculty'] = $facultydetails : "");
 
-        $achievments = $this->Home_model->mGetAchievementData($orgId);
+        $achievments = $this->Home_model->mGetAchievementData($loginId);
         ($achievments ? $data['achievements'] = $achievments : "");
-        $rtabs = $this->remainingTabs($orgId);
+        $rtabs = $this->remainingTabs($loginId);
         return array_merge($data, $rtabs);
     }
 
@@ -222,15 +239,15 @@ class Home extends CI_Controller {
     }
 
     public function getEnrollData() {
-        $reqType = FILTER_VAR(trim($this->input->post('reqType')), FILTER_SANITIZE_STRING);
+        $reqType = FILTER_VAR(trim($this->input->post('reqType')));
         if ($reqType === "Enqiry") {
             $this->getEnqiryDetails();
             $this->viewMessage($this->getEnqiryDetails());
         } else if (isset($_SESSION['studentId']) && $reqType == "") {
-            $id = FILTER_VAR(trim(base64_decode($this->input->post('id'))), FILTER_SANITIZE_STRING);
-            $type = FILTER_VAR(trim($this->input->post('type')), FILTER_SANITIZE_STRING);
-            $courseId = FILTER_VAR(trim($this->input->post('courseId')), FILTER_SANITIZE_STRING);
-            $orgCourseId = FILTER_VAR(trim($this->input->post('orgCourseId')), FILTER_SANITIZE_STRING);
+            $id = FILTER_VAR(trim(base64_decode($this->input->post('id'))));
+            $type = FILTER_VAR(trim($this->input->post('type')));
+            $courseId = FILTER_VAR(trim($this->input->post('courseId')));
+            $orgCourseId = FILTER_VAR(trim($this->input->post('orgCourseId')));
             if (empty($id) || empty($type) || !isset($_SESSION['studentId'])) {
                 $this->viewMessage($this->Home_model->notLoggedIn("nodata"));
             } else {
@@ -240,19 +257,23 @@ class Home extends CI_Controller {
             $this->viewMessage($this->Home_model->notLoggedIn("login"));
         }
     }
-
+	
+	public function setenroll(){
+$this->load->view("home/enrollset");
+	}
+	
     private function getEnqiryDetails() {
-        $id = FILTER_VAR(trim(base64_decode($this->input->post('id'))), FILTER_SANITIZE_STRING);
-        $type = FILTER_VAR(trim($this->input->post('type')), FILTER_SANITIZE_STRING);
-        $courseId = FILTER_VAR(trim($this->input->post('courseId')), FILTER_SANITIZE_STRING);
-        $orgCourseId = FILTER_VAR(trim($this->input->post('orgCourseId')), FILTER_SANITIZE_STRING);
+        $id = FILTER_VAR(trim(base64_decode($this->input->post('id'))));
+        $type = FILTER_VAR(trim($this->input->post('type')));
+        $courseId = FILTER_VAR(trim($this->input->post('courseId')));
+        $orgCourseId = FILTER_VAR(trim($this->input->post('orgCourseId')));
         return $this->Home_model->mGetEnquiryDetails($id, $type, $courseId, $orgCourseId);
     }
 
     //organization details end
     //get all organisations start
     public function allOrganizations() {
-        $type = FILTER_VAR(trim($this->input->get("Type")), FILTER_SANITIZE_STRING);
+        $type = FILTER_VAR(trim($this->input->get("Type")));
         if ($type === 'College' || $type === 'University' || $type === 'Institute' || $type === 'School') {
 
             $orgDetails = $this->Home_model->mGetOrganisationDetails($type, '0', '9');
@@ -284,8 +305,8 @@ class Home extends CI_Controller {
     }
 
     public function loadMoreOrg() {
-        $type = FILTER_VAR(trim($this->input->post("type")), FILTER_SANITIZE_STRING);
-        $start = FILTER_VAR(trim($this->input->post("start")), FILTER_SANITIZE_STRING);
+        $type = FILTER_VAR(trim($this->input->post("type")));
+        $start = FILTER_VAR(trim($this->input->post("start")));
         if ($type === 'College' || $type === 'University' || $type === 'Institute' || $type === 'School') {
 
             $orgDetails = $this->Home_model->mGetOrganisationDetails($type, $start, $records = 9);
@@ -307,7 +328,7 @@ class Home extends CI_Controller {
 
     public function comapreOrganizations() {
         $loginIdsIds = filter_var_array($this->input->post("checkedData"));
-        $type = FILTER_VAR(trim($this->input->post("type")), FILTER_SANITIZE_STRING);
+        $type = FILTER_VAR(trim($this->input->post("type")));
         if (!empty($loginIdsIds) && count($loginIdsIds) == 2) {
             $start = 0;
             $orgDetails = $this->Home_model->mGetOrganisationDetails($type, $start, $records = 9);
@@ -329,7 +350,7 @@ class Home extends CI_Controller {
     //get all organisations end
     //filter by cat start
     public function filterByCat() {
-        $type = FILTER_VAR(trim($this->input->get("Type")), FILTER_SANITIZE_STRING);
+        $type = FILTER_VAR(trim($this->input->get("Type")));
         if ($type !== 'College' && $type !== 'University' && $type !== 'Institute' && $type !== 'School') {
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -358,7 +379,7 @@ class Home extends CI_Controller {
     }
 
     public function filterOrganisations() {
-        $type = FILTER_VAR(trim($this->input->post("Type")), FILTER_SANITIZE_STRING);
+        $type = FILTER_VAR(trim($this->input->post("Type")));
         $orgid = $this->input->post('orgid');
         if (!empty($orgid)) {
             $loginid = array_unique(filter_var_array($orgid));
@@ -470,8 +491,47 @@ class Home extends CI_Controller {
 
     //religion end
     //#enrollNow start
-    public function enrollNow() {
-        $this->viewMessage($this->Home_model->mEnrollNow());
+    public function enrollNow() 
+	{	
+		if($this->input->post("singlebutton")) 
+		{
+			$singlebutton = FILTER_VAR(trim($this->input->post('singlebutton')));
+			if($singlebutton == "Enroll Now")
+			{	
+				if(isset($_SESSION['studentId'])) 
+				{
+					$data['ordId'] = FILTER_VAR(trim(base64_decode($this->input->post('lgId'))));
+					$data['orgType'] = FILTER_VAR(trim($this->input->post('orgType')));
+				$data['courseId'] = FILTER_VAR(trim($this->input->post('courseId')));
+				$data['orgCourseId']= FILTER_VAR(trim($this->input->post('orgCourseId')));
+					
+					if (empty($data['ordId']) || empty($data['orgType'] ) || !isset($_SESSION['studentId'])) 
+					{
+						$this->viewMessage($this->Home_model->notLoggedIn("nodata"));
+					}
+					else 
+					{
+						$data['CourseInfo'] = $this->Home_model->getCourseInfo($data['orgCourseId'], $data['courseId'], $data['orgType'],$data['ordId'], false);
+						
+						$data['OrgInfo'] = $this->Home_model->mgetEnrollOrgData($data['ordId'], $data['orgType'],true);	
+						// $data['enrollId'] = $this->Home_model->mEnrollNow();		
+						
+						$this->load->view("home/shared/header");
+						$this->load->view("checkout",$data);
+						$this->load->view("home/shared/footer");
+					}					
+					// $this->viewMessage($this->Home_model->mEnrollNow());
+				}
+				else 
+				{
+					$this->viewMessage($this->Home_model->notLoggedIn("login"));
+				}				
+			} 
+		}
+		else
+		{
+			redirect(base_url());
+		}	
     }
 
     //#enrollNow End
@@ -525,7 +585,7 @@ class Home extends CI_Controller {
     }
 
     public function setCountry() {
-        $countryId = FILTER_VAR(trim($this->input->post('countryId')), FILTER_SANITIZE_STRING);
+        $countryId = FILTER_VAR(trim($this->input->post('countryId')));
         $set = $this->Home_model->mSetCountrys($countryId);
         if ($set == "done") {
             $this->viewMessage('{"status":"success", "msg":"Country set successful."}');
@@ -533,14 +593,20 @@ class Home extends CI_Controller {
             $this->viewMessage('{"status":"error", "msg":"Country not found!"}');
         }
     }
-
+public function stateValue() {
+	unset($_SESSION['stateId']);
+        $id = FILTER_VAR(trim($this->input->post('stateId')), FILTER_SANITIZE_NUMBER_INT);
+        if (!empty($id)) {
+            $_SESSION['stateId'] = $id;
+		}
+		}
 //org Home page filter start
     public function filterOrganisationsHome() {
-        $type = FILTER_VAR(trim($this->input->post('orgType')), FILTER_SANITIZE_STRING);
-        $ratings = FILTER_VAR(trim($this->input->post('ratings')), FILTER_SANITIZE_STRING);
-        $feeminValue = FILTER_VAR(trim($this->input->post('feeminValue')), FILTER_SANITIZE_STRING);
-        $feemaxValue = FILTER_VAR(trim($this->input->post('feemaxValue')), FILTER_SANITIZE_STRING);
-        $courseIds = FILTER_VAR(trim($this->input->post('courseIds')), FILTER_SANITIZE_STRING);
+        $type = FILTER_VAR(trim($this->input->post('orgType')));
+        $ratings = FILTER_VAR(trim($this->input->post('ratings')));
+        $feeminValue = FILTER_VAR(trim($this->input->post('feeminValue')));
+        $feemaxValue = FILTER_VAR(trim($this->input->post('feemaxValue')));
+        $courseIds = FILTER_VAR(trim($this->input->post('courseIds')));
         $loginIds = ($this->input->post('loginIds') ? implode(",", $this->input->post('loginIds')) : "");
 
         $conditions = "";
@@ -577,9 +643,9 @@ class Home extends CI_Controller {
 
     //Enquiry Now End
     public function getHelpContent() {
-        $categories = FILTER_VAR(trim($this->input->post('categories')), FILTER_SANITIZE_STRING);
-        $helpId = FILTER_VAR(trim($this->input->post('helpId')), FILTER_SANITIZE_STRING);
-        $searchTerm = FILTER_VAR(trim($this->input->post('searchTerm')), FILTER_SANITIZE_STRING);
+        $categories = FILTER_VAR(trim($this->input->post('categories')));
+        $helpId = FILTER_VAR(trim($this->input->post('helpId')));
+        $searchTerm = FILTER_VAR(trim($this->input->post('searchTerm')));
         if ($categories === "categories") {
             $qry = $this->db->where(["parentId" => "0", "isactive" => 1])->get("tbl_helpcategory");
             ($qry->num_rows() > 0 ? $data["categories"] = $qry->result() : $data["error"] = "");
@@ -639,16 +705,16 @@ class Home extends CI_Controller {
     //Add Class Name End
     //Add Course Name Start
     public function addCourseName() {
-        $courseType = FILTER_VAR(trim($this->input->post('courseType')), FILTER_SANITIZE_STRING);
-        $CourseName = FILTER_VAR(trim($this->input->post('courseName')), FILTER_SANITIZE_STRING);
-        $StreamName = FILTER_VAR(trim($this->input->post('StreamName')), FILTER_SANITIZE_STRING);
+        $courseType = FILTER_VAR(trim($this->input->post('courseType')));
+        $CourseName = FILTER_VAR(trim($this->input->post('CourseName')));
+        $StreamName = FILTER_VAR(trim($this->input->post('StreamName')));
         $this->viewMessage($this->Home_model->mAddCourseName($courseType, $CourseName, $StreamName));
     }
 
     public function addCourseStreamName() {
-        $courseType = FILTER_VAR(trim($this->input->post('courseType')), FILTER_SANITIZE_STRING);
-        $CourseName = FILTER_VAR(trim($this->input->post('courseName')), FILTER_SANITIZE_STRING);
-        $StreamName = FILTER_VAR(trim($this->input->post('StreamName')), FILTER_SANITIZE_STRING);
+        $courseType = FILTER_VAR(trim($this->input->post('courseType')));
+        $CourseName = FILTER_VAR(trim($this->input->post('courseName')));
+        $StreamName = FILTER_VAR(trim($this->input->post('StreamName')));
         $this->viewMessage($this->Home_model->mAddCourseStreamName($courseType, $CourseName, $StreamName));
     }
 
@@ -690,31 +756,167 @@ class Home extends CI_Controller {
     public function getcourseTypeBycourse() {
         $this->viewMessage($this->Home_model->mGetcourseTypeBycourse());
     }
+	
+	public function payment_success(){
+		$this->load->view('success');
+	}
+	public function payment_failure(){
+		$this->load->view('failed');
+	}
+
 
     public function privacyPolicyPage() {
         $qry = $this->db->select('privacypolicy')->get("web_users");
         $data["privacypolicy"] = ($qry->num_rows() > 0 ? $qry->row()->privacypolicy : "");
         $this->load->view("home/privacypolicy_view", $data);
     }
+//////////////// footer pages
 
-    //Add Institute Course Name End
-//        public function sendEmailTest() {
-////            $config         =   ['protocol'=>'sendmail','mailpath'=>'/usr/sbin/sendmail','charset'=>'iso-8859-1','wordwrap'=>TRUE,'validate'=>TRUE];
-//            $emailSenders    =   $_SESSION['websiteEmail'];
-//            $emailReceiver  =   "verma.manish@starlingrosy.com";
-//            $body           =   "Hello Testing";
-//            $senderName     =   "Ihunt best";
-//            $subject        =   "Ihunt Email test";
-////            $this->email->initialize($config);
-//            $this->email->from($emailSenders,$senderName);
-//            $this->email->to($emailReceiver);
-//            //$this->email->cc('another@another-example.com');
-//            $this->email->bcc('vermamanish4u@gmail.com');
-//            $this->email->subject($subject);
-//            $this->email->message($body);
-//            $res    =   $this->email->send();
-//            echo $emailSenders.":".$res;
-//            return ($res?"Sent Successfully":"Sending Failed");
-//        }
-    //Advertise with Us End
+	 public function genesis() {
+       $blogs = $this->Home_model->mGetgenesis();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hgenesis_view", $data);
+    }
+	    
+	 public function pressRelease() {
+        $blogs = $this->Home_model->mGetPressRelease();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hpressRelease_view", $data);
+    }
+	   
+ public function cancelAndReturn() {
+        $blogs = $this->Home_model->mGetCancelAndReturn();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hcancelAndReturn_view", $data);
+    }
+	    
+	public function ihuntBestCares() {
+ $blogs = $this->Home_model->mGetIhuntBestCares();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hihuntBestCares_view", $data);
+    }
+	
+	public function giftSmile() {
+       $blogs = $this->Home_model->mGetGiftSmile();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hgiftSmile_view", $data);
+    }
+	    
+	 public function services() {
+        $blogs = $this->Home_model->mGetServices();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hservices_view", $data);
+    }
+	    
+	 public function ihuntBestStories() {
+        $blogs = $this->Home_model->mGetIhuntBestStories();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hihuntBestStories_view", $data);
+    }
+	  
+	public function support() {
+        $blogs = $this->Home_model->mGetSupport();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hsupport_view", $data);
+    }
+	  
+	public function paymentsSaved() {
+         $blogs = $this->Home_model->mGetPaymentsSaved();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hpaymentsSaved_view", $data);
+    }
+	    
+	 public function cardsShipping() {
+         $blogs = $this->Home_model->mGetCardsShipping();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hcardsShipping_view", $data);
+    }
+	
+	 public function reportInfringement() {
+        $blogs = $this->Home_model->mGetReportInfringement();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hreportInfringement_view", $data);
+    }
+	
+	 public function writeToUs() {
+        $blogs = $this->Home_model->mGetWriteToUs();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hwriteToUs_view", $data);
+    }
+	
+	public function showBrandEmpowerment() {
+        $blogs = $this->Home_model->mGetShowBrandEmpowerment();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hshowBrandEmpowerment_view", $data);
+    }
+	  public function onlineShopping() {
+         $blogs = $this->Home_model->mGetOnlineShopping();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/honlineShopping_view", $data);
+    }
+	
+	 public function affiliateProgram() {
+         $blogs = $this->Home_model->mGetAffiliateProgram();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/haffiliateProgram_view", $data);
+    }
+	 public function giftCardOffer() {
+        $blogs = $this->Home_model->mGetGiftCardOffer();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hgiftCardOffer_view", $data);
+    }
+	 public function firstSubscription() {
+         $blogs = $this->Home_model->mGetFirstSubscription();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hfirstSubscription_view", $data);
+    }
+	  public function siteMap() {
+         $blogs = $this->Home_model->mGetSiteMap();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hsiteMap_view", $data);
+    }
+	 public function returnPolicy() {
+        $blogs = $this->Home_model->mGetReturnPolicy();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hreturnPolicy_view", $data);
+    }
+	  public function termsOfUse() {
+         $blogs = $this->Home_model->mGetTermsOfUse();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/htermsOfUse_view", $data);
+    }
+	  public function securityPolicy() {
+         $blogs = $this->Home_model->mGetSecurityPolicy();
+        ($blogs ? $data["blogs"] = $blogs : $data['error'] = '');
+        $this->load->view("home/hsecurityPolicy_view", $data);
+    }
+    public function getPosterData(){
+    	$posterData = $this->Home_model->mGetValidPosterData();
+    	if($posterData->num_rows()>0){
+			$response = ['status'=>true,'message'=>'Banner data.','data'=>$posterData->result()];
+		}else{
+    		$response = ['status'=>false,'message'=>'Banner data not found','data'=>[]];
+		}
+		$this->output
+			->set_content_type('application/json')
+			->set_status_header(200)
+			->set_output(json_encode($response));
+	}
+
+	public function banner_link(){
+		$identifier = $this->input->get('identifier');
+		$redirect_link = $this->input->get('link');
+		if(!empty($identifier)){
+			$no_of_hits = $this->db->where(['adsId' => $identifier])->select('no_of_hits')->get('advertisement');
+			if($no_of_hits->num_rows()>0){
+				$no_of_hits = $no_of_hits->row();
+				 $this->db->where(['adsId' => $identifier])->update('advertisement', ["no_of_hits" => $no_of_hits->no_of_hits+1]);
+			}
+		}
+		if(!empty($redirect_link)){
+			redirect($redirect_link);
+		}else{
+			redirect(site_url());
+		}
+	}
 }

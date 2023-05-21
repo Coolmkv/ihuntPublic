@@ -1481,44 +1481,54 @@ $currency = (isset($_SESSION['dCurrency']) ? (!empty($_SESSION['dCurrency']) ? $
         for (var key in markingType) {
             mType = mType + '<option value="' + markingType[key] + '"  ' + (markingType[key] === markingTypes ? "selected" : "not") + '>' + markingType[key] + '</option>';
         }
-        $("#course_prerequistesdiv").append('<div class="divadded" id="divremove' + count + '">\n\
-                                     <div class="col-md-12 col-sm-12">\n\
-                                        <div class="col-md-6 col-sm-12"><h4>Select condition between pre-requisites</h4></div> \n\
-                                        \n\<div class="col-md-2 col- col-sm-12  col-md-offset-2"><select name="condition[]" class="form-control" id="relation' + count + '" data-validation="required">\n\
-                                        <option value="AND">AND</option><option value="OR">OR</option></select></div>\n\
-                                    </div>\n\
-                                    <div class="col-md-5 col-sm-12 nopadding">\n\
-                                        <div class="col-md-6 col-sm-12">\n\
-                                            <div class="form-group">\n\
-                                                <label for="Title">Min. Qual. Req.</label>\n\
-                                                    <select class="form-control min_qualification" name="min_qualification[]" onchange="getStream(\'min_qualification' + count + '\',\'\');" id="min_qualification' + count + '" data-validation="required">' + options + '</select>\n\
-                                            </div>\n\
-                                        </div>\n\
-                                        <div class="col-md-6 col-sm-12">\n\
-                                            <div class="form-group">\n\
-                                                <label for="Title">Min. Qual.(Stream)</label>\n\
-                                                    <select class="form-control min_qualificationStream" name="min_qualificationStream[]" id="Streammin_qualification' + count + '" data-validation="required"></select>\n\
-                                            </div>\n\
-                                        </div>\n\
-                                    </div>\n\
-                                    <div class="col-md-6 col-sm-12">\n\
-                                        <div class="col-md-6 col-sm-12">\n\
-                                            <div class="form-group">\n\
-                                                <label for="Title">Marking Type</label>\n\
-                                                <select name="markingType[]" id="markingType' + count + '" class="form-control markingType" data-validation="required">' + mType + '</select>\n\
-                                            </div>\n\
-                                        </div>\n\
-                                        <div class="col-md-6 col-sm-12">\n\
-                                            <div class="form-group">\n\
-                                                <label for="Title">Marking Value</label>\n\
-                                                <input type="text" class="form-control" name="min_percentage[]" placeholder="90%,A or Any" value="' + percentage + '" id="min_percentage' + count + '" data-validation="required">\n\
-                                            </div>\n\
-                                        </div>\n\
-                                    </div>\n\
-                                    <div class="col-md-1 col-sm-12">\n\
-                                        <br><a href="javascript:" onclick="removediv(\'divremove' + count + '\');" class="remove_field fa fa-remove btn btn-danger"></a>\n\
-                                    </div>\n\
-                                </div>'); //add input box
+        $("#course_prerequistesdiv").append('<div class="divadded" id="divremove' + count + '">' +
+				'<div class="col-md-12 col-sm-12">' +
+				'<div class="col-md-6 col-sm-12">' +
+				'<h4>Select condition between pre-requisites</h4>' +
+				'</div>' +
+				'<div class="col-md-2 col- col-sm-12  col-md-offset-2">' +
+				'<select name="condition[]" class="form-control" id="relation' + count + '" data-validation="required">' +
+				'<option value="AND">AND</option>' +
+				'<option value="OR">OR</option>' +
+				'</select>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-md-5 col-sm-12 nopadding">' +
+				'<div class="col-md-6 col-sm-12">' +
+				'<div class="form-group">' +
+				'<label for="Title">Min. Qual. Req.</label>' +
+				'<select class="form-control min_qualification" name="min_qualification[]" ' +
+				'onchange="getStream(\'min_qualification' + count + '\',\'\');" id="min_qualification' + count + '"' +
+				' data-validation="required">' + options + '</select>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-md-6 col-sm-12">' +
+				'<div class="form-group">' +
+				'<label for="Title">Min. Qual.(Stream)</label>' +
+				'<select class="form-control min_qualificationStream" name="min_qualificationStream[]" ' +
+				'id="Streammin_qualification' + count + '" data-validation="required"></select>' +
+				'</div>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-md-6 col-sm-12">' +
+				'<div class="col-md-6 col-sm-12"> ' +
+				'<div class="form-group">' +
+				'<label for="Title">Marking Type</label> ' +
+				'<select name="markingType[]" id="markingType' + count + '" ' +
+				'class="form-control markingType" data-validation="required">' + mType + '</select>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-md-6 col-sm-12">' +
+				'<div class="form-group">' +
+				'<label for="Title">Marking Value</label>' +
+				'<input type="text" class="form-control" name="min_percentage[]" placeholder="90%,A or Any" ' +
+				'value="' + percentage + '" id="min_percentage' + count + '" data-validation="required"> ' +
+				'</div>' +
+				'</div>' +
+				'</div>' +
+				'<div class="col-md-1 col-sm-12">' +
+				'<br>' +
+				'<a href="javascript:" onclick="removediv(\'divremove' + count + '\');" class="remove_field fa fa-remove btn btn-danger"></a>                                    </div>                                </div>'); //add input box
 
     }
     function removediv(id) {

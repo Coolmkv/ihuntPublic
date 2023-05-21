@@ -69,6 +69,10 @@ class Register extends CI_Controller {
     function loginWithGoogle() {
         $this->viewMessage($this->Register_model->registerOrLoginGoogle());
     }
+	
+	function loginWithFaceBook() {
+        $this->viewMessage($this->Register_model->registerOrLoginFacebook());
+    }
 
     private function viewMessage($message) {
         $data["message"] = $message;

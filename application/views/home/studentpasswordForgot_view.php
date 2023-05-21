@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>iHuntBest | SuperAdmin Log in</title>
+        <title>iHuntBest | Forgot Password</title>
         <link rel="icon" href="<?php echo base_url();?>images/fav.png" type="image/jpg" sizes="30x30">
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }else{
                         $.ajax({
                             type:"POST",
-                            url:'<?php echo site_url('home/codegenrations'); ?>',
+                            url:'<?php echo site_url('home/codegenrations?type=').$this->input->get('type'); ?>',
                             data:{emailid:emailid},                             
                             success:function (response){
                                var result = $.parseJSON(response);

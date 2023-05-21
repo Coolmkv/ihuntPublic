@@ -1056,8 +1056,77 @@ class Superadmin extends CI_Controller {
     public function newsletterplan() {
         $this->authenticate();
         $this->load->view("superadmin/news_letter_plan_view");
+    }		 
+	
+	public function enrollments() {  
+	$this->authenticate();       
+	$this->load->view("superadmin/enrollments_view");    
+	}
+	
+	public function transactions() {  
+	$this->authenticate();       
+	$this->load->view("superadmin/transactions_view");    
+	}
+	
+	
+	public function messageStatus() {  
+	$this->authenticate();       
+	$this->load->view("superadmin/message_view");    
+	}
+	
+	
+	 public function changeMsgStatus() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mChangeMessageStatus());
     }
+		 
+	    public function getMessage()
+		{ 
+	 $this->authenticate();       
+	 $this->viewMessage($this->Superadmin_model->mgetMessage());    
+	 }
+	 
+	
+     public function getEnrollApplications() { 
+	 $this->authenticate();       
+	 $this->viewMessage($this->Superadmin_model->mGetEnrollApplications());    
+	 }
+	 
+	 
+	 public function getTransactions() {
+		 $this->authenticate();       
+	     $this->viewMessage($this->Superadmin_model->mGetTransactions());
+	 }
 
+	 	public function getEnrollData() {
+
+            $id = FILTER_VAR(trim($this->input->post('orgId')), FILTER_SANITIZE_STRING);
+            $type = FILTER_VAR(trim($this->input->post('type')), FILTER_SANITIZE_STRING);
+            $courseId = FILTER_VAR(trim($this->input->post('courseId')), FILTER_SANITIZE_STRING);
+            $orgCourseId = FILTER_VAR(trim($this->input->post('orgCourseId')), FILTER_SANITIZE_STRING);
+			$studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+			$_SESSION['studentId']=$studentId;
+			// echo $id. $type.$courseId.$orgCourseId;
+			
+			
+            if ( empty($type) || !isset($studentId)) {
+                $this->viewMessage($this->Superadmin_model->notLoggedIn("nodata"));
+            } else {
+                $this->viewMessage($this->Superadmin_model->mGetEnrollData($id, $type,$studentId, $courseId, $orgCourseId));
+            }
+      
+    }
+	 
+	 
+	  public function showMsg() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mshowMsg());
+    }
+	  public function notifyMsg() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mnotifyMsg());
+    }
+	
     public function addNewsletterplan() {
         $this->authenticate();
         $this->Superadmin_model->mAddNewsletterplan();
@@ -1244,6 +1313,7 @@ class Superadmin extends CI_Controller {
         $this->authenticate();
         $this->load->view("superadmin/beforeYouBegin_view");
     }
+	
 
     public function editInsetBeforeYouBegin() {
         $this->authenticate();
@@ -1256,6 +1326,330 @@ class Superadmin extends CI_Controller {
     }
 
     //Before You Begin End
+	//fotter pages view call /////////////////////
+	 public function genesis() {
+        $this->authenticate();
+        $this->load->view("superadmin/genesis_view");
+    }
+	    public function editGenesis() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditGenesis());
+    }
+
+    public function getGenesis() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetGenesis());
+    }
+	
+	 public function pressRelease() {
+        $this->authenticate();
+        $this->load->view("superadmin/pressRelease_view");
+    }
+	    public function editPressRelease() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditPressRelease());
+    }
+
+    public function getPressRelease() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetPressRelease());
+    }
+	
+	 public function ihuntBestCares() {
+        $this->authenticate();
+        $this->load->view("superadmin/ihuntBestCares_view");
+    }
+	    public function editIhuntBestCares() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditIhuntBestCares());
+    }
+
+    public function getIhuntBestCares() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetIhuntBestCares());
+    }
+	
+	 public function giftSmile() {
+        $this->authenticate();
+        $this->load->view("superadmin/giftSmile_view");
+    }
+	    public function editGiftSmile() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditGiftSmile());
+    }
+
+    public function getGiftSmile() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetGiftSmile());
+    }
+	
+	 public function services() {
+        $this->authenticate();
+        $this->load->view("superadmin/services_view");
+    }
+	    public function editServices() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditServices());
+    }
+
+    public function getServices() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetServices());
+    }
+	
+	 public function ihuntBestStories() {
+        $this->authenticate();
+        $this->load->view("superadmin/ihuntBestStories_view");
+    }
+	    public function editIhuntBestStories() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditIhuntBestStories());
+    }
+
+    public function getIhuntBestStories() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetIhuntBestStories());
+    }
+	
+	 public function support() {
+        $this->authenticate();
+        $this->load->view("superadmin/support_view");
+    }
+	    public function editSupport() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditSupport());
+    }
+
+    public function getSupport() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetSupport());
+    }
+	
+	 public function paymentsSaved() {
+        $this->authenticate();
+        $this->load->view("superadmin/paymentsSaved_view");
+    }
+	    public function editPaymentsSaved() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditPaymentsSaved());
+    }
+
+    public function getPaymentsSaved() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetPaymentsSaved());
+    }
+	
+	 public function cardsShipping() {
+        $this->authenticate();
+        $this->load->view("superadmin/cardsShipping_view");
+    }
+	    public function editCardsShipping() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditCardsShipping());
+    }
+
+		public function getCardsShipping() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetCardsShipping());
+    }
+	
+		public function cancelAndReturn() {
+        $this->authenticate();
+        $this->load->view("superadmin/cancelAndReturn_view");
+    }
+	    public function editCancelAndReturn() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditCancelAndReturn());
+    }
+
+		public function getCancelAndReturn() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetCancelAndReturn());
+    }
+	
+		 public function refundPolicy() {
+        $this->authenticate();
+        $this->load->view("superadmin/refundPolicy_view");
+    }
+	    public function editRefundPolicy() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditRefundPolicy());
+    }
+
+		public function getRefundPolicy() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetRefundPolicy());
+    }
+		public function footerContent() {
+        $this->authenticate();
+        $this->load->view("superadmin/footerContent_view");
+    }
+	    public function editFooterContent() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditFooterContent());
+    }
+
+		public function getFooterContent() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetFooterContent());
+    }
+	
+	//////////////////ppppppppppppppppppppppp/////////////////////
+		public function reportInfringement() {
+        $this->authenticate();
+        $this->load->view("superadmin/reportInfringement_view");
+    }
+	    public function editReportInfringement() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditReportInfringement());
+    }
+
+		public function getReportInfringement() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetReportInfringement());
+    }
+	
+		public function writeToUs() {
+        $this->authenticate();
+        $this->load->view("superadmin/writeToUs_view");
+    }
+	    public function editWriteToUs() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditWriteToUs());
+    }
+	
+		public function getWriteToUs() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetWriteToUs());
+    }
+	
+		public function showBrandEmpowerment() {
+        $this->authenticate();
+        $this->load->view("superadmin/showBrandEmpowerment_view");
+    }
+	    public function editShowBrandEmpowerment() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditShowBrandEmpowerment());
+    }
+
+		public function getShowBrandEmpowerment() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetShowBrandEmpowerment());
+    }
+	
+	 public function onlineShopping() {
+        $this->authenticate();
+        $this->load->view("superadmin/onlineShopping_view");
+    }
+	    public function editOnlineShopping() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditOnlineShopping());
+    }
+
+    public function getOnlineShopping() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetOnlineShopping());
+    }
+	
+	 public function affiliateProgram() {
+        $this->authenticate();
+        $this->load->view("superadmin/affiliateProgram_view");
+    }
+	    public function editAffiliateProgram() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditAffiliateProgram());
+    }
+
+    public function getAffiliateProgram() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetAffiliateProgram());
+    }
+	
+	 public function giftCardOffer() {
+        $this->authenticate();
+        $this->load->view("superadmin/giftCardOffer_view");
+    }
+	    public function editGiftCardOffer() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditGiftCardOffer());
+    }
+
+    public function getGiftCardOffer() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetGiftCardOffer());
+    }
+	
+	 public function firstSubscription() {
+        $this->authenticate();
+        $this->load->view("superadmin/firstSubscription_view");
+    }
+	    public function editFirstSubscription() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditFirstSubscription());
+    }
+
+    public function getFirstSubscription() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetFirstSubscription());
+    }
+	
+	 public function siteMap() {
+        $this->authenticate();
+        $this->load->view("superadmin/siteMap_view");
+    }
+	    public function editSiteMap() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditSiteMap());
+    }
+
+    public function getSiteMap() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetSiteMap());
+    }
+	
+	 public function returnPolicy() {
+        $this->authenticate();
+        $this->load->view("superadmin/returnPolicy_view");
+    }
+	    public function editReturnPolicy() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditReturnPolicy());
+    }
+
+    public function getReturnPolicy() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetReturnPolicy());
+    }
+	
+	 public function termsOfUse() {
+        $this->authenticate();
+        $this->load->view("superadmin/termsOfUse_view");
+    }
+	    public function editTermsOfUse() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditTermsOfUse());
+    }
+
+    public function getTermsOfUse() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetTermsOfUse());
+    }
+		 public function securityPolicy() {
+        $this->authenticate();
+        $this->load->view("superadmin/securityPolicy_view");
+    }
+	    public function editSecurityPolicy() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mEditSecurityPolicy());
+    }
+
+    public function getSecurityPolicy() {
+        $this->authenticate();
+        $this->viewMessage($this->Superadmin_model->mGetSecurityPolicy());
+    }
+	
+	
+	//////////////////////////footer pages view call end
     //Page Request Start
     public function pageRequests() {
         $this->authenticate();
@@ -1638,6 +2032,84 @@ class Superadmin extends CI_Controller {
     private function viewMessage($message) {
         $data["message"] = $message;
         $this->load->view("view_message", $data);
+    }
+    /*
+     * All organisation courses to be added.
+     */
+    public function organisationCoursesMaster(){
+		$this->authenticate();
+		$this->load->view("superadmin/all_organisation_course_master_view");
+	}
+
+	public function addOrganisationCourses(){
+		 if($this->authenticate()){
+		 	$response =  $this->Superadmin_model->addCourses();
+			 $data["message"] = json_encode($response);
+		 	$this->load->view("view_message",$data);
+		 }
+	}
+	public function getAllCourseDetails() {
+		if($this->authenticate()){
+			$this->viewMessage($this->Superadmin_model->GetOrganisationsCourses());
+		}else{
+			$this->viewMessage(json_encode(["status"=>"failure","message"=>"Un authenticated","data"=>[]]));
+		}
+
+	}
+	public function delOrganisationCourse(){
+		if($this->authenticate()){
+			$this->viewMessage($this->Superadmin_model->DeleteOrganisationCourse());
+		}else{
+			$this->viewMessage(json_encode(["status"=>"failure","message"=>"Un authenticated","data"=>[]]));
+		}
+	}
+
+    /*
+     * All organisation courses to be added.
+     */
+    public function courseMasters(){
+		$this->authenticate();
+		$this->load->view("superadmin/courseMasters");
+	}
+    
+    /**
+     * addCourseMasters
+     *
+     * @return void
+     */
+    public function addCourseMasters(){
+        if($this->authenticate()){
+            
+            $this->load->model("CourseMasterModel");
+            $response =  $this->CourseMasterModel->insertCourseMaster();
+            $data["message"] = json_encode($response);
+            $this->load->view("view_message",$data);
+        }
+    
+    }
+    
+    /**
+     * getAllCourseMasterDetails
+     *
+     * @return void
+     */
+    public function getAllCourseMasterDetails() {
+		if($this->authenticate()){
+            $this->load->model("CourseMasterModel");
+			$this->viewMessage($this->CourseMasterModel->GetCourseMastersData());
+		}else{
+			$this->viewMessage(json_encode(["status"=>"failure","message"=>"Un authenticated","data"=>[]]));
+		}
+	}
+
+    
+    public function courseMasterEntryDelete(){
+        if($this->authenticate()){
+            $this->load->model("CourseMasterModel");
+			$this->viewMessage(json_encode($this->CourseMasterModel->deleteCourseMastersData()));
+		}else{
+			$this->viewMessage(json_encode(["status"=>"failure","message"=>"Un authenticated","data"=>[]]));
+		}
     }
 
 }

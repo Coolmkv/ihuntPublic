@@ -26,7 +26,7 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
         <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables/dataTables.bootstrap.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/skins/_all-skins.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/skins/skin-blue.min.css">
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="<?php echo base_url('js/html5shiv.min.js');?>"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/checkbox.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/fontawesome-iconpicker.css">
@@ -175,6 +175,18 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
                                 <li class="add_pages_link"><a href="<?php echo site_url('school/addPages'); ?>"><i class="fa  fa-file-text-o"></i>Add Pages</a></li>
                             </ul>
                         </li>
+                        <!-- <li class="add_Classes_link treeview">
+                            <a href="">
+                                <i class="fa fa-cog"></i> <span>Add Classes</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="add_Classes"><a href="<?php //echo site_url('school/addClasses'); ?>"><i class=" fa fa-cog"></i>Add | Show Classes</a></li>
+
+                            </ul>
+                        </li> -->
                         <li class="add_Classes_link treeview">
                             <a href="">
                                 <i class="fa fa-cog"></i> <span>Add Classes</span>
@@ -183,7 +195,7 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="add_Classes"><a href="<?php echo site_url('school/addClasses'); ?>"><i class=" fa fa-cog"></i>Add | Show Classes</a></li>
+                                <li class="add_Classes"><a href="<?php echo site_url('school/addNewClasses'); ?>"><i class=" fa fa-cog"></i>Add | Show Classes</a></li>
 
                             </ul>
                         </li>

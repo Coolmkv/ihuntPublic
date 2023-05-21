@@ -13,8 +13,7 @@ class College_model extends CI_Model {
 
         $res = $this->db->query("SELECT (SELECT COUNT(*)  FROM faculty_details WHERE loginId=" . $_SESSION['loginId'] . " and isactive=1) AS totalemployees,
                                     (SELECT COUNT(*) FROM pages WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalpages,
-                                    (SELECT COUNT(*) FROM organization_courses WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as courses,
-                                    (SELECT COUNT(*) FROM organization_streams WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalstreams,
+                                    (SELECT COUNT(*) FROM organisation_courses WHERE login_id=" . $_SESSION['loginId'] . " AND is_active=1) as courses,
                                     (SELECT COUNT(*) FROM minimum_qualification WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totaleligibility,
                                     (SELECT COUNT(*) FROM brouchers WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalbrochures,
                                     (SELECT COUNT(*) FROM placement WHERE loginId=" . $_SESSION['loginId'] . " AND isactive=1) as totalplacements,

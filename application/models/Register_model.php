@@ -148,7 +148,22 @@ class Register_model extends CI_Model {
 
             return $this->setStudentSession($email);
         }
-    }
+    }				public function registerOrLoginFacebook() {		$name = FILTER_VAR(trim($this->input->post('name')), FILTER_SANITIZE_STRING);        $email = FILTER_VAR(trim($this->input->post('email')), FILTER_SANITIZE_EMAIL); 		//$image = $this->input->post('image');        
+		if (empty($name) || empty($email)) {            return '{"status":"error", "msg":"Details are empty."}';        }        
+		$chk = $this->db->where(["email" => $email])->get("student_login");        
+		if ($chk->num_rows() > 0) {           
+		$sdata = $chk->row();            
+		($sdata->email_verified === '0' ? $this->sendVerificationEmail($email, $sdata->studentName, $sdata->studentId, 'Student') : '');            
+		return $this->setStudentSession($email);        
+		} else {           
+		$password = $name . mt_rand();           
+		$encpass = $this->encryption->encrypt($password);           
+		$data = ["email" => $email, "password" => $password, "password1" => $encpass, "studentName" => $name, "ipAddress" => $this->getRealIpAddr(), "createdAt" => $this->datetimenow(), "isactive" => 1];  
+		$res = $this->db->insert("student_login", $data);           
+		($res ? $this->addStudentDetails($email, $name, $this->db->insert_id()) : '');
+		($res ? $this->sendPasswordEmail($email, $password, $name, $this->db->insert_id()) : '');
+		return $this->setStudentSession($email);        
+		} 	}
 
     private function addStudentDetails($studentEmail, $studentName, $id) {
         $sdetails = ["studentId" => $id, "studentName" => $studentName, "createdAt" => $this->datetimenow(), "isactive" => 1];

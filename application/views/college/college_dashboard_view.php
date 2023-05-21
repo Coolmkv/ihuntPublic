@@ -4,7 +4,7 @@ if (isset($details)) {
     $totalemployees = $details->totalemployees;
     $totalpages = $details->totalpages;
     $courses = $details->courses;
-    $totalstreams = $details->totalstreams;
+    $totalstreams = $details->totalstreams??0;
 //    $totaleligibility       =       $details->totaleligibility;
     $totalbrochures = $details->totalbrochures;
     $totalimages = $details->totalimages;
@@ -154,8 +154,22 @@ if (isset($profilec)) {
                 </a>
                 <!-- /.info-box -->
             </div>
+            <!-- <div class="col-md-3 col-sm-6 col-xs-12">
+                <a href="<?php //echo site_url('college/addCourse'); ?>">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-navy"><i class="fa fa-graduation-cap"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Add Courses</span>
+                            <span class="info-box-number"><?php //echo $courses; ?></span>
+                        </div>
+
+                         
+                    </div>
+                </a> 
+            </div> -->
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <a href="<?php echo site_url('college/addCourse'); ?>">
+                <a href="<?php echo site_url('college/addUpdateCourse'); ?>">
                     <div class="info-box">
                         <span class="info-box-icon bg-navy"><i class="fa fa-graduation-cap"></i></span>
 
@@ -169,21 +183,20 @@ if (isset($profilec)) {
                 </a>
                 <!-- /.info-box -->
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <a href="<?php echo site_url('college/addStreams'); ?>">
+            <!-- <div class="col-md-3 col-sm-6 col-xs-12">
+                <a href="<?php //echo site_url('college/addStreams'); ?>">
                     <div class="info-box">
                         <span class="info-box-icon bg-olive"><i class="fa fa-tasks"></i></span>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Add Streams</span>
-                            <span class="info-box-number"><?php echo $totalstreams; ?></span>
+                            <span class="info-box-number"><?php //echo $totalstreams; ?></span>
                         </div>
 
-                        <!-- /.info-box-content -->
+                         
                     </div>
-                </a>
-                <!-- /.info-box -->
-            </div>
+                </a> 
+            </div> -->
             <!--            <div class="col-md-3 col-sm-6 col-xs-12">
                             <a href="<?php // echo site_url('college/eligibility');             ?>">
                                 <div class="info-box">

@@ -26,7 +26,7 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
         <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables/dataTables.bootstrap.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/skins/_all-skins.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/skins/skin-blue.min.css">
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="<?php echo base_url('js/html5shiv.min.js');?>"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/checkbox.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/fontawesome-iconpicker.css">
@@ -38,6 +38,166 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
 
 
         <![endif]-->
+		<style>
+		div#studentModal {
+    position: fixed;
+    
+    padding-top: 0px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+ background-color: rgba(0, 0, 0, 0.84); 
+}
+img#enqLogo {
+    max-width: 100%;
+}
+h4#en_collegename {
+    font-weight: bold;
+}
+.closediv {
+    text-align: right;
+}
+
+h4.enrollnowlabels {
+    background-color: #faa71a;
+    padding: 7px 0;
+    color: #fff;
+}
+.h4, h4 {
+    margin-top: 0px !important;
+	}
+.control-label {
+    font-weight: 600;
+    color: #212121;
+    font-size: 16px;
+    text-align: right;
+    padding-top: 9px;
+}
+.modal-body {
+    padding: 0 15px !important;
+}
+button#msgId {
+    margin-top: 20px;
+}
+
+ .incoming_msg_img {
+ display: inline-block;
+ width: 6%;
+}
+.input_msg_write {
+   margin: 20px 0;
+}
+.received_msg {
+ display: inline-block;
+ padding: 0 0 0 10px;
+ vertical-align: top;
+ width: 92%;
+}
+.received_withd_msg p {
+ background: #ebebeb none repeat scroll 0 0;
+ border-radius: 3px;
+ color: #646464;
+ font-size: 14px;
+ margin: 0;
+ padding: 5px 10px 5px 12px;
+ width: 100%;
+  word-wrap: break-word;
+}
+.time_date {
+ color: black;
+ display: block;
+ font-size: 12px;
+ margin: 8px 0 0;
+}
+.received_withd_msg { width: 57%;}
+.mesgs {
+ float: left;
+ padding: 30px 15px 0 25px;
+ width: 100%;
+    
+}
+.msg_history {
+height: 400px;
+overflow-y: auto;
+border: 1px solid #ebebeb;
+padding: 10px;
+border-radius: 5px;
+box-shadow: inset 1px -1px 12px 0px #ebebeb;
+}
+
+.sent_msg p {
+ background: #05728f none repeat scroll 0 0;
+ border-radius: 3px;
+ font-size: 14px;
+ margin: 0; color:#fff;
+ padding: 5px 10px 5px 12px;
+ width:100%;
+ word-wrap: break-word;
+}
+.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.sent_msg {
+ float: right;
+ width: 46%;
+}
+.input_msg_write input {
+ background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+ border: 1px solid grey;
+ color: #4c4c4c;
+ font-size: 15px;
+ min-height: 48px;
+ width: 100%;
+ padding: 10px 20px;
+}
+input::placeholder{
+ padding:10px 20px;
+}
+.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+
+.msg_send_btn {
+ background: #05728f none repeat scroll 0 0;
+ border: medium none;
+ border-radius: 50%;
+ color: #fff;
+ cursor: pointer; 
+ font-size: 17px;
+ height: 50px;
+ position: absolute;
+left: 35%;
+   top: 28px;
+ width: 50px;
+}
+.messaging { padding: 0 0 50px 0;}
+.msg_history {
+ height: 400px;
+ overflow-y: auto;
+}
+textarea#stu_msgId {
+    width: 100%;
+}
+i.fa.fa-paper-plane-o{
+	font-size: 22px;
+}
+
+.modal-footer {
+   padding: 15px;
+   text-align: center;
+   border-top: 1px solid #e5e5e5;
+}
+.btn-default {
+   background-color: #f4f4f4;
+   color: #444;
+   border-color: #ddd;
+   margin: 10px 0;
+}
+.sent_msg p a {
+    color: #f5aa22;
+}
+.sent_msg p a:hover {
+    color: #f5aa22a6;
+}
+		</style>
     </head>
     <!--
     BODY TAG OPTIONS:
@@ -194,12 +354,13 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="add_course"><a href="<?php echo site_url('university/addCourse'); ?>"><i class=" fa fa-cog"></i>Add Courses</a></li>
-                                <li class="show_course"><a href="<?php echo site_url('university/showCourses'); ?>"><i class=" fa fa-cog"></i>Show Courses</a></li>
-                                <li class="req_course"><a href="<?php echo site_url('university/requestCourse'); ?>"><i class=" fa fa-plus-circle"></i>Request Courses</a></li>
+								<li class="add_course"><a href="<?php echo site_url('university/addNewCourses'); ?>"><i class=" fa fa-cog"></i>Add New Courses</a></li>
+                                <!-- <li class="add_course"><a href="<?php //echo site_url('university/addCourse'); ?>"><i class=" fa fa-cog"></i>Add Courses</a></li>
+                                <li class="show_course"><a href="<?php //echo site_url('university/showCourses'); ?>"><i class=" fa fa-cog"></i>Show Courses</a></li>
+                                <li class="req_course"><a href="<?php //echo site_url('university/requestCourse'); ?>"><i class=" fa fa-plus-circle"></i>Request Courses</a></li> -->
                             </ul>
                         </li>
-                        <li class="streamDetails_link treeview">
+                        <!-- <li class="streamDetails_link treeview">
                             <a href="">
                                 <i class="fa fa-tasks"></i> <span>Course Streams Details</span>
                                 <span class="pull-right-container">
@@ -207,10 +368,10 @@ if (!isset($_SESSION['userType']) || !isset($_SESSION['loginId'])) {
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="addstream_link"><a href="<?php echo site_url('university/addStreams'); ?>"><i class="fa fa-tasks"></i>Add Course Streams</a></li>
-                                <li class="showstream_link"><a href="<?php echo site_url('university/showStreams'); ?>"><i class="fa fa-tasks"></i>Show Course Streams</a></li>
+                                <li class="addstream_link"><a href="<?php //echo site_url('university/addStreams'); ?>"><i class="fa fa-tasks"></i>Add Course Streams</a></li>
+                                <li class="showstream_link"><a href="<?php //echo site_url('university/showStreams'); ?>"><i class="fa fa-tasks"></i>Show Course Streams</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li class="brochures_link treeview">
                             <a href="">
                                 <i class="fa fa-commenting"></i> <span>Brochures</span>

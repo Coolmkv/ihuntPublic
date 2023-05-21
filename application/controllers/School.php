@@ -840,4 +840,56 @@ class School extends CI_Controller {
         }
     }
 
+    public function addNewClasses() {
+    	if($this->authenticate()){
+    		$this->load->model("CourseMasterModel");
+			$organisation_courses =  $this->CourseMasterModel->getAllCourses();
+			$data = [];
+			if($organisation_courses->num_rows()>0){
+				$data = ["organisation_courses"=>$organisation_courses->result()];
+			} 
+			$this->load->view("school/addNewCourseSchool_view",$data);
+		}else{
+    		redirect("");
+		}
+	}
+	public function addUpdateNewCourse(){
+		if($this->authenticate()){
+            $this->load->model("OrganisationCoursesModal");			
+			$message = $this->OrganisationCoursesModal->saveOrganisationsCourses();
+			$this->viewMessage(json_encode($message));
+		}else{
+			redirect("");
+		}
+	}
+
+    public function getAllCourseDetails(){
+        if($this->authenticate()){		
+            $this->load->model("OrganisationCoursesModal");	
+			$this->OrganisationCoursesModal->getOrganisationCourses();
+		}else{
+			redirect("");
+		}
+    }
+
+    public function editCourseMaster(){
+        if($this->authenticate()){
+            $this->load->model("OrganisationCoursesModal");			
+			$message = $this->OrganisationCoursesModal->updateCourse();
+			$this->viewMessage(json_encode($message));
+		}else{
+			$this->viewMessage(json_encode(unAuthenticMessage()));
+		}
+    }
+
+    public function deleteCourseMasterEntry(){
+        if($this->authenticate()){
+            $this->load->model("OrganisationCoursesModal");			
+			$message = $this->OrganisationCoursesModal->deleteCourse();
+			$this->viewMessage(json_encode($message));
+		}else{
+			$this->viewMessage(json_encode(unAuthenticMessage()));
+		}
+    }
+
 }

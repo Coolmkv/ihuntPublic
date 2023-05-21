@@ -161,7 +161,26 @@ class Student_model extends CI_Model {
             return '{"status":"error","msg":"Error in server, please contact admin!"}';
         }
     }
-
+	
+	 public function mnotifyMsg() {
+		 
+		$enrollmentId = FILTER_VAR(trim($this->input->post('enrollmentId')), FILTER_SANITIZE_STRING);
+        $orgId = FILTER_VAR(trim($this->input->post('orgId')), FILTER_SANITIZE_STRING);
+        $studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+        $msg = FILTER_VAR(trim($this->input->post('msg')), FILTER_SANITIZE_STRING);
+		$msgFrom = FILTER_VAR(trim($this->input->post('msgFrom')), FILTER_SANITIZE_STRING);
+        $msgTo = FILTER_VAR(trim($this->input->post('msgTo')), FILTER_SANITIZE_STRING);
+		
+		if (empty($enrollmentId) || empty($orgId) || empty($studentId) || empty($msg)|| empty($msgFrom)|| empty($msgTo)) {
+            return '{"status":"error", "msg":"Required details are empty!"}';
+        }
+		$iData = ["orgId" => $orgId, "enrollmentId" => $enrollmentId, "studentId" => $studentId, "msg" => $msg,"msgFrom" => $msgFrom,"msgTo" => $msgTo];
+            $res = $this->db->insert("tbl_notifications_msg", $iData);
+            
+            return($res ? '{"status":"success", "msg":"Saved Successfully"}' : '{"status":"error", "msg":"Error in server, please contact admin!"}');
+	 
+	 }
+	 
     public function mUploadRelatedDocs() {
         $studentId = $_SESSION['studentId'];
         $AboutDoc = FILTER_VAR(trim($this->input->post('AboutDoc')), FILTER_SANITIZE_STRING);
@@ -227,6 +246,55 @@ class Student_model extends CI_Model {
             return $response;
         }
     }
+
+    public function muploadStudentOrgDoc() {
+
+        $this->createDirectory('./organizationDocuments/' . date('Y') . '/' . date('m'));
+        $config['upload_path'] = './organizationDocuments/' . date('Y') . '/' . date('m');
+        $config['allowed_types'] = 'pdf|PDF|doc|DOC|docx|DOCX';
+        $config['file_name'] = preg_replace("/\s+/", "_", $_SESSION['studentId'].'student') . strtotime(date('Y-m-d h:i:s'));
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('documentUpload')) {
+            $error = array('error' => $this->upload->display_errors());
+            //$response = ["response" => $error, "status" => "error"];
+            $enrollmentId = FILTER_VAR(trim($this->input->post('enrollmentId')), FILTER_SANITIZE_STRING);
+			$orgId = FILTER_VAR(trim($this->input->post('orgId')), FILTER_SANITIZE_STRING);
+			$studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+			$msg = FILTER_VAR(trim($this->input->post('message')), FILTER_SANITIZE_STRING);
+			$msgFrom = FILTER_VAR(trim($this->input->post('msgFrom')), FILTER_SANITIZE_STRING);
+			$msgTo = FILTER_VAR(trim($this->input->post('msgTo')), FILTER_SANITIZE_STRING);
+		
+			if (empty($enrollmentId) || empty($orgId) || empty($studentId) || empty($msg)|| empty($msgFrom)|| empty($msgTo)) {
+				return '{"status":"error", "msg":"Required details are empty!"}';
+			}
+			$iData = ["orgId" => $orgId, "enrollmentId" => $enrollmentId, "studentId" => $studentId, "msg" => $msg,"msgFrom" => $msgFrom,"msgTo" => $msgTo];
+				$res = $this->db->insert("tbl_notifications_msg", $iData);
+				
+				return($res ? '{"status":"success", "msg":"Saved Successfully"}' : '{"status":"error", "msg":"Error in server, please contact admin!"}');
+        } else {
+            $data = $this->upload->data('file_name');
+            $fileName = 'organizationDocuments/' . date('Y') . '/' . date('m') . '/' . $data;
+            //$response = ["response" => $fileName, "status" => "success"];
+			$enrollmentId = FILTER_VAR(trim($this->input->post('enrollmentId')), FILTER_SANITIZE_STRING);
+			$orgId = FILTER_VAR(trim($this->input->post('orgId')), FILTER_SANITIZE_STRING);
+			$studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+			$msg = FILTER_VAR(trim($this->input->post('message')), FILTER_SANITIZE_STRING);
+			$msgFrom = FILTER_VAR(trim($this->input->post('msgFrom')), FILTER_SANITIZE_STRING);
+			$msgTo = FILTER_VAR(trim($this->input->post('msgTo')), FILTER_SANITIZE_STRING);
+		
+			if (empty($enrollmentId) || empty($orgId) || empty($studentId) || empty($msg)|| empty($msgFrom)|| empty($msgTo)) {
+				return '{"status":"error", "msg":"Required details are empty!"}';
+			}
+			$iData = ["orgId" => $orgId, "enrollmentId" => $enrollmentId, "studentId" => $studentId, "msg" => $msg,"msgFrom" => $msgFrom,"msgTo" => $msgTo,"docAttachment"=>$fileName];
+				$res = $this->db->insert("tbl_notifications_msg", $iData);
+				
+				return($res ? '{"status":"success", "msg":"Saved Successfully"}' : '{"status":"error", "msg":"Error in server, please contact admin!"}');
+				  //return $response;
+		   }
+			
+           
+        }
+    
 
     private function createDirectory($path) {
         if (!file_exists($path)) {
@@ -1118,32 +1186,44 @@ class Student_model extends CI_Model {
     //Earnandshare value end by shweta
     //My Applications start
     public function mMyApplications() {
-        $qry = $this->db->query("SELECT te.enrollmentId,te.status,oc.courseDurationType,DATE_FORMAT(oc.openingDate ,'%d-%b-%Y') openingDate,DATE_FORMAT(oc.closingDate ,'%d-%b-%Y') closingDate, DATE_FORMAT(oc.examDate ,'%d-%b-%Y') examDate,
-            oc.courseFee,oc.registrationFee,tdep.title departmentName,ct.courseType courseType, cd.title courseName,td.title timeDuration,DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName  FROM tbl_enroll te
-            INNER JOIN organization_streams os ON os.orgCourseId=te.orgStreamId INNER JOIN organization_courses oc ON oc.orgCourseId=os.orgCourseId AND oc.isactive=1
+        $qry = $this->db->query("SELECT te.enrollmentId,te.status,oc.courseDurationType,DATE_FORMAT(oc.openingDate ,'%d-%b-%Y') openingDate,DATE_FORMAT(oc.closingDate ,'%d-%b-%Y') closingDate, DATE_FORMAT(oc.examDate ,'%d-%b-%Y') examDate,ld.id,
+            os.courseFee,os.registrationFee,tdep.title departmentName,ct.courseType courseType, cd.title courseName,td.title timeDuration,DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName,od.org_account_id,od.org_percentage,od.orgId,od.org_splitpayment_status,ld.email FROM tbl_enroll te
+            INNER JOIN organization_streams os ON os.orgStreamId=te.orgStreamId INNER JOIN organization_courses oc ON oc.orgCourseId=os.orgCourseId AND oc.isactive=1
             INNER JOIN department tdep ON tdep.departmentId=oc.departmentId INNER JOIN course_type ct ON ct.ctId = oc.courseTypeId
             INNER JOIN course_details cd ON cd.cId=oc.courseId INNER JOIN time_duration td ON td.tdId=oc.courseDurationId
             INNER JOIN login_details ld ON ld.id=oc.loginId INNER JOIN organization_details od ON ld.id=od.loginId
             WHERE te.studentId=" . $_SESSION['studentId'] . " AND te.isactive=1
-UNION       SELECT te.enrollmentId,te.status,icd.courseDurationType,DATE_FORMAT(icd.applyFrom ,'%d-%b-%Y') openingDate,DATE_FORMAT(icd.applyTo ,'%d-%b-%Y') closingDate, DATE_FORMAT(icd.examDate ,'%d-%b-%Y') examDate,
-            icd.courseFee,icd.registrationFee,'' departmentName,'' courseType,ic.title courseName,td.title timeDuration,DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName FROM tbl_enroll te
+UNION       SELECT te.enrollmentId,te.status,icd.courseDurationType,DATE_FORMAT(icd.applyFrom ,'%d-%b-%Y') openingDate,DATE_FORMAT(icd.applyTo ,'%d-%b-%Y') closingDate, DATE_FORMAT(icd.examDate ,'%d-%b-%Y') examDate,ld.id,
+            icd.courseFee,icd.registrationFee,'' departmentName,'' courseType,ic.title courseName,td.title timeDuration,DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName,od.org_account_id,od.org_percentage,od.orgId,od.org_splitpayment_status,ld.email FROM tbl_enroll te
             INNER JOIN institute_course_details icd ON icd.insCourseDetailsId=te.insCourseDetailsId AND icd.isactive=1 INNER JOIN institute_course ic ON ic.insCourseId=icd.insCourseId
             INNER JOIN time_duration td ON td.tdId=icd.timeDurationId INNER JOIN login_details ld ON ld.id=icd.loginId INNER JOIN organization_details od ON ld.id=od.loginId
             WHERE te.studentId=" . $_SESSION['studentId'] . " AND te.isactive=1
-UNION       SELECT te.enrollmentId,te.status,scd.courseDurationType,DATE_FORMAT(scd.applyFrom ,'%d-%b-%Y') openingDate,DATE_FORMAT(scd.applyTo ,'%d-%b-%Y') closingDate, DATE_FORMAT(scd.examDate ,'%d-%b-%Y') examDate,
-            scd.courseFee,scd.registrationFee,'' departmentName,sct.title courseType,sct.class courseName,'1 Year' timeDuration,DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName FROM tbl_enroll te
+UNION       SELECT te.enrollmentId,te.status,scd.courseDurationType,DATE_FORMAT(scd.applyFrom ,'%d-%b-%Y') openingDate,DATE_FORMAT(scd.applyTo ,'%d-%b-%Y') closingDate, DATE_FORMAT(scd.examDate ,'%d-%b-%Y') examDate,ld.id,
+            scd.courseFee,scd.registrationFee,'' departmentName,sct.title courseType,sct.class courseName,'1 Year' timeDuration,DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName,od.org_account_id,od.org_percentage,od.orgId,od.org_splitpayment_status,ld.email  FROM tbl_enroll te
             INNER JOIN school_class_details scd ON scd.sClassId=te.sClassId INNER JOIN school_class_type sct ON sct.classTypeId=scd.classTypeId
             INNER JOIN login_details ld ON ld.id=scd.loginId INNER JOIN organization_details od ON ld.id=od.loginId WHERE te.studentId=" . $_SESSION['studentId'] . " AND te.isactive=1");
         $result = ($qry->num_rows() > 0 ? $qry->result() : "");
         return json_encode($result);
     }
+	
+	
+	
+	
+public function mshowMsg(){
+	    $eId=$this->input->post('eId');
+		$chData = ['enrollmentId' => $eId];
+        $chkData = $this->db->where($chData)->order_by('createdDate','DESC')->get("tbl_notifications_msg");	
+		$msg = ($chkData->num_rows() > 0 ? $chkData->result() : null);
+		return json_encode($msg);
+		
+}
+   
 
-    //My Applications end
+   //My Applications end
     //My Notifications Start
     public function mGetNotifications() {
         $totalDataqry = $this->mgetAllNotifications('total');
         $totalData = ($totalDataqry->num_rows() > 0 ? $totalDataqry->num_rows() : 0);
-
         $query = (empty($this->input->post('search')['value']) ? $this->mgetAllNotifications('nosearch') : $this->mgetAllNotifications('search'));
         $posts = ($query->num_rows() > 0 ? $query->result() : null);
         $totalFiltered = (empty($this->input->post('search')['value']) ? $totalData : $this->mgetAllEnrollments('searchtotal')->num_rows());
@@ -1275,3 +1355,5 @@ UNION       SELECT te.enrollmentId,te.status,scd.courseDurationType,DATE_FORMAT(
     }
 
 }
+
+?>

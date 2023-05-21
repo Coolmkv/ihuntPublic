@@ -15,8 +15,6 @@ class Superadmin_model extends CI_Model {
         if ($chkQry->num_rows() > 0) {
             $sdata = $chkQry->row();
             $pwd2 = $this->encryption->decrypt($sdata->userPassword);
-            
-              
             $pwd1 = $sdata->userPassword1;
             if ($password == $pwd2 && $pwd1 == $password) {
                 $_SESSION = ["id" => $sdata->id, "name" => $sdata->userName, "email" => $sdata->userEmail, "user_type" => $sdata->userType];
@@ -25,10 +23,7 @@ class Superadmin_model extends CI_Model {
                 return '{"status":"success","msg":"Login Successfully"}';
             } else {
                 $this->addActivityLog($sdata->id, "Incorrect Password login failed", "web_users");
-                return json_encode([
-                    "status"=>"error",
-                    "msg"=>"Incorrect Password"]);
-                    
+                return '{"status":"error","msg":"Incorrect Password"}';
             }
         } else {
             return '{"status":"error","msg":"Incorrect Email Id"}';
@@ -1505,18 +1500,24 @@ class Superadmin_model extends CI_Model {
         $stateId = FILTER_VAR(trim($this->input->post('state')), FILTER_SANITIZE_STRING);
         $cityId = FILTER_VAR(trim($this->input->post('city')), FILTER_SANITIZE_STRING);
         $address = FILTER_VAR(trim($this->input->post('address')), FILTER_SANITIZE_STRING);
+        $orgaccountid = FILTER_VAR(trim($this->input->post('orgaccid')), FILTER_SANITIZE_STRING);
+        $orgpercent = FILTER_VAR(trim($this->input->post('percentage')), FILTER_SANITIZE_STRING);
+        $orglumsum = FILTER_VAR(trim($this->input->post('lumsum')), FILTER_SANITIZE_STRING);
+        $orgsplit = $this->input->post('split');
         $ipAddress = $this->getRealIpAddr();
-        if (empty($loginId) || empty($roletype) || empty($orgname) || empty($orgAContact) || empty($email) || empty($password) || empty($countryId) || empty($stateId) || empty($cityId) || empty($address)) {
+		$finalcomm = !empty($orgpercent)? $orgpercent.' %' : $orglumsum.' Rs';
+		$finalsplit = !empty($orgsplit) ? "true" : "false";
+		if (empty($loginId) || empty($roletype) || empty($orgname) || empty($orgAContact) || empty($email) || empty($password) || empty($countryId) || empty($stateId) || empty($cityId) || empty($address) || empty($orgaccountid) || empty($finalcomm)) {
             return '{"status":"error", "msg":"Required field is empty."}';
         }
         if ($loginId === "no_one") {
-            return $this->insertOrganisationDetails($roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress);
+            return $this->insertOrganisationDetails($roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress,$orgaccountid,$finalcomm,$finalsplit);
         } else {
-            return $this->updateOrganisationDetails($loginId, $roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress);
+            return $this->updateOrganisationDetails($loginId, $roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress,$orgaccountid,$orgpercent);
         }
     }
 
-    private function insertOrganisationDetails($roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress) {
+    private function insertOrganisationDetails($roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress,$orgaccountid,$orgpercent,$orgsplit) {
         $chkqry = $this->db->query("SELECT * FROM login_details WHERE email='" . $email . "' AND isactive=1");
         if ($chkqry->num_rows() > 0) {
             return '{"status":"error", "msg":"Already registered."}';
@@ -1528,7 +1529,7 @@ class Superadmin_model extends CI_Model {
             $insertid = $this->db->insert_id();
             if ($insertid) {
                 $orgdata = ["loginId" => $insertid, "orgName" => $orgname, "orgMobile" => $orgMobile, "org_landline" => $orgAContact, "countryId" => $countryId, "stateId" => $stateId, "cityId" => $cityId,
-                    "orgAddress" => $address, "orgCreated" => $this->datetimenow(), "isactive" => 1];
+                    "orgAddress" => $address,"org_account_id"=>$orgaccountid ,"org_percentage"=>$orgpercent,"org_splitpayment_status"=>$orgsplit ,"orgCreated" => $this->datetimenow(), "isactive" => 1];
                 $this->db->insert("organization_details", $orgdata);
                 $this->addActivityLog($_SESSION['id'], "New Organisation " . $orgname . "(" . $roletype . ") details inserted", "organization_details");
                 return '{"status":"success", "msg":"Registered successfully."}';
@@ -1538,7 +1539,7 @@ class Superadmin_model extends CI_Model {
         }
     }
 
-    private function updateOrganisationDetails($loginId, $roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress) {
+    private function updateOrganisationDetails($loginId, $roletype, $orgname, $orgMobile, $orgAContact, $email, $password, $countryId, $stateId, $cityId, $address, $ipAddress,$orgaccountid,$orgpercent) {
         $chkqry = $this->db->query("SELECT * FROM login_details WHERE id='" . $loginId . "' AND isactive=1");
         if ($chkqry->num_rows() > 0) {
             $pwd_encrpyt = $this->encryption->encrypt($password);
@@ -1548,7 +1549,7 @@ class Superadmin_model extends CI_Model {
 
             $chkqrydata = $this->db->where("loginId", $loginId)->get("organization_details");
             if ($chkqrydata->num_rows() > 0) {
-                $orgdata = ["orgName" => $orgname, "orgMobile" => $orgMobile, "org_landline" => $orgAContact, "countryId" => $countryId, "stateId" => $stateId, "cityId" => $cityId, "orgAddress" => $address, "orgUpdated" => $this->datetimenow(), "isactive" => 1];
+                $orgdata = ["orgName" => $orgname, "orgMobile" => $orgMobile, "org_landline" => $orgAContact, "countryId" => $countryId, "stateId" => $stateId, "cityId" => $cityId, "orgAddress" => $address, "org_account_id"=>$orgaccountid ,"org_percentage"=>$orgpercent ,"orgUpdated" => $this->datetimenow(), "isactive" => 1];
 
                 $res = $this->db->where("loginId", $loginId)->update("organization_details", $orgdata);
                 $this->addActivityLog($_SESSION['id'], "Organisation " . $orgname . "(" . $roletype . ") details updated", "organization_details");
@@ -1567,7 +1568,7 @@ class Superadmin_model extends CI_Model {
         $loginId = FILTER_VAR(trim($this->input->post('id')), FILTER_SANITIZE_STRING);
         $condition = ($loginId ? "AND ld.id=$loginId" : "");
 
-        $data = $this->db->query("SELECT ld.id,ld.email,ld.password,ld.roleName,od.orgName,od.orgMobile,od.org_landline,od.orgAddress,od.countryId,
+        $data = $this->db->query("SELECT ld.id,ld.email,ld.password,ld.roleName,od.orgName,od.orgMobile,od.org_landline,od.orgAddress,od.org_account_id,od.org_percentage,od.countryId,
                                 od.stateId,od.cityId,ctr.name AS country,st.name AS statename,c.name AS ctyname FROM login_details ld
                                 LEFT JOIN organization_details od ON od.loginId=ld.id AND od.isactive=1
                                 LEFT JOIN countries ctr on ctr.countryId=od.countryId
@@ -2610,8 +2611,194 @@ class Superadmin_model extends CI_Model {
             }
         }
     }
+	
+	
+public function notLoggedIn($response)
+	    {
+		    $response;
+		    return json_encode($response);
+	    }
 
-    private function insertAddNewsletterplan($plan_name, $no_of_news_ltr, $price, $currencies) {
+public function mGetEnrollData($loginid, $type, $studentid, $courseId, $orgCourseId)
+	{
+		$this->load->model('Home_model');
+		
+		$getStudentData = $this->Home_model->mgetEnrollStudentData($studentid);
+		$sData = ($getStudentData->num_rows() > 0 ? $getStudentData->row() : "");
+		$getOrgData = $this->Home_model->mgetEnrollOrgData($loginid, $type);
+		$orgData = ($getOrgData->num_rows() > 0 ? $getOrgData->result() : "");
+		$chkEli = $this->Home_model->OrgMinQualification($orgCourseId);
+		$courseDetails = $this->Home_model->getCourseInfo($orgCourseId, $courseId, $type, $loginid);
+		  $cData = ["studentId" => $studentid];
+		  //print_r($cData);
+        $docData = $this->db->query("SELECT * FROM tbl_student_file_upload WHERE studentId=$studentid AND isactive=1")->result() ;
+		 
+		$response = ["studentDetails" => $sData, "orgDetails" => $orgData, "reqEligibility" => $chkEli,"docDetails" => $docData];
+		
+
+		return json_encode(array_merge($response, $courseDetails));
+	}
+	
+	
+  public function mChangeMessageStatus()
+  {
+        $msgId = FILTER_VAR(trim($this->input->post('msgId')), FILTER_SANITIZE_STRING);
+        $status = FILTER_VAR(trim($this->input->post('status')), FILTER_SANITIZE_STRING);
+       
+        if (empty($msgId) || empty($status) ) {
+            return '{"status":"error", "msg":"Required details are empty!"}';
+        }
+        $chks = $this->db->where(["msgId" => $msgId, "status" => $status])->get("tbl_notifications_msg");
+        if ($chks->num_rows() > 0) {
+            return '{"status":"error", "msg":"Duplicate Status"}';
+        }
+      
+			$chk = $this->db->query("SELECT * FROM tbl_notifications_msg where msgId =$msgId");
+        if ($chk->num_rows() > 0) {
+            $uData = ["statusUpdatedAt" => $this->datetimenow(), "status" => $status];
+            $resp = $this->db->where("msgId", $msgId)->update("tbl_notifications_msg", $uData);
+          
+            return ($resp ? '{"status":"success", "msg":"Status changed successfully! "}' : '{"status":"error", "msg":"Some error occured."}');
+        }
+	}
+	
+   
+  public function mGetEnrollApplications() {
+        $totalDataqry = $this->mgetAllEnrollments('nosearch');
+		
+        $posts = (count($totalDataqry) > 0 ? $totalDataqry: null);
+	    $data = array();
+        if (!empty($posts)) {
+            $i = ($this->input->post('start') == 0 ? 1 : $this->input->post('start'));
+            foreach ($posts as $dt) { //.' ('.$dt->courseType.') '.$dt->departmentName
+			 $studentName="'".$dt->studentName."'";
+			 $orgName="'".$dt->orgName."'";
+                $data[] = ["enrollmentId" => $i++,"PaymentId"=>$dt->payment_id,"StudentName" => ' <button type="button" class="btn btn-info  stu_info" onclick="studentInfo('."'".$dt->roleName."'".','.$dt->courseId.','.$dt->orgCourseId.','.$dt->studentId.','.$dt->enrollmentId.','.$dt->loginId.')" value="'.$dt->enrollmentId.'">'.$dt->studentName.'</button>', "CourseDetails" => '<b>COURSE FROM </b><br>'.$dt->orgName.'<br><b>COURSE NAME</b><br>'.$dt->courseName, "CourseDuration" => $dt->timeDuration . ' ' . $dt->courseDurationType,
+                    "FeeDetails" => 'Reg Fee : ' . $dt->registrationFee . '<br> Course Fee : ' . $dt->courseFee, "ImportantDates" => 'Application Opening : ' . ($dt->openingDate ? $dt->openingDate : "NA") . '
+                    <br>Application Closing : ' . ($dt->closingDate ? $dt->closingDate : "NA") . '<br>Exam Date: ' . ($dt->examDate ? $dt->examDate : "NA"),
+                    "ApplicationDate" => $dt->applicationDate, "ApplicationStatus" => $dt->status, "SeeChat" => '<button type="button" class="btn btn-info  see_msg" onclick="showMsg('.$dt->enrollmentId.','.$dt->loginId.','.$dt->studentId.','.$studentName.','.$orgName.')" data-toggle="modal" data-target="#myModal">See Message</button>'];
+            }
+        }
+        $json_data = array("draw" => intval($this->input->post('draw')), "data" => $data);
+
+        return json_encode($json_data);
+    }
+
+ 
+ 
+ 
+ 
+ public function mGetTransactions() {
+	  $totalDataqry = $this->mgetAllTransacctions('nosearch');
+		
+        $posts = (count($totalDataqry) > 0 ? $totalDataqry: null);
+	    $data = array();
+        if (!empty($posts)) {
+            $i = ($this->input->post('start') == 0 ? 1 : $this->input->post('start'));
+            foreach ($posts as $dt) { //.' ('.$dt->courseType.') '.$dt->departmentName
+			 $paymentid="".$dt->payment_id."";
+			  $fees="".$dt->fees_category."";
+			 $studentName="".$dt->student_name."";
+			 $orgName="".$dt->org_name."";
+                $data[] = ["id" => $i++,"enrollmentId" => $dt->enrollmentId ,"orgamount"=>$dt->org_amt,"ihuntamount" => $dt->ihunt_amt ,"paymentid" => $paymentid,"studentname" =>$studentName,"orgname" => $orgName, "feescategory" => $fees , "createdat" => $dt->createdAt ];
+            }
+        }
+        $json_data = array("draw" => intval($this->input->post('draw')), "data" => $data);
+
+        return json_encode($json_data);
+ }
+ 
+ 
+ 
+ 
+ 
+ public function mgetMessage() {
+        $totalDataqry = $this->mgetAllNewMsg('nosearch');
+		
+        $posts = (count($totalDataqry) > 0 ? $totalDataqry: null);
+	    $data = array();
+        if (!empty($posts)) {
+            $i = ($this->input->post('start') == 0 ? 1 : $this->input->post('start'));
+            foreach ($posts as $dt) { //.' ('.$dt->courseType.') '.$dt->departmentName
+			 $msgFrom="'".$dt->msgFrom."'";
+			 $msgTo="'".$dt->msgTo."'";
+                $data[] = ["msgId" => $i++,"Message" => $dt->msg,"MessageFrom" => $dt->msgFrom, "MessageTo" => $dt->msgTo, "Action" => '<select class="statuschange" msgId="' . $dt->msgId . '"><option value="Pending">Pending</option><option value="Approved">Approve</option><option value="Rejected">Reject</option></select>'];
+            }
+        }
+        $json_data = array("draw" => intval($this->input->post('draw')), "data" => $data);
+
+        return json_encode($json_data);
+    }
+
+   public function mgetAllNewMsg($condition) {
+         $columns = array(0 => 'msgId', 1 => 'msg', 2 => 'msgFrom', 3 => 'msgTo', 4 => '	status');
+        $limit = $this->input->post('length');
+        $start = $this->input->post('start');
+        
+        $condition = ($condition == "nosearch" ? "LIMIT  $start,$limit" : "");
+
+        return $this->db->query("SELECT * FROM tbl_notifications_msg WHERE status='Pending' AND 	msgFrom NOT IN ('Admin') ORDER BY createdDate DESC;")->result();
+    }
+
+	public function mshowMsg(){
+	    $eId=$this->input->post('eId');
+	    $orgId=$this->input->post('orgId');
+		$chData = ['enrollmentId' => $eId , 'orgId' => $orgId];
+        $chkData = $this->db->where($chData)->order_by('createdDate','DESC')->get("tbl_notifications_msg");	
+		$msg = ($chkData->num_rows() > 0 ? $chkData->result() : null);
+		return json_encode($msg);
+		
+}
+
+   public function mgetAllEnrollments($condition) {
+         $columns = array(0 => 'te.enrollmentId', 1 => 'sd.studentName', 2 => 'cd.title', 3 => 'td.title', 4 => 'os.courseFee', 5 => 'icd.applyFrom', 6 => 'te.createdAt', 7 => 'te.status');
+        $limit = $this->input->post('length');
+        $start = $this->input->post('start');
+        //$order = $columns[$this->input->post('order')[0]['column']];
+
+        //$dir = $this->input->post('order')[0]['dir'];
+        //$search = $this->input->post('search')['value'];
+	
+        /* $likearr = " AND (te.enrollmentId like %$search% OR cd.title LIKE %$search% OR td.title LIKE %$search% OR oc.courseFee LIKE %$search%
+                    OR oc.openingDate LIKE %$search% OR te.status LIKE %$search% OR te.closingDate LIKE %$search% OR oc.courseDurationType LIKE %$search% )"; */
+	   
+        $condition = ($condition == "nosearch" ? "LIMIT  $start,$limit" : "");
+
+        return $this->db->query("SELECT te.enrollmentId,te.status,                      te.payment_id,te.studentId,std.studentName,oc.courseDurationType,os.orgCourseId,os.loginId,oc.courseId,ld.roleName,DATE_FORMAT(oc.openingDate ,'%d-%b-%Y') openingDate,
+                                        DATE_FORMAT(oc.closingDate ,'%d-%b-%Y') closingDate,  DATE_FORMAT(oc.examDate ,'%d-%b-%Y') examDate,os.courseFee,
+                                        os.registrationFee,dep.title departmentName, ct.courseType,CONCAT(cd.title,' (',sd.title,')') courseName,td.title timeDuration,
+                                        DATE_FORMAT(te.createdAt ,'%d-%b-%Y') applicationDate,ld.roleName,od.orgName FROM tbl_enroll te
+                                        INNER JOIN student_details std ON std.studentId=te.studentId
+										INNER JOIN organization_streams os ON os.orgStreamId=te.orgStreamId INNER JOIN organization_courses oc ON oc.orgCourseId=os.orgCourseId
+                                        LEFT JOIN department dep ON dep.departmentId=oc.departmentId 
+										INNER JOIN course_type ct ON ct.ctId = oc.courseTypeId
+										INNER JOIN course_details cd ON cd.cId=oc.courseId  INNER JOIN time_duration td ON td.tdId=oc.courseDurationId 
+                                        INNER JOIN stream_details sd ON sd.streamId=os.streamId  INNER JOIN login_details ld ON ld.id=oc.loginId
+                                        INNER JOIN organization_details od ON ld.id=od.loginId
+                                        WHERE  te.isactive=1 ORDER BY applicationDate DESC;")->result();
+    }
+   
+   
+   
+   public function mgetAllTransacctions($condition) {
+         $columns = array(0 => "trans.id",1 => 'trans.enrollmentId', 2 => 'trans.org_amt', 3 => 'trans.ihunt_amt', 4 => 'trans.payment_id', 5 => 'trans.student_name', 6 => 'trans.org_name', 7 => 'trans.fees_category', 8 => 'trans.createdAt');
+        $limit = $this->input->post('length');
+        $start = $this->input->post('start');
+        //$order = $columns[$this->input->post('order')[0]['column']];
+
+        //$dir = $this->input->post('order')[0]['dir'];
+        //$search = $this->input->post('search')['value'];
+	
+        /* $likearr = " AND (te.enrollmentId like %$search% OR cd.title LIKE %$search% OR td.title LIKE %$search% OR oc.courseFee LIKE %$search%
+                    OR oc.openingDate LIKE %$search% OR te.status LIKE %$search% OR te.closingDate LIKE %$search% OR oc.courseDurationType LIKE %$search% )"; */
+	   
+        $condition = ($condition == "nosearch" ? "LIMIT  $start,$limit" : "");
+
+        return $this->db->query("SELECT trans.enrollmentId,trans.org_amt,                      trans.ihunt_amt,trans.payment_id,trans.student_name,trans.org_name,trans.fees_category,DATE_FORMAT(trans.createdAt ,'%d-%b-%Y') createdAt FROM tbl_transactions trans ORDER BY createdAt DESC;")->result();
+    }
+   
+   
+   private function insertAddNewsletterplan($plan_name, $no_of_news_ltr, $price, $currencies) {
         $chkqry = $this->db->where(["plan_name" => $plan_name, "no_of_news_ltr" => $no_of_news_ltr, "price" => $price, "currencies" => $currencies])->get("tbl_news_ltr_plan");
         $chkqry1 = $this->db->where(["plan_name" => $plan_name])->get("tbl_news_ltr_plan");
         $chkqry2 = $this->db->where(["no_of_news_ltr" => $no_of_news_ltr, "currencies" => $currencies])->get("tbl_news_ltr_plan");
@@ -2731,6 +2918,25 @@ class Superadmin_model extends CI_Model {
         }
         return json_encode($response);
     }
+	
+	 public function mnotifyMsg() {
+		 
+		$enrollmentId = FILTER_VAR(trim($this->input->post('enrollmentId')), FILTER_SANITIZE_STRING);
+        $orgId = FILTER_VAR(trim($this->input->post('orgId')), FILTER_SANITIZE_STRING);
+        $studentId = FILTER_VAR(trim($this->input->post('studentId')), FILTER_SANITIZE_STRING);
+        $msg = FILTER_VAR(trim($this->input->post('msg')), FILTER_SANITIZE_STRING);
+		$msgFrom = FILTER_VAR(trim($this->input->post('msgFrom')), FILTER_SANITIZE_STRING);
+        $msgTo = FILTER_VAR(trim($this->input->post('msgTo')), FILTER_SANITIZE_STRING);
+		$status='Approved';
+		if (empty($enrollmentId) || empty($orgId) || empty($studentId) || empty($msg)|| empty($msgFrom)|| empty($msgTo)) {
+            return '{"status":"error", "msg":"Required details are empty!"}';
+        }
+		$iData = ["orgId" => $orgId, "enrollmentId" => $enrollmentId, "studentId" => $studentId, "msg" => $msg,"msgFrom" => $msgFrom,"msgTo" => $msgTo,'status' => $status];
+            $res = $this->db->insert("tbl_notifications_msg", $iData);
+            
+            return($res ? '{"status":"success", "msg":"Saved Successfully"}' : '{"status":"error", "msg":"Error in server, please contact admin!"}');
+	 
+	 }
 
     public function mDelCategories() {
         $faqCategoryId = FILTER_VAR(trim(base64_decode($this->input->post('faqCategoryId'))), FILTER_SANITIZE_STRING);
@@ -2999,7 +3205,7 @@ class Superadmin_model extends CI_Model {
             ($resp ? $this->addActivityLog($_SESSION['id'], "Testimonial details Deleted", "tbl_testimonial") : "" );
             return($resp ? '{"status":"success","msg":"Deleted successfully!"}' : '{"status":"error","msg":"Error in server, please contact admin!"}' );
         } else {
-            return($resp ? '{"status":"success","msg":"No records found!"}' : '{"status":"error","msg":"Error in server, please contact admin!"}');
+            return '{"status":"success","msg":"No records found!"}';
         }
     }
 
@@ -3198,6 +3404,717 @@ class Superadmin_model extends CI_Model {
                 '{"status":"error","msg":"Error in server, please contact admin!"}' );
     }
 
+//Before you Begin end
+////////////////////////////all footer page edit functions
+    public function mEditGenesis(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_genesis");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->gId;
+            $udata = ["gText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("gId", $bybId)->update("tbl_genesis", $udata);
+        } else {
+            $udata = ["gText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_genesis", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Genesis Inserted", "tbl_genesis") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+
+	
+	public function mEditPressRelease(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_pressRelease");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->prId;
+            $udata = ["prText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("prId", $bybId)->update("tbl_pressRelease", $udata);
+        } else {
+            $udata = ["prText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_pressRelease", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Press Release Inserted", "tbl_pressRelease") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+
+	public function mEditIhuntBestCares(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_ihuntBestCares");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->ibcId;
+            $udata = ["ibcText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("ibcId", $bybId)->update("	tbl_ihuntBestCares", $udata);
+        } else {
+            $udata = ["ibcText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("	tbl_ihuntBestCares", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "ihunt Best Cares Inserted", "	tbl_ihuntBestCares") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+
+	public function mEditGiftSmile(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_giftSmile");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->gsId;
+            $udata = ["gsText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("gsId", $bybId)->update("tbl_giftSmile", $udata);
+        } else {
+            $udata = ["gsText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_giftSmile", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Gift smile Inserted", "tbl_giftSmile") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+
+	public function mEditServices(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_services");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->srvcId;
+            $udata = ["srvcText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("srvcId", $bybId)->update("tbl_services", $udata);
+        } else {
+            $udata = ["srvcText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_services", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Service Inserted", "tbl_services") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+
+	public function mEditIhuntBestStories(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_ihuntBestStories");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->ibsId;
+            $udata = ["ibsText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("ibsId", $bybId)->update("tbl_ihuntBestStories", $udata);
+        } else {
+            $udata = ["ibsText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_ihuntBestStories", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Before You Begin Inserted", "tbl_ihuntBestStories") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	
+	public function mEditSupport(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_support");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->sprtId;
+            $udata = ["sprtText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("sprtId", $bybId)->update("tbl_support", $udata);
+        } else {
+            $udata = ["sprtText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_support", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Support Inserted", "tbl_support") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+
+	public function mEditPaymentsSaved(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_paymentsSaved");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->psId;
+            $udata = ["psText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("psId", $bybId)->update("tbl_paymentsSaved", $udata);
+        } else {
+            $udata = ["psText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_paymentsSaved", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "payment saved page Inserted", "tbl_paymentsSaved") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	
+	public function mEditCardsShipping(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_cardsShipping");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->csId;
+            $udata = ["csText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("csId", $bybId)->update("tbl_cardsShipping", $udata);
+        } else {
+            $udata = ["csText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_cardsShipping", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "card shipping Inserted", "tbl_cardsShipping") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	
+	public function mEditCancelAndReturn(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_cancelReturn");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->crId;
+            $udata = ["crText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("crId", $bybId)->update("tbl_cancelReturn", $udata);
+        } else {
+            $udata = ["crText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_cancelReturn", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "cancel and return page Inserted", "tbl_cancelReturn") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	
+	public function mEditReportInfringement(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_reportInfringement");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->riId;
+            $udata = ["riText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("riId", $bybId)->update("tbl_reportInfringement", $udata);
+        } else {
+            $udata = ["riText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_reportInfringement", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Report infringiment page Inserted", "tbl_reportInfringement") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetReportInfringement() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_reportInfringement");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	
+	public function mEditWriteToUs(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_writeToUs	");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->wtuId;
+            $udata = ["wtuText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("wtuId", $bybId)->update("tbl_writeToUs", $udata);
+        } else {
+            $udata = ["wtuText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_writeToUs", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "write to us page Inserted", "tbl_writeToUs") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetWriteToUs() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_writeToUs");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditShowBrandEmpowerment(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_brandEmpowerment");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->beId;
+            $udata = ["beText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("beId", $bybId)->update("tbl_brandEmpowerment", $udata);
+        } else {
+            $udata = ["beText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_brandEmpowerment", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "cancel and return page Inserted", "tbl_brandEmpowerment") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetShowBrandEmpowerment() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_brandEmpowerment");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditOnlineShopping(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_onlnShpng	");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->osId;
+            $udata = ["osText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("osId", $bybId)->update("tbl_onlnShpng	", $udata);
+        } else {
+            $udata = ["osText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("	tbl_onlnShpng	", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "online shopping page Inserted", "	tbl_onlnShpng") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetOnlineShopping() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_onlnShpng");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditAffiliateProgram(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_affiliateProgram");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->apId;
+            $udata = ["apText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("apId", $bybId)->update("tbl_affiliateProgram", $udata);
+        } else {
+            $udata = ["apText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_affiliateProgram", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "affiliate Program page Inserted", "tbl_affiliateProgram") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetAffiliateProgram() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_affiliateProgram");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditGiftCardOffer(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_giftCardOffer");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->gcoId;
+            $udata = ["gcoText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("gcoId", $bybId)->update("tbl_giftCardOffer", $udata);
+        } else {
+            $udata = ["gcoText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_giftCardOffer", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "gift card and offer page Inserted", "tbl_giftCardOffer") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetGiftCardOffer() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_giftCardOffer");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditFirstSubscription(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_firstSubscription");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->fsId;
+            $udata = ["fsText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("fsId", $bybId)->update("tbl_firstSubscription", $udata);
+        } else {
+            $udata = ["fsText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_firstSubscription", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "first subscription page Inserted", "tbl_firstSubscription") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetFirstSubscription() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_firstSubscription");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditSiteMap(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_siteMap");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->smId;
+            $udata = ["smText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("smId", $bybId)->update("tbl_siteMap", $udata);
+        } else {
+            $udata = ["smText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_siteMap", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "site map page Inserted", "tbl_siteMap") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetSiteMap() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_siteMap");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditReturnPolicy(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_returnPolicy");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->rpId;
+            $udata = ["rpText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("rpId", $bybId)->update("tbl_returnPolicy", $udata);
+        } else {
+            $udata = ["rpText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_returnPolicy", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "return policy page Inserted", "	tbl_returnPolicy") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetReturnPolicy() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_returnPolicy");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditTermsOfUse(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_termsOfUse");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->touId;
+            $udata = ["touText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("touId", $bybId)->update("tbl_termsOfUse", $udata);
+        } else {
+            $udata = ["touText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_termsOfUse", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "terms of use page Inserted", "tbl_termsOfUse") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetTermsOfUse() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_termsOfUse");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	public function mEditSecurityPolicy(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_securityPolicy");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->spId;
+            $udata = ["spText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("spId", $bybId)->update("tbl_securityPolicy", $udata);
+        } else {
+            $udata = ["spText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_securityPolicy", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "security policy page Inserted", "tbl_securityPolicy") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetSecurityPolicy() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_securityPolicy");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	
+		public function mEditRefundPolicy(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_refundPolicy");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->rpId;
+            $udata = ["rpText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("rpId", $bybId)->update("tbl_refundPolicy", $udata);
+        } else {
+            $udata = ["rpText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_refundPolicy", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Refund policy page Inserted", "tbl_refundPolicy") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetRefundPolicy() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_refundPolicy");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+		public function mEditFooterContent(){
+	  $bybId = FILTER_VAR(trim($this->input->post('bybId')), FILTER_SANITIZE_STRING);
+        $beforeYouBegin = $this->input->post('beforeYouBegin');
+        if (!isset($_SESSION['id']) || $beforeYouBegin == "") {
+            return '{"status":"error","msg":"Required details are empty"}';
+        }
+
+        $chk = $this->db->where(["isactive" => 1])->get("tbl_footerContent");
+        if ($chk->num_rows() > 0) {
+            $bybId = $chk->row()->fcId;
+            $udata = ["fcText" => $beforeYouBegin, "updatedOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->where("fcId", $bybId)->update("tbl_footerContent", $udata);
+        } else {
+            $udata = ["fcText" => $beforeYouBegin, "createdOn" => $this->datetimenow(), "isactive" => 1];
+            $resp = $this->db->insert("tbl_footerContent", $udata);
+        }
+        ($resp ? $this->addActivityLog($_SESSION['id'], "Footer Content Inserted", "tbl_footerContent") : "" );
+        return($resp ? '{"status":"success","msg":"Saved successfully!"}' :
+                '{"status":"error","msg":"Error in server, please contact admin!"}' );
+    }
+	public function mGetFooterContent() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_footerContent");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	
+////////////////////////////// all fotter pages get function
+ public function mGetGenesis() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_genesis");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetPressRelease() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_pressRelease");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetIhuntBestCares() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_ihuntBestCares");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetGiftSmile() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_giftSmile");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetServices() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_services");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetIhuntBestStories() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_ihuntBestStories");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetSupport() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_support");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetPaymentsSaved() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_paymentsSaved");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetCardsShipping() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_cardsShipping");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	 public function mGetCancelAndReturn() {
+        $qry = $this->db->where("isactive", 1)->get("tbl_cancelReturn");
+        if ($qry->num_rows() > 0) {
+            $result = $qry->row();
+        } else {
+            $result = "";
+        }
+        return json_encode($result);	
+		
+	}
+	
+
+
+////////////////////////////////////////////////////////
     public function mGetBeforeYouBegin() {
         $qry = $this->db->where("isactive", 1)->get("tbl_beforyoubegin");
         if ($qry->num_rows() > 0) {
@@ -3205,10 +4122,10 @@ class Superadmin_model extends CI_Model {
         } else {
             $result = "";
         }
-        return json_encode($result);
-    }
+        return json_encode($result);	
+		
+	}
 
-//Before you Begin end
 //pageRequest start
     public function mGetPageRequests($reqType) {
         $pageId = FILTER_VAR(trim($this->input->post('pageId')), FILTER_SANITIZE_STRING);
@@ -3943,7 +4860,7 @@ class Superadmin_model extends CI_Model {
         }
         $cdata = ["gateway_name" => $gateway_name, "salt" => $salt, "apikey" => $apikey, "ipAccessed" => $this->getRealIpAddr(), "isactive" => 1];
         $idata = array_merge($cdata, ($payment_gatewayID == "no_one" ? ["createdAt" => $this->datetimenow()] : ["updatedAt" => $this->datetimenow()]));
-        $res = ($payment_gatewayID == "no_one" ? $this->db->insert("tbl_payment_gateway", $idata) : $this->db->where([$payment_gatewayID => "payment_gatewayID"])->update("tbl_payment_gateway", $idata));
+        $res = ($payment_gatewayID == "no_one" ? $this->db->insert("tbl_payment_gateway", $idata) : $this->db->where(["payment_gatewayID" => $payment_gatewayID])->update("tbl_payment_gateway", $idata));
         ($res ? $this->addActivityLog($_SESSION['id'], "Payment gateway  " . $gateway_name . " " . ($payment_gatewayID == "no_one" ? "Inserted" : "Updated") . " successfully by Superadmin", "tbl_payment_gateway") : "");
         return($res ? '{"status":"success","msg":"Saved Successfully"}' : '{"status":"error","msg":"Error in server, please contact admin!"}');
     }
@@ -4041,5 +4958,123 @@ class Superadmin_model extends CI_Model {
 
         return ( $res ? "Sent Successfully" : "Sending Failed" );
     }
+
+    public function addCourses(){
+    	$course_name = FILTER_VAR(trim($this->input->post('course_name')), FILTER_SANITIZE_STRING);
+		$course_category = $this->input->post('course_category');
+		$id = FILTER_VAR(trim($this->input->post('id')), FILTER_SANITIZE_STRING);
+    	$duration_in_months = FILTER_VAR(trim($this->input->post('duration_in_months')), FILTER_SANITIZE_NUMBER_INT);
+    	$for_organization = FILTER_VAR(trim($this->input->post('for_organization')), FILTER_SANITIZE_STRING);
+    	$description = FILTER_VAR(trim($this->input->post('description')), FILTER_SANITIZE_STRING);
+    	if(empty($course_name)){
+			return ["status"=>"failure","message"=>"Course name is empty.","data"=>[]];
+		}
+		if(empty($duration_in_months)){
+			return ["status"=>"failure","message"=>"Duration in month is required.","data"=>[]];
+		}
+		if(empty($for_organization)){
+			return ["status"=>"failure","message"=>"Organisation type is required.","data"=>[]];
+		}
+		$inserted = 0;
+		$notInserted = 0;
+
+    	if(is_array($course_category)){
+			$course_category_count = count($course_category);
+			$where = ['course_name'=>$course_name,
+				'status'=>1];
+			if(!empty($id)){
+				$operation = "updated";
+				$where["id!="]=$id;
+			}else{
+				$operation = "inserted";
+			}
+			for($i=0;$i<$course_category_count;$i++){
+				$course_category[$i] = FILTER_VAR(trim($course_category[$i]), FILTER_SANITIZE_STRING);
+				$where['course_category']=$course_category[$i];
+				$checkDuplicate = $this->db->where($where)->get("organization_course_master");
+				if($checkDuplicate->num_rows()==0){
+					$insertData = ["course_name"=>$course_name,
+						"course_category"=>$course_category[$i],
+						"duration_in_months"=>$duration_in_months,
+						"description"=>$description,
+						"for_organization"=>$for_organization,
+						"status"=>1,];
+					if(!empty($id)){
+						$insertData["updated_by"]= $_SESSION['id'];
+						$this->db->where(['id'=>$id])->update("organization_course_master",$insertData);
+					}else{
+						$insertData["created_by"]= $_SESSION['id'];
+						$this->db->insert("organization_course_master",$insertData);
+					}
+					$inserted++;
+				}else{
+					$notInserted++;
+				}
+			}
+			return ["status"=>"success","message"=>"Out of $course_category_count $inserted are $operation and $notInserted not $operation.",
+				"data"=>[]];
+		}else{
+    		return ["status"=>"failure","message"=>"Sub course data type is not array.","data"=>[]];
+		}
+	}
+
+	public function GetOrganisationsCourses(){
+		$where = ["status"=>1];
+		$id = FILTER_VAR(trim($this->input->post('id')), FILTER_SANITIZE_STRING);
+		if ($id) {
+			$where["id"] = $id;
+		}
+		$query = $this->db->where($where)
+			->select("id,course_name,course_category,duration_in_months,description,for_organization")
+			->get("organization_course_master");
+		if ($query->num_rows() > 0) {
+			return json_encode($query->result());
+		}else{
+			return json_encode([]);
+		}
+	}
+
+	public function DeleteOrganisationCourse(){
+		$where = ["status"=>1];
+		$id = FILTER_VAR(trim($this->input->post('id')), FILTER_SANITIZE_STRING);
+		if ($id) {
+			$where["id"] = $id;
+			$query = $this->db->where($where)
+				->select("id,course_name,course_category,duration_in_months,description,for_organization")
+				->get("organization_course_master");
+			if ($query->num_rows() > 0) {
+				$update = ["status"=>0,"updated_by"=>$_SESSION['id']];
+				  $this->db->where(['id'=>$id])->update("organization_course_master",$update);
+				$return = ["status"=>true,"message"=>"Deleted successfully.","data"=>[]];
+			}else{
+				$return = ["status"=>false,"message"=>"No record found.","data"=>[]];
+			}
+		}else{
+			$return = ["status"=>false,"message"=>"Id is required.","data"=>[]];
+		}
+
+		return json_encode($return);
+
+	}    
+    /**
+     * GetCourseMastersDetails
+     *
+     * @return void
+     */
+    public function GetCourseMastersDetails(){
+		$where = ["status"=>1];
+		$id = FILTER_VAR(trim($this->input->post('id')));
+		if ($id) {
+			$where["id"] = $id;
+		}
+		$query = $this->db->where($where)
+			->select("course_name, course_details, course_qualifications, course_duration,id")
+			->get("course_masters");
+		if ($query->num_rows() > 0) {
+			return json_encode($query->result());
+		}else{
+			return json_encode([]);
+		}
+	}
 
 }

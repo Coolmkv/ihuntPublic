@@ -4,7 +4,7 @@ if (isset($details)) {
     $totaldepartments = $details->totaldepartments;
     $totalpages = $details->totalpages;
     $totalcourses = $details->totalcourses;
-    $totalstreams = $details->totalstreams;
+    $totalstreams = $details->totalstreams??0;
     $totalbrouchers = $details->totalbrouchers;
     $totalgallery = $details->totalgallery;
     $totalevent_details = $details->totalevent_details;
@@ -151,35 +151,35 @@ if (isset($profilec)) {
                         <p>Course</p>
                     </div>
                     <div class="icon"><i class="fa fa-cog"></i></div>
-                    <a class="small-box-footer" href="<?php echo site_url('university/addCourse'); ?>">Add Course
+                    <a class="small-box-footer" href="<?php echo site_url('university/addNewCourses'); ?>">Add Course
                         <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <!-- <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="small-box bg-blue-gradient" >
                     <div class="inner">
-                        <h3><?php echo $totalstreams; ?></h3>
+                        <h3><?php //echo $totalstreams; ?></h3>
                         <p>Streams</p>
                     </div>
                     <div class="icon"><i class="fa fa-tasks"></i></div>
-                    <a class="small-box-footer" href="<?php echo site_url('university/addStreams'); ?>">Add Streams
+                    <a class="small-box-footer" href="<?php //echo site_url('university/addStreams'); ?>">Add Streams
                         <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            </div> -->
+            <!-- <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="small-box bg-aqua-gradient" >
                     <div class="inner">
-                        <h3><?php echo $totalstreams; ?></h3>
+                        <h3><?php //echo $totalstreams; ?></h3>
                         <p>Streams</p>
                     </div>
                     <div class="icon"><i class="fa fa-tasks"></i></div>
-                    <a class="small-box-footer" href="<?php echo site_url('university/showStreams'); ?>">View Streams
+                    <a class="small-box-footer" href="<?php //echo site_url('university/showStreams'); ?>">View Streams
                         <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="small-box bg-green-active" >
                     <div class="inner">

@@ -95,6 +95,34 @@
                                             <input type="text" name="address" id="address" class="form-control" data-validation="required">                                    
                                         </div>
                                     </div>
+									<div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Organization Account Id</label>
+                                            <input type="text" name="orgaccid" id="orgaccid" class="form-control" data-validation="required">                                    
+                                        </div>
+                                    </div>
+									<div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Organization Percentage</label>
+											<select name="comm" id="comm">
+											  <option value="">Select One</option>
+											  <option value="percent">Percentage</option>
+											  <option value="lumsum">lumsum</option>
+											</select>
+                                                                               
+                                        </div>
+                                    </div>
+									<div class="col-md-4">
+										<div class="form-group">
+											 <input type="text" name="percentage" placeholder="Enter %" id="percentage" style="display:none;" class="form-control" data-validation="required">                                    
+                                            <input type="text" name="lumsum" placeholder="Enter lumsum" id="lumsum" style="display:none;" class="form-control" data-validation="required"> 
+										</div>
+									</div>
+									<div class="col-md-4">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="split[]" id="split">Split Payment</label>
+                                        </div>
+                                    </div>
                                     <div class="col-md-2">
                                         <div class="form-group" style="margin-top: 23px">
                                             <label></label>
@@ -158,6 +186,18 @@
 <!-- ./wrapper -->
 <?php include 'superadmin_footer.php' ?>
 <script type="text/javascript">
+
+     $('#comm').change(function() {
+		var selected = $(this).val();
+		if(selected == 'percent'){
+		  $('#percentage').show();
+		  $('#lumsum').hide();
+		}else if(selected == 'lumsum'){
+			$('#lumsum').show();
+			$('#percentage').hide();
+		}
+     });
+
     function deleteEnrty(id)
     { 
         var ihuntcsrfToken  =   $('input[name="ihuntcsrfToken"]').val();
@@ -230,6 +270,8 @@
                             getStateByCity(json[0].stateId, json[0].cityId);     
                         }                                   
                         $("#address").val(json[0].orgAddress);
+                        $("#studentId").val(json[0].org_account_id);
+                        $("#percentage").val(json[0].org_percentage);
                 }
             });
         });

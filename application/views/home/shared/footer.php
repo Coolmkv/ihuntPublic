@@ -8,42 +8,42 @@
                 <div class="col-lg-4  col-md-4 col-sm-4 col-xs-6">
                     <h3>Get to Know Us</h3>
                     <ul>
-                        <li> <a href="genesis">Genesis </a> </li>
+                        <li> <a href="<?php echo site_url("genesis"); ?>">Genesis </a> </li>
                         <li> <a href="<?php echo site_url("OurTeam"); ?>">Our Team</a> </li>
                         <li> <a href="<?php echo site_url("CareerWithUs"); ?>">Careers</a> </li>
-                        <li> <a href="press">Press Release</a> </li>
-                        <li> <a href="cares">I HUNTBest Cares</a> </li>
-                        <li> <a href="smile">Gift a Smile</a> </li>
-                        <li> <a href="blog">Blog</a> </li>
+                        <li> <a href="<?php echo site_url("pressRelease"); ?>">Press Release</a> </li>
+                        <li> <a href="<?php echo site_url("ihuntBestCares"); ?>">I HUNTBest Cares</a> </li>
+                        <li> <a href="<?php echo site_url("giftSmile"); ?>">Gift a Smile</a> </li>
+                        <li> <a href="<?php echo site_url("blog"); ?>">Blog</a> </li>
                     </ul>
                 </div>
                 <div class="col-lg-4  col-md-4 col-sm-4 col-xs-6">
                     <h3>COLLEGES </h3>
                     <ul>
-                        <li> <a href="services">Services</a> </li>
-                        <li> <a href="testimonial">Testimonials</a> </li>
-                        <li> <a href="storie">I hunt best stories </a> </li>
-                        <li> <a href="Support">Support</a> </li>
+                        <li> <a href="<?php echo site_url("services"); ?>">Services</a> </li>
+                        <li> <a href="<?php echo site_url("testimonial"); ?>">Testimonials</a> </li>
+                        <li> <a href="<?php echo site_url("ihuntBestStories"); ?>">I hunt best stories </a> </li>
+                        <li> <a href="<?php echo site_url("support"); ?>">Support</a> </li>
 
-                        <li> <a href="#">Payments Saved </a> </li>
-                        <li> <a href="#">Cards Shipping</a> </li>
-                        <li> <a href="#">Cancellation & Returns</a> </li>
+                        <li> <a href="<?php echo site_url("paymentsSaved"); ?>">Payments Saved </a> </li>
+                        <li> <a href="<?php echo site_url("cardsShipping"); ?>">Cards Shipping</a> </li>
+                        <li> <a href="<?php echo site_url("cancelAndReturn"); ?>">Cancellation & Returns</a> </li>
                         <li> <a href="<?php echo site_url('faq'); ?>">FAQ</a> </li>
-                        <li> <a href="report">Report Infringement</a> </li>
-                        <li> <a href="#">Write to Us</a> </li>
+                        <li> <a href="<?php echo site_url('reportInfringement'); ?>">Report Infringement</a> </li>
+                        <li> <a href="<?php echo site_url('writeToUs'); ?>">Write to Us</a> </li>
                     </ul>
                 </div>
                 <div class="col-lg-4  col-md-4 col-sm-4 col-xs-6">
                     <h3> OUR GROUP</h3>
                     <ul>
 
-                        <li> <a href="brand">BRAND EMPOWERMENT</a> </li>
+                        <li> <a href="<?php echo site_url('showBrandEmpowerment'); ?>">BRAND EMPOWERMENT</a> </li>
                         <li> <a  target="_blank" href="<?php echo site_url('AdvertiseWithUs'); ?>">Advertisement</a> </li>
-                        <li> <a href="#"> Online Shopping</a> </li>
-                        <li> <a href="#">Affiliate Program</a> </li>
-                        <li> <a href="cart">Gift Card/offer</a> </li>
-                        <li> <a href="subscription">First Subscription</a> </li>
-                        <li> <a href="sitemap">Sitemap</a> </li>
+                        <li> <a href="<?php echo site_url('onlineShopping'); ?>"> Online Shopping</a> </li>
+                        <li> <a href="<?php echo site_url('affiliateProgram'); ?>">Affiliate Program</a> </li>
+                        <li> <a href="<?php echo site_url('giftCardOffer'); ?>">Gift Card/offer</a> </li>
+                        <li> <a href="<?php echo site_url('firstSubscription'); ?>">First Subscription</a> </li>
+                        <li> <a href="<?php echo site_url('siteMap'); ?>">Sitemap</a> </li>
 
                     </ul>
                 </div>
@@ -63,17 +63,17 @@
                 <div class="bo-col-12">
                     <div class="col-md-4" style="padding: 6px;border-right: 1px solid #ccc;">
                         <div class="track-to">
-                            <span class="map-to"><i class="fa fa-map-marker" aria-hidden="true"></i></span><h3>Track your<br>College</h3>
+                            <span class="map-to"><i class="fa fa-map-marker" aria-hidden="true"></i></span><h3>Track your<br>Admission</h3>
                         </div>
                     </div>
                     <div class="col-md-4" style="padding: 6px;border-right: 1px solid #ccc;">
                         <div class="track-to">
-                            <span class="map-to"><i class="fa fa-refresh" aria-hidden="true"></i></span><h3>FREE & EASY<br>RETURNS</h3>
+                            <span class="map-to"><i class="fa fa-refresh" aria-hidden="true"></i></span><h3>Refund Policy</h3>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="track-to">
-                            <span class="map-to"><i class="fa fa-times" aria-hidden="true"></i></span><h3>ONLINE<br>CANCELLATIONS</h3>
+                            <span class="map-to"><i class="fa fa-times" aria-hidden="true"></i></span><h3>Online Application <br>Submission</h3>
                         </div>
                     </div>
                 </div>
@@ -84,10 +84,10 @@
                     <div class="policy">
                         <h5>Policies :</h5>
                         <ul>
-                            <li><a href="#">Returns Policy</a></li>
-                            <li><a href="#">Terms of use</a></li>
-                            <li><a href="#">Security Privacy</a></li>
-                            <li><a href="#">Infringement</a></li>
+                            <li><a href="<?php echo site_url('returnPolicy'); ?>">Returns Policy</a></li>
+                            <li><a href="<?php echo site_url('termsOfUse'); ?>">Terms of use</a></li>
+                            <li><a href="<?php echo site_url('securityPolicy'); ?>">Security Privacy</a></li>
+                            <li><a href="<?php echo site_url('reportInfringement'); ?>">Infringement</a></li>
                             <li><a href="<?php echo site_url('privacypolicy'); ?>">Privacy Policy</a></li>
                         </ul>
                     </div>
@@ -160,17 +160,96 @@
             </div>
             <div class="col-md-4 social-me-to">
                 <p style="padding-top: 18px;
-                   float: right; color:#fff">Powered By: <a href="http://www.starlingsoftwares.com/" target="_blank"> Starling Softwares</a></p>
+                   float: right; color:#fff">Powered By: <a href="<?php echo site_url(); ?>" target="_blank">NEDC</a></p>
             </div>
         </div>
     </div>
     <!--/.footer-bottom-->
 </footer>
 <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit'></script>
+
+<script type="text/javascript">
+	function topBanners(setData) {
+		let data_length = setData.length;
+		let item_length = $(".item").length;
+		if(data_length>0){
+			let append_data = '';
+			for(let i=0; i<data_length;i++){
+				item_length += 1;
+				append_data =	append_data+'<div class="item slide'+(item_length)+'">' +
+						'<img src="'+setData[i].banner_src+'">' +
+						'<div class="row">' +
+						'<div class="container">' +
+						'<div class="col-md-7 text-left">' +
+						'<h5 data-animation="animated bounceInDown">'+setData[i].title+'</h5>' +
+						'<p></p>' +
+						'<div class="click-search">' +
+						'<a target="_blank" ' +
+						'href="<?php echo site_url('home/banner_link?link='); ?>'+setData[i].target_url+'&identifier='+setData[i].identifier+'">Click to view more</a>' +
+						'</div>' +
+						'</div>' +
+						'<div class="col-md-5 text-right"></div>' +
+						'</div>' +
+						'</div>' +
+						'</div>';
+			}
+			$(".carousel-inner").append(append_data);
+
+		}
+	}
+	getData();
+
+
+	function getData() {
+		$.ajax({
+			url: '<?php echo site_url('home/getPosterData'); ?>',
+			success: function (response) {
+
+				if(response.status){
+					var top_data = [];
+					var middle_data = [];
+					var right_side = [];
+					var left_side = [];
+					var total_banners = response.data.length;
+					var banners = response.data;
+
+					 for(var i=0;i<total_banners;i++){
+
+						 var process = {banner_src: banners[i].banner,title:banners[i].title,
+							 target_url:banners[i].target_url,identifier:banners[i].identifier};
+						if(banners[i].page_location=="Top"){
+							top_data.push(process);
+						}else if(banners[i].page_location=="Middle"){
+							middle_data.push(process);
+						}else if(banners[i].page_location=="Right Side"){
+							right_side.push(process);
+						}else if(banners[i].page_location=="Left Side"){
+							right_side.push(process);
+						}else{
+
+						}
+					}
+					topBanners(top_data);
+				}
+			},
+			error: function (jqXHR, exception) {
+				$.alert({
+					title: 'Error!', content: jqXHR["status"] + " - " + exception, type: 'red',
+					typeAnimated: true,
+					buttons: {
+						Ok: function () {
+
+						}
+					}
+				});
+			}
+		});
+	}
+</script>
 <script>
     getReligion("", "religion_id");
     function getReligion(selval, id) {
-        var result = '<option value="">Select</option>';
+        let result = '<option value="">Select</option>';
         $.ajax({
             url: '<?php echo site_url('home/religion'); ?>',
             success: function (response) {
@@ -192,7 +271,8 @@
                         }
                     });
                 }
-            }, error: function (jqXHR, exception) {
+            },
+			error: function (jqXHR, exception) {
                 $.alert({
                     title: 'Error!', content: jqXHR["status"] + " - " + exception, type: 'red',
                     typeAnimated: true,
@@ -231,27 +311,30 @@
                     $("#courseDetailsenq").append(json.CourseDetails);
 
                 }, error: function (jqXHR, exception) {
-                    $.alert({
-                        title: 'Error!', content: jqXHR["status"] + " - " + exception, type: 'red',
-                        typeAnimated: true,
-                        buttons: {
-                            Ok: function () {
-                                window.location.reload();
-                            }
-                        }
-                    });
+                  $(".tablink-01").trigger('click');
+                        $("#myModal").css("display", "block");
+                        return false;
                 }
             });
         }
     }
     function enrollnow(id, type, courseId, orgCourseId)
     {
+		// var chk_enroll_status= $("#chk_enroll").val();
+		// if(chk_enroll_status==1)
+		// {
+			// alert('You are already enrolled for this course');
+			// $("#chk_enroll").val('');
+			// window.location.href = "<?php echo site_url('Home/enrollset'); ?>";
+		// }
+		// else{
         $("#submitbtn").html("");
         if (id !== "" && type !== "" && courseId !== "")
         {
             $("#orgCourseId").val(orgCourseId);
             $("#enrcourseId").val(courseId);
             $("#orgTypeId").val(type);
+			$("#lgId").val(id);
             $.ajax({
                 type: "POST",
                 data: {id: id, type: type, courseId: courseId, orgCourseId: orgCourseId},
@@ -352,7 +435,8 @@
                 }
             });
         }
-    }
+    // }
+	}
     $("#closeenrollModal").click(function () {
         $("#enrollModal").hide();
         $("body").css("overflow", "auto");
@@ -801,16 +885,18 @@ if (isset($_SESSION['countryId'])) {
                 beforeSend: function () {
                 },
                 success: function (response) {
-                    //                            alert(response);
-                    var json = $.parseJSON(response);
-                    if (json.status === 'success') {
-                        alert(json.msg);
-                        $('#myModal').hide();
+                    if(response){
+						let json = $.parseJSON(response);
+						if (json.status == 'success')
+						{
+							alert(json.msg);
+							$('#myModal').hide();
 
-                    } else {
-                        $('#message').text(json.msg);
+						} else {
+							$('#message').text(json.msg);
 
-                    }
+						}
+					}
                 },
                 error: function (response) {
                     $('#error').html(response);
@@ -879,7 +965,7 @@ if (isset($_SESSION['countryId'])) {
                             typeAnimated: true,
                             buttons: {
                                 Ok: function () {
-                                    window.location.href = '<?php echo site_url(); ?>';
+                                     window.location.href = '<?php echo site_url(); ?>';
                                 }
                             }
                         });
@@ -1010,7 +1096,7 @@ if (isset($_SESSION['countryId'])) {
                             typeAnimated: true,
                             buttons: {
                                 Ok: function () {
-                                    window.location.href = '<?php echo site_url("home/index"); ?>';
+                                    window.location.href = '<?php echo site_url(); ?>'
                                 }
                             }
                         });
@@ -1020,7 +1106,7 @@ if (isset($_SESSION['countryId'])) {
                             typeAnimated: true,
                             buttons: {
                                 Ok: function () {
-                                    window.location.href = '<?php echo site_url("home/index"); ?>';
+                                    window.location.href = '<?php echo site_url(); ?>'
                                 }
                             }
                         });
@@ -1032,7 +1118,7 @@ if (isset($_SESSION['countryId'])) {
                         typeAnimated: true,
                         buttons: {
                             Ok: function () {
-                                window.location.href = '<?php echo site_url("home/index"); ?>';
+                                window.location.href = '<?php echo site_url(); ?>';
                             }
                         }
                     });
@@ -1057,7 +1143,7 @@ if (isset($_SESSION['countryId'])) {
             typeAnimated: true,
             buttons: {
                 Ok: function () {
-                    window.location.href = '<?php echo site_url("home/index"); ?>';
+                    window.location.href = '<?php echo site_url(); ?>';
                 }
             }
         });
@@ -1067,84 +1153,111 @@ if (isset($_SESSION['countryId'])) {
 
 <script>
 
-// This is called with the results from from FB.getLoginStatus().
-    function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
-        if (response.status === 'connected') {
-            // Logged into your app and Facebook.
-            testAPI();
-        } else {
-            // The person is not logged into your app or we are unable to tell.
-            document.getElementById('status').innerHTML = 'Please log ' +
-                    'into this app.';
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	
+	 function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+    console.log('statusChangeCallback');
+    console.log(response);                   // The current login status of the person.
+    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+      testAPI();  
+    } else {                                 // Not logged into your webpage or we are unable to tell.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this webpage.';
+    }
+  }
+
+
+  function checkLoginState() {               // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function(response) {   // See the onlogin handler
+      statusChangeCallback(response);
+    });
+  }
+
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{294729754539736}',
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : 'v3.2'           // Use this Graph API version for this call.
+    });
+
+
+    FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+      statusChangeCallback(response);        // Returns the login status.
+    });
+  };
+
+  
+  (function(d, s, id) {                      // Load the SDK asynchronously
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+    function signOut() {
+       FB.logout(function(response) {
+         console.log('Person is now logged out');
+       });
+    }
+	
+<?php echo (isset($_SESSION['studentId']) ? '' : 'signOut();'); ?>
+  function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me',{fields: "id,email,gender,name,last_name"}, function(response) {
+	   var signedin = '<?php echo (isset($_SESSION['studentId']) ? "Yes" : "No"); ?>';
+        if (response.name !== "" && response.email !== "" && signedin === 'No') {
+            $.ajax({
+                url: '<?php echo site_url('Register/loginWithFaceBook'); ?>',
+                data: {name: response.name, email: response.email},
+                type: "POST",
+                success: function (response) {
+                    var json = $.parseJSON(response);
+                    if (json.status === "success") {
+
+                        $.alert({title: 'Success!', content: json.msg, type: 'blue',
+                            typeAnimated: true,
+                            buttons: {
+                                Ok: function () {
+                                    window.location.href = '<?php echo site_url(); ?>';
+                                }
+                            }
+                        });
+                    } else {
+                        $.alert({
+                            title: 'Error!', content: json.msg, type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                Ok: function () {
+                                    window.location.href = '<?php echo site_url(); ?>';
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    $.alert({
+                        title: 'Error!', content: jqXHR["status"] + " " + exception, type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            Ok: function () {
+                                window.location.href = '<?php echo site_url(); ?>';
+                            }
+                        }
+                    });
+                }
+            });
         }
-    }
+      //document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
 
-    // This function is called when someone finishes with the Login
-    // Button.  See the onlogin handler attached to it in the sample
-    // code below.
-    function checkLoginState() {
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        }, {scope: 'public_profile,email,user_gender,user_location', return_scopes: true});
-    }
 
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '294729754539736',
-            cookie: true, // enable cookies to allow the server to access
-            // the session
-            xfbml: true, // parse social plugins on this page
-            version: 'v3.2' // The Graph API version to use for the call
-        });
-
-        // Now that we've initialized the JavaScript SDK, we call
-        // FB.getLoginStatus().  This function gets the state of the
-        // person visiting this page and can return one of three states to
-        // the callback you provide.  They can be:
-        //
-        // 1. Logged into your app ('connected')
-        // 2. Logged into Facebook, but not your app ('not_authorized')
-        // 3. Not logged into Facebook and can't tell if they are logged into
-        //    your app or not.
-        //
-        // These three cases are handled in the callback function.
-
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        });
-
-    };
-
-    // Load the SDK asynchronously
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id))
-            return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    // Here we run a very simple test of the Graph API after login is
-    // successful.  See statusChangeCallback() for when this call is made.
-    function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function (response) {
-
-            console.log('Successful login for: ' + response.name + ' response' + JSON.stringify(response));
-            document.getElementById('status').innerHTML =
-                    'Thanks for logging in, ' + response.name + '!';
-        });
-    }
 </script>
-
 <!--------------------modal-------------------------->
 
 </body>
