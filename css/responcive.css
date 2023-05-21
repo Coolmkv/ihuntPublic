@@ -1,0 +1,497 @@
+.filter-to form { position: relative }
+.sc { right: 0; }
+.blogTitle { font-size: 14px; bottom: 0 !important; }
+.more { font-size: 12px !important; }
+@media (max-width: 991px) and (min-width: 768px) {
+.co-job { width: 23%; float: left; display: inline-block; margin: 5px 5px; padding: 0px !important; }
+.bg-white { width: 100%; }
+.job-t p { font-size: 14px; line-height: 24px; text-align: justify }
+.job-t h3 { margin: 6px 0; float: left; width: 100%; }
+.job-t { width: 100%; float: left; padding: 0px; padding-top: 15px; }
+.job-t ul li { font-size: 14px; line-height: 24px; }
+.job-t .form-group { width: 50%; float: left; padding: 0px 8px; }
+.job-t .form-group:last-child { width: 100%; float: left }
+.bg-color .container-fluid .col-md-6-to-min .job-t { padding: 0px }
+.bg-de-college-post .col-md-12 { width: 100%; float: left }
+.bg-de-college-post .post-form { width: 100%; float: left }
+.bg-de-college-post .col-md-9 { width: 70% !important; float: left }
+.bg-de-college-post .col-md-3 { width: 30% !important; float: left }
+.addver-form .form-group { margin-top: 0px; margin-bottom: 8px; }
+.form-add .col-md-12 { padding: 0px }
+.sub-post a { font-size: 16px; padding: 7px; }
+.bg-pay { margin-top: 6%; }
+.blog-to .col-md-3 { padding-left: 0px !important; width: 25%; float: left; }
+.container-fluid-to-1 .col-md-10 { padding: 0px; }
+.container-fluid-to-1 .col-md-10 .col-md-3 { margin-bottom: 0px; padding: 1px 5px; width: 33%; float: left; }
+.container-fluid-to-1 .col-md-10 .col-md-3 .l-t { padding-top: 0px; padding-bottom: 10px; }
+.search-box-to .col-md-5 { width: 40%; float: left }
+.search-box-to .col-md-2 { width: 20%; float: left }
+.container-fluid-to-1 .col-md-10 .col-md-12 { width: 100%; float: left }
+.all-college-to .col-md-4 { margin-bottom: 20px; padding: 1px 5px; width: 50%; float: left; }
+.to { font-size: 13px !important; }
+.to-3 { font-size: 13px !important; }
+.all-img p { border-bottom: none; }
+.all-text p { font-size: 13px; margin-bottom: 10px; }
+.listing_filter li label { font-size: 11px; }
+.blogTitle { font-size: 11px; }
+.all-college-to .col-md-12 { width: 100%; display: flow-root; }
+.all-college-to .col-md-12 .load { margin-top: 0px; }
+.view-co-left .add-5 { width: 100%; float: left }
+.custom-btn { width: 26%; padding: 3px 12px; }
+.col-image .logo-co { left: 1px; top: 48px; }
+.col-aproval { position: absolute; right: 2px; top: 49px; }
+.col-aproval h3 { font-size: 11px; }
+.type-3-to { float: left; font-size: 11px; }
+.view-to-com .type-3 { width: 33.333% !important; float: left; }
+.share-to-3 { width: 100%; float: left }
+.share-to { margin-bottom: 6px; }
+.review-3 { margin-bottom: 6px; }
+.pro select { width: 38%; }
+}
+.margin-tops { margin-top: 12px; width: 100%; float: left; }
+#show-768 { display: block; position: inherit; }
+@media (min-width: 768px) {
+.my-cart-icon { right: 20px; }
+.to-slide .mixedSlider-flip-15 .MS-content .item { width: 33.333%; }
+.container-fluid-to-1 .col-md-7 .all-img .all-job-me .col-md-12 { width: 100%; float: left; padding: 0px; }
+.container-fluid-to-1 .col-md-7 .all-img .all-job-me .col-md-7 { width: 100%; float: left; padding: 0px; }
+.co-job { width: 23%; float: left; display: inline-block; margin: 5px 5px; padding: 0px !important; }
+.bg-white { width: 100%; }
+.job-t p { font-size: 14px; line-height: 24px; text-align: justify }
+.job-t h3 { margin: 6px 0; float: left; width: 100%; }
+.job-t { width: 100%; float: left; padding: 0px; padding-top: 15px; }
+.job-t ul li { font-size: 14px; line-height: 24px; }
+.bg-color .container-fluid .col-md-6-to-min .job-t { padding: 0px }
+.bg-de-college-post .col-md-12 { width: 100%; float: left }
+.bg-de-college-post .post-form { width: 100%; float: left }
+.bg-de-college-post .col-md-9 { width: 100%; float: left }
+.bg-de-college-post .col-md-3 { width: 100%; float: left }
+.bg-pay { margin-top: 6%; }
+.form-add-to { padding: 0px; width: 100%; float: left }
+.form-add-to-3 { padding: 0px; width: 100%; float: left }
+.blog-to .col-md-3 { padding-left: 0px !important; width: 30%; float: left; }
+.b-text h1 { margin-top: 0px; margin-bottom: 5px; font-size: 16px; }
+.b-text p { font-size: 13px; }
+.review-block-description br { display: none }
+.span8 h3 { font-size: 17px; }
+.review-block-title h3 { margin-top: 0px; }
+.clan a { font-size: 14px }
+.all-college-to { width: 82.666667%; }
+.crose { display: block !important; background: #137f76; color: #fff; border: none; border-radius: 3px; }
+#show-768 { display: none; position: absolute; float: left; z-index: 999; width: 240px; box-shadow: 0px 4px 9px 2px #ccc; }
+.custom-btn { width: 26%; padding: 3px 12px; }
+#first-slider .carousel .item { min-height: 215px; height: 100%; width: 100%; }
+.footer-bottom .container { padding: 0px !important }
+.footer-bottom .social-me-to p { padding-top: 6px !important; }
+.social-me-to { width: 49.33%; float: left }
+.social-me-to:nth-child(1) { width: 24%; float: left }
+.social-me-to:nth-child(2) { width: 31%; float: left }
+.social-me-to:nth-child(3) { width: 42%; float: left }
+.policy-to { width: 50%; float: left }
+#first-slider h5 { font-size: 15px !important; }
+.text-left { width: 50%; float: left; clear: left; }
+.text-right { float: left; }
+.review-block-description p { font-size: 14px }
+.text-left p { font-size: 9px !important; }
+#first-slider .carousel-control { height: 230px; position: absolute; bottom: 0; top: 85px; }
+.add-to-3 { display: flow-root }
+.heading h2 { padding-top: 0px; text-align: center; color: #000; float: left; width: 100%; margin-bottom: 5px; }
+.bo-col-12 .col-md-4 { width: 33.33%; float: left }
+.to-slide #mixedSlider1 .MS-content .item { display: inline-block; background-color: #ececec; width: 32.5% ; margin: 0px 5px; position: relative; vertical-align: top; overflow: hidden; height: 100%; white-space: normal; padding: 4px; }
+.to-slide #mixedSlider11 .MS-content .item { display: inline-block; background-color: #ececec; width: 32.5% ; margin: 0px 5px; position: relative; vertical-align: top; overflow: hidden; height: 100%; white-space: normal; padding: 4px; }
+.to-slide #mixedSlider111 .MS-content .item { display: inline-block; background-color: #ececec; width: 32.5% ; margin: 0px 5px; position: relative; vertical-align: top; overflow: hidden; height: 100%; white-space: normal; padding: 4px; }
+#mixedSlider .MS-content .item { width: 32.5%; }
+.navbar-header { float: left; display: none; }
+#navbar { background-color: #faa71a !important; height: 40px; width: 100%; float: left; }
+.nav>li>a { position: relative; display: block; padding: 10px 12px; font-size: 14px; }
+.navbar { min-height: 39px; }
+}
+.blog-to .col-md-9 { width: 70%; float: left }
+@media (max-width: 2000px) and (min-width: 1349px) {
+.bg-color .container-fluid .col-md-6-to-min .job-t { padding: 0px }
+.all-college-to .col-md-4 .all-img p { border-bottom: none; }
+.all-college-to { width: 64.666667% !important; }
+#show-768 { display: block !Important; position: inherit; }
+.show { display: none !important; }
+.crose { display: none !important }
+}
+.show { background: #137f76; color: #fff; border: none; border-radius: 3px; margin-bottom: 10px; }
+@media (max-width: 767px) and (min-width: 320px) {
+.my-cart-icon { right: 20px; }
+.to-slide .mixedSlider-flip-15 .MS-content .item { width: 50%; }
+.latest-to-fl { height: inherit; }
+.latest-to-fl .latest { padding: 10px; }
+.latest-to-fl .latest h2 { margin-bottom: 0px; }
+.data-job-to a { width: 100%; float: left; }
+.container-fluid-to-1 .col-md-7 .all-img .all-job-me .col-md-12 { width: 100%; float: left; padding: 0px; }
+.container-fluid-to-1 .col-md-7 .all-img .all-job-me .col-md-5 { width: 100%; float: left; padding: 0px; }
+.all-job-me a { font-size: 13px !important; }
+.co-job { width: 46%; float: left; display: inline-block; margin: 5px 5px; padding: 0px !important; }
+.view-co-left-to-3 { width: 100% !important; float: left }
+.container-fluid-to-1 .col-md-7 { width: 100%; float: left; padding: 0px; margin-top: 10px; }
+.container-fluid-to-1 { width: 100%; float: left }
+.bg-white { width: 100%; }
+.bg-color .container-fluid .col-md-6-to-min .job-t { padding: 0px }
+.job-t p { font-size: 14px; line-height: 24px; text-align: justify }
+.job-t h3 { margin: 6px 0; float: left; width: 100%; }
+.job-t { width: 100%; float: left; padding: 0px; padding-top: 15px; }
+.job-t ul li { font-size: 14px; line-height: 24px; }
+.col-md-6-to-min { width: 100%; float: left; padding: 0px 11px; }
+.bg-de-college-post .col-md-12 { width: 100%; float: left }
+.bg-de-college-post .post-form { width: 100%; float: left }
+.bg-de-college-post .col-md-9 { width: 100%; float: left }
+.bg-de-college-post .col-md-3 { width: 100%; float: left }
+.bg-pay { margin-top: 6%; }
+.form-add-to { padding: 0px; width: 100%; float: left }
+.form-add-to-3 { padding: 0px; width: 100%; float: left }
+.co-name-to { }
+.co-to-se .col-md-6 { padding: 0px; width: 100%; float: left; margin-bottom: 10px; }
+.co-to-se .col-md-12 { padding: 0px; width: 100%; float: left; margin-bottom: 10px; }
+.co-to-se .head-add { padding: 0px 15px }
+.head-add ol li { font-size: 14px; line-height: 24px; }
+.head-add ol { margin-bottom: 10px; }
+.co-to-se .t-co-ser { width: 100%; float: left }
+.testimonial-content p { font-size: 14px; }
+.t-co-ser h3 { width: 100%; float: left }
+.t-co-ser p { width: 100%; float: left; font-size: 14px; margin-bottom: 15px; }
+.t-co-ser ul li { font-size: 14px; line-height: 24px; }
+.co-to-se .t-co-ser { padding: 0px; }
+.review-block-description p { font-size: 14px }
+#show-768 { display: block; position: inherit; }
+.quickly_ul li { padding: 3px 5px; font-size: 11px; }
+.to-slide #mixedSlider1 .MS-content .item { width: 100% !important; }
+.to-slide #mixedSlider11 .MS-content .item { width: 100% !important; }
+.to-slide #mixedSlider111 .MS-content .item { width: 100% !important; }
+.all-corse .col-sm-8, .col-sm-4 { padding: 15px; }
+.bo-col-12 .col-md-4 { width: 31%; float: left; padding: 0px !important }
+.map-to .fa { font-size: 21px; color: #000; padding: 4px; }
+.bo-col-12 { width: 100%; float: left; border-bottom: 1px solid #ccc; padding: 10px; }
+.policy-to { width: 50%; float: left; padding: 15px; }
+.track-to h3 { margin-top: 0px; padding: 0px !important; font-size: 12px; line-height: 17px; }
+.footer h3 { padding-top: 15px; }
+.pay { padding: 15px 15px; }
+.pay h2 { font-size: 17px; }
+.navbar-header { background-color: #137f76 !important; }
+#navbar-collapse-1 .navbar-nav { float: right; margin: 0; width: 100%; }
+.menu > ul > li a { padding: 11px; width: 100%; display: block; }
+.search-box .col-md-3 { position: absolute; top: 4px; width: 51%; z-index: 9; /* overflow: hidden; */
+padding: 0px; }
+.quickly_ul { width: 100%; display: block; float: left }
+#first-slider .carousel .item { min-height: 171px; height: 100%; width: 100%; }
+.carousel-inner>.item>a>img, .carousel-inner>.item>img { line-height: 1; height: 171px; width: 100%; margin: 0px; }
+#first-slider .carousel-indicators { bottom: 19px; }
+#first-slider .carousel-control.right, #first-slider .carousel-control.left { background-image: none; height: 34px; position: absolute; top: 0; bottom: 0; margin: auto; }
+.carousel-inner { min-height: 190px; max-height: 196px; }
+.carousel-control .fa-angle-left { left: 50%; width: 22px; height: 22px; margin-top: -15px; font-size: 16px; color: #fff; border: 3px solid #ffffff; -webkit-border-radius: 23px; -moz-border-radius: 23px; border-radius: 53px; }
+.carousel-control .fa-angle-right { width: 22px; height: 22px; margin-top: -15px; font-size: 16px; }
+.fixed-header- { position: relative; width: 100%; float: left; }
+#first-slider { width: 100%; float: left; }
+.carousel-fade .carousel-control { z-index: 2; height: 100%; float: left; position: absolute; bottom: 0; }
+.add-to { padding: 3% 0; width: 100%; float: left; }
+.all h2 { font-size: 17px; }
+.add-to-3 { width: 100%; float: left; }
+.heading p { display: none }
+.carousel-inner { position: relative; width: 100%; overflow: hidden; }
+#carousel-example-generic { z-index: 99999; position: relative !important; width: 100%; float: left; padding: inherit; }
+#first-slider { width: 100%; float: left; }
+#carousel-example-generic .container { display: none; }
+#navbar { background-color: #137f76 !important; height: 51px; ; }
+}
+@media (max-width: 992px) and (min-width: 768px) {
+.my-cart-icon { right: 20px; }
+.latest-to-fl { height: inherit; }
+.latest-to-fl .latest { padding: 10px; }
+.latest-to-fl .latest h2 { margin-bottom: 0px; }
+.job-text { font-size: 13px; }
+.co-to-se .t-co-ser { padding: 0px; }
+.blog-to .col-md-3 { padding-left: 0px !important; width: 30%; float: left; }
+.b-text h1 { margin-top: 0px; margin-bottom: 5px; font-size: 16px; }
+.b-text p { font-size: 13px; }
+.amozan h2 { color: #000; margin-bottom: 15px; text-align: left; padding: 0px; font-size: 18px; }
+.amozan p { color: #171616; line-height: 28px; text-align: justify; font-size: 15px; }
+.search-box .col-md-6 { width: 73%; float: left; }
+.search-box .col-md-2 { width: 27%; float: right; }
+.bg-color-3 .container-fluid .col-md-3 { width: 100%; float: left; }
+.text-box p { font-size: 13px; }
+.text-box a { font-size: 13px; }
+.filter { width: 49%; float: left; }
+.add-5 { width: 49%; float: right; margin-bottom: 20px; }
+.span8 { width: 48%; margin: 1%; }
+.bg-color-3 .container-fluid .col-md-3 .add-5 { clear: left; float: left }
+.type-3-to p { margin: 8px; color: #fff; font-size: 13px; }
+.col-image .marque { font-size: 13px; bottom: 36px; }
+.type-3 p { font-size: 14px; }
+.view-to-com .col-md-5 { width: 50%; float: left }
+.share-to-3 { width: 50%; float: left; }
+.count-title { font-size: 25px; }
+.direct-faculty h4 { font-size: 13px; }
+.about-college p { font-size: 13px; }
+}
+ @media (max-width: 1366px) and (min-width: 992px) {
+.container-fluid-to-1 .col-md-7 { width: 74%; }
+.bg-de-college-post .col-md-9 { width: 70% !important; float: left; }
+.bg-de-college-post .col-md-3 { width: 30% !important; float: left; }
+.bg-color .mar-top .col-md-6 { padding: 0px 5px; }
+.des-img { width: 71%; float: left; }
+.r-f-text { width: 100%; float: left; padding-left: 17px; }
+.r-f-text ul li { font-size: 14px; }
+.de-team { color: #777; font-size: 13px; }
+}
+@media (max-width: 1250px) and (min-width: 991px) {
+.container-fluid-to-1 .col-md-10 { width: 100%; }
+}
+@media (max-width: 1100px) and (min-width: 991px) {
+.blog-to .col-md-3 { padding-left: 0px !important; width: 25%; float: left; }
+.amozan h2 { color: #000; margin-bottom: 15px; text-align: left; padding: 0px; font-size: 18px; }
+.amozan p { color: #171616; line-height: 28px; text-align: justify; font-size: 15px; }
+.type-3 p { font-size: 13px; }
+.span8-to-3 p { font-size: 13px; line-height: 21px; }
+.review-block-description p { font-size: 13px; line-height: 21px; }
+.type-3-to { font-size: 13px; }
+.all-text p { font-size: 13px; margin-bottom: 10px; }
+.listing_filter li label { font-size: 11px; }
+.to-3 { font-size: 13px !important; }
+.to { font-size: 13px !important; }
+.all-img p { border-bottom: none; }
+.blogTitle { font-size: 11px; }
+.all-img p { font-size: 13px; }
+}
+.more { font-size: 14px !important; }
+.po-check { bottom: 0px !important }
+@media (max-width: 767px) and (min-width: 620px) {
+.my-cart-icon { right: 20px; }
+.bg-de-college-5 .col-sm-2 { width: 33%; float: left }
+.testiminial-block .col-md-2 { width: 30%; float: left }
+.testimonial-content { margin-top: 0px; }
+.testiminial-block { padding-bottom: 10px; }
+.blog-to .col-md-3 { padding-left: 0px !important; width: 30%; float: left; }
+.b-text h1 { margin-top: 0px; margin-bottom: 5px; }
+.b-text p { font-size: 13px; }
+.amozan h2 { color: #000; margin-bottom: 15px; text-align: left; padding: 0px; font-size: 18px; }
+.amozan p { color: #171616; line-height: 28px; text-align: justify; font-size: 15px; }
+.yo-to { padding: 0px 23px; font-size: 15px; line-height: 24px; }
+.amozan p { color: #171616; line-height: 28px; text-align: justify; font-size: 14px; }
+.amozan h2 { font-size: 18px; line-height: 27px }
+.search-box .col-md-6 { width: 77%; float: left; }
+.search-box .col-md-2 { width: 28%; float: right; }
+.bg-color .mar-top .col-md-6 { width: 50%; float: left; padding: 0px 5px; }
+.des-img { width: 100%; float: left }
+.r-f-text { width: 100%; float: left; padding: 0px; }
+.team-pic { width: 100%; float: left }
+.social-team { margin: 8px 0 }
+.r-f-text ul li { line-height: 24px; }
+#tab_default_3 .col-sm-3 { width: 50%; float: left }
+.all-img a { font-size: 14px; }
+.custom-btn { width: 28% !important; padding: 3px 12px; }
+.filter { width: 49%; float: left; }
+.hover-img-box { width: 50%; float: left; }
+.add-5 { width: 49%; float: right; margin-bottom: 20px; }
+.all-college-to { width: 100%; float: left; padding: 0px; }
+.filter-college { width: 48%; float: left }
+.view-college .all-text .filter-college:nth-child(3) { margin-left: 1% !important; }
+.view-college .all-text .filter-college:nth-child(5) { margin-left: 1% !important; }
+.view-college .all-text .filter-college:nth-child(2) { margin-right: 1% !important; }
+.view-college .all-text .filter-college:nth-child(1) { margin-right: 1% !important; }
+.view-college .all-text .filter-college:nth-child(4) { margin-right: 1% !important; }
+.view-co-left-3 .view-college .all-text .filter-college:nth-child(2) { margin-left: 1% !important; }
+.view-co-left-3 .view-college .all-text .filter-college:nth-child(3) { margin-right: 1% !important; margin-left: 0px !important }
+.view-co-left-3 .view-college .all-text .filter-college:nth-child(4) { margin-left: 1% !important; margin-right: 0px !important }
+.all-img p { border-bottom: none }
+.l-t { padding: 0px !important; padding-bottom: 10px !important; padding-left: 10px !important; }
+.container-fluid-to-1 .col-md-10 { padding: 0px !important }
+.maxl { margin: 0px; width: 100%; float: left; }
+.view-college { margin-bottom: 20px; }
+.all-college-to .col-md-4 { margin-bottom: 20px; padding: 1px 5px; width: 50%; float: left; }
+.container-fluid-to-1 .col-md-10 .col-md-3 { padding: 1px 5px; width: 50%; float: left; }
+.all-college-to .col-md-12 { width: 100%; float: left; }
+.load { width: 134px; margin: auto; margin-bottom: 20px; }
+.view-co-left { width: 100%; float: left; }
+.view-co-left-3 { width: 100% !important; float: left }
+.container-fluid-to-1 .col-md-10 .col-md-12 { width: 100%; float: left; }
+.view-co-left .add-5 { width: 48%;/* float: right; */ margin-bottom: 20px; margin: 0px 1%; }
+.footer-bottom p { padding-top: 8px !important; }
+.footer-bottom .col-md-4:nth-child(1) { width: 26%; float: left }
+.footer-bottom .col-md-4:nth-child(2) { width: 32%; float: left }
+.footer-bottom .col-md-4:nth-child(3) { width: 41%; float: left }
+.all-college-to .all-img p { border-bottom: 0px; }
+.footer-bottom .container { padding: 0px; }
+.blogTitle { font-size: 14px; bottom: 1px !important; }
+.img-mission img { width: auto; margin: auto }
+.top-coll { position: inherit; background: #faa71a; }
+.web-college { position: inherit; bottom: 0; width: 100%; float: left; background: #faa71a; }
+.col-image .marque { bottom: 1px; }
+}
+@media (max-width: 620px) and (min-width: 480px) {
+.my-cart-icon { right: 20px; }
+.bg-de-college-5 .col-sm-2 { width: 33%; float: left }
+.testiminial-block .col-md-2 { width: 30%; float: left }
+.testimonial-content { margin-top: 0px; }
+.testiminial-block { padding-bottom: 10px; }
+.amozan p { color: #171616; line-height: 28px; text-align: justify; font-size: 14px; }
+.amozan h2 { font-size: 18px; line-height: 27px }
+.all-img p { border-bottom: none; }
+.l-t { padding: 0px !important; padding-bottom: 10px !important; padding-left: 10px !important; }
+.blog-to .col-md-3 { padding: 0px; }
+.b-text h1 { margin-top: 0px; margin: 8px 0; font-size: 18px; }
+.b-text p { color: #777; font-size: 14px; line-height: 25px; }
+.container-fluid-to-1 .col-md-10 { padding: 0px !important }
+.tabtop li a { font-size: 12px; padding: 7px 8px !important; }
+#tab_default_8 .col-md-12 { width: 100%; float: left; }
+.about-college h3 { font-size: 15px; font-weight: normal }
+.about-college h3 i, .photo_gallery h3 i { height: 27px; line-height: 21px; }
+.faculty-img { max-height: 250px; overflow: hidden; }
+.about-college .col-sm-4 { width: 100%; float: left; padding: 0px; }
+.about-college .col-sm-8 { width: 100%; float: left; padding: 0px; }
+.about-college p { font-size: 14px; }
+.pro-fac ul { margin: 10px 0 }
+.social-me-to { width: 50%; float: left; }
+.social-me-to:nth-child(3) { clear: left }
+.custom-btn { width: 49%; padding: 0px 18px; text-align: left; }
+.top-coll { position: inherit; background: #faa71a; }
+.web-college { position: inherit; bottom: 0; width: 100%; float: left; background: #faa71a; }
+.col-image .marque { position: initial; }
+.col-aproval h3 { font-size: 12px; padding: 0px 3px; }
+.price-car-to3 li { padding: 2px 0 }
+.view-to-com .type-3 { width: 48% !important; float: left; font-size: 13px; border-bottom: 1px dashed #ccc; padding: 2px 0; margin: 1%; height: 55px }
+.review-3 ul li { width: 46%; }
+.review-3 { margin-top: 7px; }
+.review-3 ul li:nth-child(1) { margin-left: 0px; }
+.pro p { width: 100%; float: left; font-size: 13px; }
+.pro p select { float: none; width: 55%; margin-right: 0px }
+.cllege-facili ul li { margin-bottom: 7px; margin: 1%; width: 30%; }
+.count-title { font-size: 13px; }
+.count-text { font-size: 11px; }
+.all-corse { padding: 0px; }
+.all-corse .col-sm-8, .col-sm-4 { padding: 4px; }
+.span8 h3 { font-size: 14px; }
+.share-to-3 { width: 100%; padding: 0px; float: left }
+.share-to ul li { padding: 0px; margin: 2px !important; }
+.view-to-com .col-md-5, .review-3 ul { padding: 0px; width: 100%; float: left; }
+i.fa.fa-facebook, i.fa.fa-twitter, .fa-google-plus { border-right: 1px dotted #FFF; padding-right: 2px !important; margin-right: 3px !important; width: 20px !important; }
+.pro p .fa { color: #faa71a; padding-right: 3px; font-size: 16px; }
+.cllege-facili ul li a { display: inline-block; color: #787575; font-size: 14px; width: 100%; float: left; background: #fff; padding: 5px 6px; border: 1px dotted #bbb!important; border-radius: 2px; }
+.footer .row { margin: 0px !important }
+.view-to-com .type-3:last-child { width: 100% !important; float: left }
+.col-image .logo-co { left: 2px; top: 2px; width: 30px; height: 32px; }
+.col-aproval { position: absolute; right: 1px; top: 1px; background-color: rgba(250, 167, 26, 0.53); }
+.skills { text-align: right; padding-right: 20px; line-height: 19px; color: white; }
+.col-image { float: left }
+.bg-color .mar-top .col-md-6 { width: 50%; float: left; padding: 0px 5px; }
+.des-img { width: 100%; float: left }
+.r-f-text { width: 100%; float: left; padding: 0px; }
+.team-pic { width: 100%; float: left }
+.social-team { margin: 8px 0 }
+.r-f-text ul li { line-height: 24px; }
+.yo-to { padding: 0px 23px; font-size: 15px; line-height: 24px; }
+}
+.container { display: flow-root; }
+.btn-success { margin-top: 0px !important; }
+@media (max-width: 480px) and (min-width: 320px) {
+.location-search-container { width: 100%; margin:0; }
+.location-search-container .__dd-sec-bottom .__top-cities ul li.region-list { margin: 0 16px; }
+.location-search-container .__dd-sec-bottom .others-cities-list ul.city-list li.city-name { display: inline-block; width: 100%; margin: 0 10px; }
+.hunt-modal { padding-top: 0px; }
+.hunt-modal .__title {
+	
+	display:block;
+	
+   
+   
+}
+.my-cart-icon { right: 20px; }
+.footer p { text-align: justify !important }
+.search-box-to-5 { top: 0; bottom: 0; height: 138px; width: 73%; margin: auto; left: 0; right: 0; }
+.banner-img-5 img { height: 184px; }
+.bg-de-college-5 .col-sm-2 { width: 50%; float: left }
+.job-text { font-size: 14px; }
+.type-to-podt-to { margin-bottom: 0px; }
+.sub-post a { font-size: 18px; padding: 4px; }
+.max-to-1 { width: 100% !important; float: left; padding: 0px !important; }
+.max-to-1 label:nth-child(2) { display: none; }
+.testiminial-block .col-md-2 { width: 51%; float: left; margin: auto; float: none; margin-bottom: 20px; }
+.testimonial-content p { text-align: justify }
+.testimonial-content { margin-top: 0px; width: 100%; float: left }
+.testiminial-block { padding-bottom: 10px; }
+.blog-to .col-md-3 { padding: 0px; }
+.blog-to .col-md-9 { padding: 0px; }
+.b-text h1 { margin-top: 0px; margin: 8px 0; font-size: 18px; }
+.b-text p { color: #777; font-size: 14px; line-height: 25px; text-align: justify }
+.bg-de-college { padding-top: 15px !important; }
+.amozan h2 { font-size: 18px; line-height: 27px }
+.amozan p { color: #171616; line-height: 28px; text-align: justify; font-size: 14px; }
+.l-t { padding: 0px !important; padding-bottom: 10px !important; padding-left: 10px !important; }
+.yo-to { padding: 0px 23px; font-size: 15px; line-height: 24px; }
+.container-fluid-to-1 .col-md-10 { padding: 0px !important }
+.bg-color .mar-top .col-md-6 { width: 100%; float: left; padding: 0px; }
+.des-img { width: 100%; float: left }
+.r-f-text { width: 100%; float: left; padding: 0px; }
+.team-pic { width: 100%; float: left }
+.social-team { margin: 8px 0 }
+.r-f-text ul li { line-height: 24px; }
+.tabtop li a { font-size: 12px; padding: 7px 8px !important; }
+#tab_default_8 .col-md-12 { width: 100% !important; float: left !important; }
+#tab_default_8 .col-sm-5, .col-sm-7, .col-sm-12 { width: 100%; float: left }
+.price-car-to3 { padding-left: 20px; }
+.about-college h3 { font-size: 15px; font-weight: normal }
+.about-college h3 i, .photo_gallery h3 i { height: 27px; line-height: 21px; }
+.faculty-img { max-height: 250px; overflow: hidden; }
+.about-college .col-sm-4 { width: 100%; float: left; padding: 0px; }
+.about-college .col-sm-8 { width: 100%; float: left; padding: 0px; }
+.about-college p { font-size: 14px; }
+.pro-fac ul { margin: 10px 0 }
+.web-college { position: inherit; bottom: 0; width: 100%; float: left; background: #faa71a; }
+.col-image .marque { position: initial; }
+.col-aproval h3 { font-size: 12px; padding: 0px 3px; }
+.price-car-to3 li { padding: 2px 0 }
+.view-to-com .type-3 { width: 100% !important; float: left; font-size: 13px; border-bottom: 1px dashed #ccc; padding: 2px 0; }
+.review-3 ul li { width: 46%; }
+.review-3 { margin-top: 7px; }
+.review-3 ul li:nth-child(1) { margin-left: 0px; }
+.pro p { width: 100%; float: left; font-size: 13px; }
+.pro p select { float: none; width: 55%; margin-right: 0px }
+.cllege-facili ul li { margin-bottom: 7px; margin: 1%; width: 48%; }
+.count-title { font-size: 13px; }
+.count-text { font-size: 11px; }
+.all-corse { padding: 0px; }
+.all-corse .col-sm-8, .col-sm-4 { padding: 4px; }
+.span8 h3 { font-size: 14px; }
+.share-to-3 { width: 100%; padding: 0px; float: left }
+.share-to ul li { padding: 0px; margin: 2px !important; }
+.view-to-com .col-md-5, .review-3 ul { padding: 0px; width: 100%; float: left; }
+i.fa.fa-facebook, i.fa.fa-twitter, .fa-google-plus { border-right: 1px dotted #FFF; padding-right: 2px !important; margin-right: 3px !important; width: 20px !important; }
+.pro p .fa { color: #faa71a; padding-right: 3px; font-size: 16px; }
+.cllege-facili ul li a { display: inline-block; color: #787575; font-size: 14px; width: 100%; float: left; background: #fff; padding: 5px 6px; border: 1px dotted #bbb!important; border-radius: 2px; }
+.footer .row { margin: 0px !important }
+.view-to-com .type-3:last-child { width: 100% !important; float: left }
+.col-image .logo-co { left: 2px; top: 2px; width: 30px; height: 32px; }
+.col-aproval { position: absolute; right: 1px; top: 1px; background-color: rgba(250, 167, 26, 0.53); }
+.skills { text-align: right; padding-right: 20px; line-height: 19px; color: white; }
+.bg-color-3 .container-fluid .col-md-12 { padding: 0px; width: 100%; float: left }
+.bg-color-3 .container-fluid .col-md-9 { padding: 0px; width: 100%; float: left }
+.bg-color-3 .container-fluid .col-md-3 { padding: 0px; width: 100%; float: left }
+.top-coll { position: inherit; background: #faa71a; }
+.custom-btn { width: 100% !important; padding: 0px; text-align: left; }
+.all-img a { font-size: 14px; }
+.footer-bottom .col-md-4 { width: 100%; float: left; }
+.footer-bottom p.pull-left { padding-top: 0px; padding-bottom: 10px; }
+.footer-bottom .col-md-4:nth-last-child(3) p { float: left }
+.load a { padding: 7px 15px; font-size: 13px; }
+.load { width: 93px; }
+.all-college-to { width: 100%; float: left; padding: 0px; margin-top: 15px; margin-bottom: 20px; }
+.all-college-to .col-md-4 { padding: 0px; margin-bottom: 0px; }
+.all-college-to .col-md-4 .all-img p { border-bottom: 0px; }
+.view-co-left { width: 100% !important; float: left; }
+.all-img p { border-bottom: none; }
+#footer .col-lg-4 { width: 100%; float: left; padding-top: 0px; padding-bottom: 0px; }
+.bo-col-12 .col-md-4 { width: 50%; float: left }
+.track-to { width: 100%; float: left; }
+.policy { padding: 0px; }
+.bo-col-12 .policy-to { width: 100%; float: left; padding: 15px; border: none !important; }
+.social-me-to { width: 100%; float: left }
+.latest a { float: left; margin-top: 10px; }
+.latest { padding-bottom: 0px; }
+.pay ul { margin-left: 0px; float: left; }
+}
+.carousel-inner { z-index: 1; }
+.quickly_ul li { width: auto !important }
+.to-slide-flip .mixedSlider-flip-15 .MS-content .item { width: 20.33%; }
