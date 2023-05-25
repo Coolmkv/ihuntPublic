@@ -144,7 +144,7 @@ class Home_model extends CI_Model
 
 	public function mSetCountry($country_code)
 	{
-		$this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+		#$this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
 		
 		$countryData = $this->db->query('SELECT * FROM countries WHERE sortname="' . $country_code . '"');
 		if ($countryData->num_rows() > 0) {
